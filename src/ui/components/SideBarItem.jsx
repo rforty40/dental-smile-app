@@ -3,33 +3,27 @@ import { MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 import { useUiStore } from "../../hooks";
 
-export const SideBarItem = ({
-  title,
-  to,
-  icon,
-  selected,
-  setSelected,
-  setHover,
-}) => {
+export const SideBarItem = ({ title, to, icon }) => {
   //
+
+  const { pageActive, changeHover } = useUiStore();
 
   return (
     <MenuItem
-      active={selected === title}
+      active={pageActive === title}
       style={{
         color: "black",
       }}
       onClick={() => {
-        setSelected(title);
-        setHover(false);
+        changeHover(false);
       }}
       onMouseOver={() => {
-        if (selected === title) {
-          setHover(false);
+        if (pageActive === title) {
+          changeHover(false);
 
           return;
         }
-        setHover(true);
+        changeHover(true);
       }}
       icon={icon}
     >

@@ -9,6 +9,8 @@ import "./react-big-calendar.css";
 import { getMessagesES, localizer } from "../../helpers";
 import { CalendarEvent } from "../components/";
 import { useUiStore } from "../../hooks";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -17,9 +19,6 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 export const AgendaPage = () => {
   console.log("CalendarPapge");
-
-  const { changePage } = useUiStore();
-  changePage("Agenda");
 
   const today = new Date();
   const events = [];
@@ -40,7 +39,7 @@ export const AgendaPage = () => {
     };
   };
   return (
-    <Box m="20px">
+    <Box m="20px" display="flex" justifyContent="end" className="box-shadow">
       <DnDCalendar
         // popup
         selectable
@@ -50,7 +49,13 @@ export const AgendaPage = () => {
         // defaultView={lastView}
         startAccessor="start"
         endAccessor="end"
-        style={{ width: "100%", height: "calc( 100vh - 105px )" }}
+        style={{
+          width: "100%",
+          height: "calc( 100vh - 150px )",
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "10px",
+        }}
         messages={getMessagesES()}
         eventPropGetter={eventStyleGetter}
         components={{

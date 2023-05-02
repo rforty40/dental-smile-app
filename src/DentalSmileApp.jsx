@@ -1,9 +1,9 @@
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Navigate, Route } from "react-router-dom";
 import { AppRouter } from "./router/AppRouter";
 import { AppTheme } from "./theme";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { Sidebar, Topbar } from "./ui";
+import { Topbar } from "./ui";
 
 function DentalSmileApp() {
   return (

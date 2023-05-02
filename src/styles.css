@@ -1,15 +1,19 @@
 /*
 
-.box-shadow {
-  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
-} */
-
+ */
+@font-face {
+  font-family: "Brush Script MT";
+  src: url("../public/assets/fonts/brush_script_std_italic.ttf");
+}
 * {
   margin: 0;
   box-sizing: border-box;
   font-family: "Roboto", sans-serif;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
 }
-
+.box-shadow {
+  box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.5);
+}
 html,
 body,
 #root,
@@ -17,8 +21,12 @@ body,
 .content {
   height: 100%;
   width: 100%;
+  background-color: #f5f7fa;
 }
 
+/* .content > * {
+  background-color: white;
+} */
 .content-sidebar-extended {
   padding-left: 270px;
 }
@@ -49,10 +57,6 @@ body,
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
-}
-
-.btn-menu {
-  color: #000000;
 }
 
 .btn-menu:hover {

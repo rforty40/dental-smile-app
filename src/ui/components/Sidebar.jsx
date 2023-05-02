@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
@@ -9,7 +8,7 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { SideBarItem } from "./SideBarItem";
-import { useSelector } from "react-redux";
+
 import { useUiStore } from "../../hooks";
 
 //
@@ -20,24 +19,26 @@ export const Sidebar = () => {
   const { palette } = useTheme();
 
   // hook isCollapsed
-  const { isSidebarOpen, changeSidebar } = useUiStore();
-
-  //hook selected
-  const [selected, setSelected] = useState("Agenda");
-
-  //hook hover
-  const [hover, setHover] = useState(true);
+  const { isSidebarOpen, changeSidebar, isHovereable, changeHover } =
+    useUiStore();
 
   //retorno
   // Box --> ProSidebar --> Menu --> MenuItem
 
+  const onClickMenu = () => {
+    changeSidebar(!isSidebarOpen);
+    changeHover(false);
+  };
+
+  //
   return (
     <Box
       sx={{
         height: "100%",
         position: "fixed",
+        boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
         "& .pro-sidebar-inner": {
-          backgroundColor: `${palette.backgroundSidebar.main} !important`,
+          backgroundImage: `linear-gradient(#f5f7fa,#602a90) !important`,
         },
         "& .pro-icon-wrapper": {
           backgroundColor: "transparent !important",
@@ -48,16 +49,14 @@ export const Sidebar = () => {
           backgroundPosition: "center",
         },
         "& .pro-inner-item:hover": {
-          backgroundColor: `${hover && palette.backgroundSidebar.main}`,
-          color: `${hover && `${palette.secondary.main} !important`}`,
+          backgroundColor: `${isHovereable ? "transparent" : undefined}`,
+          color: `${isHovereable ? `white !important` : undefined}`,
         },
         "& .pro-menu-item.active": {
-          // backgroundColor: `${!isCollapsed ? "#9c27b0" : "#F2F0F0"}`,
-          // color: `${!isCollapsed ? "#ffffff !important" : "#9c27b0!important"}`,
           backgroundColor: `${palette.secondary.main}`,
           color: "white !important",
+          borderRadius: "20px",
           clipPath: `${!isSidebarOpen ? "circle(100%)" : "circle(30%)"}`,
-          borderRadius: "20px", //`${!isCollapsed ? "20px" : "500px"}`,
         },
       }}
     >
@@ -67,9 +66,7 @@ export const Sidebar = () => {
           {/* LOGO AND MENU ICON */}
 
           <MenuItem
-            onClick={() => {
-              changeSidebar(!isSidebarOpen);
-            }}
+            onClick={onClickMenu}
             // si esta contraida se muestra el icono de menu
             icon={isSidebarOpen ? <MenuOutlinedIcon /> : undefined}
             style={{
@@ -82,25 +79,25 @@ export const Sidebar = () => {
             {!isSidebarOpen && (
               <Box
                 display="flex"
-                justifyContent="space-between"
+                justifyContent="center"
                 alignItems="center"
                 ml="15px"
               >
                 <Typography
                   variant="h3"
                   color={palette.primary.main}
-                  fontWeight="bold"
-                  fontSize="25px"
+                  fontFamily="Brush Script MT"
+                  fontWeight="semibold"
+                  fontSize="35px"
+                  sx={{ textShadow: "0px 2px 2px rgba(0,0,0,0.40)" }}
                 >
                   Dental Smile
                 </Typography>
+
                 <IconButton
                   className="btn-menu"
                   sx={{ marginLeft: "25px" }}
-                  color="black"
-                  onClick={() => {
-                    changeSidebar(!isSidebarOpen);
-                  }}
+                  onClick={onClickMenu}
                 >
                   <MenuOutlinedIcon />
                 </IconButton>
@@ -111,14 +108,19 @@ export const Sidebar = () => {
           {/* menu extendido */}
           {!isSidebarOpen && (
             <Box mb="40px">
-              <Box display="flex" justifyContent="center" alignItems="center">
+              <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mb="20px"
+              >
                 <img
                   type="img/svg"
                   alt="profile-user"
-                  width="100px"
-                  height="100px"
-                  src={`../../../public/assets/premolarIcon.svg`}
-                  style={{ cursor: "pointer", borderRadius: "50%" }}
+                  width="80px"
+                  height="80px"
+                  src={`../../../public/assets/premolarIcon2.svg`}
+                  style={{ borderRadius: "20%" }}
                 />
               </Box>
 
@@ -127,17 +129,31 @@ export const Sidebar = () => {
                   variant="h6"
                   color={palette.primary.main}
                   fontWeight="bold"
-                  sx={{ m: "0 0 20px 0", lineHeight: "20px" }}
+                  sx={{
+                    m: "0 0 20px 0",
+                    lineHeight: "25px",
+                  }}
                 >
-                  Consultorio Odontológico "Dental Smile"
+                  Consultorio Odontológico
+                  <span
+                    style={{
+                      fontFamily: "Brush Script MT",
+                      fontSize: "30px",
+                      fontWeight: "normal",
+                      textShadow: "0px 2px 2px rgba(0,0,0,0.40) !important",
+                    }}
+                  >
+                    "Dental Smile"
+                  </span>
                 </Typography>
 
                 <Typography
-                  variant="h7"
-                  color={palette.colorIconMolar.main}
-                  fontWeight="bold"
+                  variant="h5"
+                  color={palette.primary.main}
+                  fontFamily="Brush Script MT"
+                  fontWeight="semibold"
                 >
-                  Dra. Xiomaria Chavez
+                  Dra. Xiomara Chávez
                 </Typography>
               </Box>
             </Box>
@@ -152,26 +168,17 @@ export const Sidebar = () => {
               title="Agenda"
               to="/agenda"
               icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              setHover={setHover}
             />
             <SideBarItem
               title="Pacientes"
               to="/pacientes"
               icon={<PersonOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              setHover={setHover}
             />
 
             <SideBarItem
               title="Administración"
               to="/administracion"
               icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-              setHover={setHover}
             />
           </Box>
         </Menu>

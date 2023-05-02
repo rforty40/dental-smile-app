@@ -15,56 +15,79 @@ export const Topbar = () => {
     <Box
       display="flex"
       justifyContent="space-between"
-      p={2}
+      p={3}
       alignItems="center"
     >
+      <Box
+        display={!isSidebarOpen ? "none" : "flex"}
+        alignItems="center"
+        gap="10px"
+      >
+        <img
+          type="img/svg"
+          alt="profile-user"
+          width="32px"
+          height="32px"
+          src={`../../../public/assets/premolarIcon2.svg`}
+          style={{ borderRadius: "20%" }}
+        />
+        <Typography
+          variant="h3"
+          color={palette.primary.main}
+          fontFamily="Brush Script MT"
+          fontWeight="semibold"
+          fontSize="40px"
+          sx={{ textShadow: "0px 2px 2px rgba(0,0,0,0.40) !important" }}
+        >
+          Dental Smile
+        </Typography>
+      </Box>
+
       <Typography
-        // visibility={!isSidebarOpen && "hidden"}
         variant="h3"
-        color={`${palette.secondary.main}`}
+        color={palette.secondary.light}
         fontWeight="bold"
         fontSize="25px"
+        fontStyle="italic"
+        sx={{ textShadow: "0px 2px 2px rgba(0,0,0,0.20)  !important" }}
       >
-        {isSidebarOpen ? `Dental Smile  >  ${pageActive}` : `${pageActive}`}
+        {pageActive}
       </Typography>
 
       {/* SEARCH BAR */}
-      <Box display="flex" gap="30px">
+      <Box display="flex" gap="20px">
         <Box
+          className="box-shadow"
           display="flex"
           border={`2px solid ${palette.primary.light}`}
           borderRadius="5px"
+          sx={{ backgroundColor: "white" }}
         >
-          <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Buscar paciente" />
-          <IconButton className="btn-menu" type="button" sx={{ p: 1 }}>
+          <InputBase
+            sx={{
+              ml: 2,
+              flex: 1,
+              input: {
+                color: "black",
+                "&::placeholder": { opacity: 1 },
+              },
+            }}
+            placeholder="Buscar paciente"
+          />
+          <IconButton
+            className="btn-menu"
+            type="button"
+            sx={{ p: 1, color: "black" }}
+          >
             <SearchIcon />
           </IconButton>
         </Box>
 
         {/* ICONS */}
-        <IconButton className="btn-menu">
+        <IconButton className="btn-menu" sx={{ color: "black" }}>
           <AdminPanelSettingsOutlined />
         </IconButton>
       </Box>
     </Box>
   );
 };
-
-/*
-  <IconButton onClick={colorMode.toggleColorMode}>
-          {/* {theme.palette.mode === "dark" ? (
-            <DarkModeOutlinedIcon />
-          ) : ( }
-          <LightModeOutlinedIcon />
-          {/* )} }
-        </IconButton>
-        <IconButton>
-          <NotificationsOutlinedIcon />
-        </IconButton>
-        <IconButton>
-          <SettingsOutlinedIcon />
-        </IconButton>
-        <IconButton>
-          <PersonOutlinedIcon />
-        </IconButton>
- */
