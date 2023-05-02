@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onChangeSidebar } from "../store";
+import { onChangePage, onChangeSidebar } from "../store";
 
 //
 //
@@ -9,17 +9,24 @@ export const useUiStore = () => {
 
   const dispatch = useDispatch();
 
-  const { isSidebarOpen } = useSelector((state) => state.ui);
+  const { isSidebarOpen, pageActive } = useSelector((state) => state.ui);
 
   const changeSidebar = (flag) => {
     dispatch(onChangeSidebar(flag));
+  };
+
+  const changePage = (page) => {
+    dispatch(onChangePage(page));
   };
 
   //
   return {
     //* Propiedades
     isSidebarOpen,
+    pageActive,
+
     //* Métodos
     changeSidebar,
+    changePage,
   };
 };

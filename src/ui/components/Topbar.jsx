@@ -9,7 +9,7 @@ export const Topbar = () => {
 
   const { palette } = useTheme();
 
-  const { isSidebarOpen } = useUiStore();
+  const { isSidebarOpen, pageActive } = useUiStore();
 
   return (
     <Box
@@ -19,13 +19,13 @@ export const Topbar = () => {
       alignItems="center"
     >
       <Typography
-        visibility={!isSidebarOpen && "hidden"}
+        // visibility={!isSidebarOpen && "hidden"}
         variant="h3"
-        color={`${palette.primary.main}`}
+        color={`${palette.secondary.main}`}
         fontWeight="bold"
         fontSize="25px"
       >
-        Dental Smile {pageActive}
+        {isSidebarOpen ? `Dental Smile  >  ${pageActive}` : `${pageActive}`}
       </Typography>
 
       {/* SEARCH BAR */}

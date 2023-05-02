@@ -8,6 +8,7 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 import "./react-big-calendar.css";
 import { getMessagesES, localizer } from "../../helpers";
 import { CalendarEvent } from "../components/";
+import { useUiStore } from "../../hooks";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -16,6 +17,9 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 export const AgendaPage = () => {
   console.log("CalendarPapge");
+
+  const { changePage } = useUiStore();
+  changePage("Agenda");
 
   const today = new Date();
   const events = [];
@@ -46,7 +50,7 @@ export const AgendaPage = () => {
         // defaultView={lastView}
         startAccessor="start"
         endAccessor="end"
-        style={{ width: "75%", height: "calc( 100vh - 80px )" }}
+        style={{ width: "100%", height: "calc( 100vh - 105px )" }}
         messages={getMessagesES()}
         eventPropGetter={eventStyleGetter}
         components={{

@@ -134,10 +134,12 @@ button.rbc-input::-moz-focus-inner {
 
 /* * agreado por mi */
 .rbc-toolbar > span:first-child > button {
-  background-color: #373a3c;
-  color: #ffffff;
+  background-color: #f2f0f0;
+  color: black;
+  font-weight: bold;
 }
 .rbc-toolbar > span:first-child > button:hover {
+  font-weight: bold;
   background-color: #602a90;
   color: #ffffff;
 }
@@ -149,8 +151,9 @@ button.rbc-input::-moz-focus-inner {
   flex-grow: 1;
   padding: 0 10px;
   text-align: center;
-  text-transform: capitalize;
+  /* text-transform: capitalize; */
   font-weight: bold;
+  text-transform: uppercase;
 }
 .rbc-toolbar button {
   color: #373a3c;
@@ -165,6 +168,7 @@ button.rbc-input::-moz-focus-inner {
   border-radius: 4px;
   line-height: normal;
   white-space: nowrap;
+  font-weight: bold;
 }
 .rbc-toolbar button:active,
 .rbc-toolbar button.rbc-active {
@@ -203,6 +207,8 @@ button.rbc-input::-moz-focus-inner {
 .rbc-btn-group {
   display: inline-block;
   white-space: nowrap;
+  background-color: #f2f0f0;
+  color: black;
 }
 .rbc-btn-group > button:first-child:not(:last-child) {
   border-top-right-radius: 0;
@@ -331,8 +337,9 @@ button.rbc-input::-moz-focus-inner {
   -webkit-flex-direction: row;
   -ms-flex-direction: row;
   flex-direction: row;
-  border-top: 1px solid black;
-  border-bottom: 1px solid black;
+  border: 1px inset black;
+  background-color: #9c27b0;
+  color: white;
 }
 .rbc-month-row {
   display: -webkit-flex;
@@ -350,19 +357,23 @@ button.rbc-input::-moz-focus-inner {
   flex-basis: 0px;
   overflow: hidden;
   height: 100%;
+  /* border-bottom: 4px outset #c4c4c4;
+
+  border-right: 4px outset #c4c4c4;
+
+  border-left: 4px outset #c4c4c4; */
+
+  border: 4px outset #c4c4c4;
 }
 
 /* * agreado por mi*/
-/* 
-rbc-month-view > .rbc-month-row:first-child {
-  border-top: 100px solid black;
-} */
+
 /* * cierre*/
 
-.rbc-month-row + .rbc-month-row {
-  /* border-top: 1px solid #ddd; */
-  border-top: 1px solid black;
-}
+/* .rbc-month-row + .rbc-month-row {
+  border-top: 1px solid #ddd; 
+  border-top: 0px; 
+} */
 .rbc-date-cell {
   -webkit-flex: 1 1 0;
   -ms-flex: 1 1 0px;
@@ -396,16 +407,24 @@ rbc-month-view > .rbc-month-row:first-child {
   -webkit-flex: 1 0 0%;
   -ms-flex: 1 0 0%;
   flex: 1 0 0%;
+
+  /* border-right: 4px outset #c4c4c4; */
+
+  border-left: 4px outset #c4c4c4;
+}
+
+.rbc-day-bg:first-child {
+  border-left: 0px;
 }
 .rbc-day-bg + .rbc-day-bg {
   /* border-left: 1px solid #ddd; */
-  border-left: 1px solid black;
+  /* border-left: 1px solid black; */
 }
 .rbc-rtl .rbc-day-bg + .rbc-day-bg {
   border-left-width: 0;
   /* border-right: 1px solid #ddd; */
 
-  border-right: 1px solid black;
+  /* border-right: 1px solid black; */
 }
 .rbc-overlay {
   position: absolute;
@@ -492,7 +511,7 @@ rbc-month-view > .rbc-month-row:first-child {
   -ms-flex-direction: column;
   flex-direction: column;
   min-height: 100%;
-  border: 1px solid black;
+  border-right: 3px inset #c4c4c4;
 }
 .rbc-time-column .rbc-timeslot-group {
   -webkit-flex: 1;
@@ -512,7 +531,7 @@ rbc-month-view > .rbc-month-row:first-child {
 
 /* * agregado por mi*/
 .rbc-time-slot:last-child {
-  border-bottom: 1px solid black;
+  border-bottom: 2px outset #c4c4c4;
 }
 /* * cierre*/
 
@@ -521,9 +540,13 @@ rbc-month-view > .rbc-month-row:first-child {
   -webkit-flex: none;
   -ms-flex: none;
   flex: none;
+  background-color: #9c27b0;
+  color: white;
+  font-weight: bold;
 }
 .rbc-label {
   padding: 0 5px;
+  border: none;
 }
 .rbc-day-slot {
   position: relative;
@@ -582,8 +605,8 @@ rbc-month-view > .rbc-month-row:first-child {
   position: -webkit-sticky;
   position: sticky;
   left: 0;
-  background-color: white;
-  border-right: 1px solid #ddd;
+  /* background-color: #9c27b0; */
+  /* border-right: 1px solid #ddd; */
   z-index: 10;
   margin-right: -1px;
 }
@@ -629,7 +652,8 @@ rbc-month-view > .rbc-month-row:first-child {
 .rbc-slot-selection {
   z-index: 10;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  background-color: rgba(127, 84, 166, 0.75);
   color: white;
   font-size: 75%;
   width: 100%;
@@ -712,6 +736,10 @@ rbc-month-view > .rbc-month-row:first-child {
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  background-color: #9c27b0;
+  color: white;
+  font-weight: bold;
+
   /* border-left: 1px solid #ddd; */
 
   border-top: 1px solid black;
@@ -732,7 +760,9 @@ rbc-month-view > .rbc-month-row:first-child {
   -ms-flex-align: start;
   align-items: flex-start;
   width: 100%;
-  border-top: 2px solid #ddd;
+  border-top: 2px solid #c4c4c4;
+
+  border-bottom: 2px solid #c4c4c4;
   overflow-y: auto;
   position: relative;
 }
@@ -768,14 +798,22 @@ rbc-month-view > .rbc-month-row:first-child {
 /* * agreado por mi*/
 
 .rbc-button-link {
-  background-color: rgba(96, 42, 144, 0.75);
+  background-color: #9349fb;
+  /* background-color: #9c27b0; */
   color: white;
+  font-weight: bold;
   border: none;
   text-transform: capitalize;
 }
+
+.rbc-header > .rbc-button-link {
+  background-color: #9c27b0;
+}
+
 .rbc-button-link:hover {
   background-color: rgba(96, 42, 144, 1);
   color: white;
   border: none;
   text-transform: capitalize;
+  cursor: pointer;
 }

@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import { useUiStore } from "../../hooks";
 
 export const SideBarItem = ({
   title,
