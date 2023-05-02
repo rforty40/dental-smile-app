@@ -1,0 +1,19 @@
+.colores {
+  /* primary */
+  color: rgba(96, 42, 144, 1);
+
+  /* secondary:  */
+  color: rgba(156, 39, 176, 1);
+
+  /* error:  */
+  color: rgba(211, 47, 47, 1);
+
+  /* warning:  */
+  color: rgba(237, 108, 2, 1);
+
+  /* info:  */
+  color: rgba(2, 136, 209, 1);
+
+  /* success:  */
+  color: rgba(46, 125, 50, 1);
+}

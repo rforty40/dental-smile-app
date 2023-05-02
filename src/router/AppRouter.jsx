@@ -1,0 +1,40 @@
+import { Navigate, Route, Routes } from "react-router-dom";
+import { AgendaRoutes } from "../agenda";
+// import { AuthRoutes } from "../auth/routes/AuthRoutes";
+// import { JournalRoutes } from "../journal/routes/JournalRoutes";
+
+// import { CheckingAuth } from "../ui/components/CheckingAuth";
+
+// import { useCheckAuth } from "../hooks";
+
+export const AppRouter = () => {
+  //
+  // const status = useCheckAuth();
+
+  // if (status === "checking") {
+  //   return <CheckingAuth />;
+  // }
+
+  return (
+    <Routes>
+      {/* {status === "authenticated" ? (
+        <Route path="/*" element={<JournalRoutes />} />
+      ) : (
+        <Route path="/auth/*" element={<AuthRoutes />} />
+      )}
+
+      <Route path="/*" element={<Navigate to="/auth/login" />} /> */}
+
+      {/* Login y Registro */}
+      {/* <Route path="/auth/*" element={ <AuthRoutes /> } /> */}
+
+      {/* DentalSmileApp */}
+
+      <Route path="/agenda" element={<AgendaRoutes />} />
+      {/*       
+      <Route path="/pacientes" element={<AgendaRoutes />} />
+      
+      <Route path="/administracion" element={<AgendaRoutes />} /> */}
+    </Routes>
+  );
+};
