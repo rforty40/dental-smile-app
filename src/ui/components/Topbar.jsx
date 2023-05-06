@@ -23,6 +23,7 @@ export const Topbar = () => {
       <Box
         display={!isSidebarOpen ? "none" : "flex"}
         alignItems="center"
+        justifyContent="space-between"
         gap="10px"
       >
         <img

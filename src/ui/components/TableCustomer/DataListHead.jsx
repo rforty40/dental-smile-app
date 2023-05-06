@@ -8,6 +8,7 @@ import {
   TableSortLabel,
   Grid,
 } from "@mui/material";
+import { Visibility } from "@mui/icons-material";
 
 // ----------------------------------------------------------------------
 
@@ -33,10 +34,10 @@ export const DataListHead = ({
         {withToolbar && (
           <TableCell
             sx={{
-              // borderBottom: "3px solid #ffffff",
-              // borderLeft: "3px solid #F4F6F8",
-              borderRight: "3px solid #ffffff",
-              bgcolor: "#F4F6F8",
+              // borderBottom: "3px solid white",
+              // borderLeft: "3px solid colorTable.main",
+              borderRight: "3px solid white",
+              bgcolor: "colorTable.main",
             }}
             padding="checkbox"
           >
@@ -55,29 +56,36 @@ export const DataListHead = ({
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
               // color: "#939EA8",
-              bgcolor: "#F4F6F8",
+              padding: "0",
+              margin: "0",
+              bgcolor: "colorTable.main",
               color: "primary.light",
-              borderLeft: "3px solid #ffffff",
-              borderRight: "3px solid #ffffff",
+              borderLeft: "3px solid white",
+              borderRight: "3px solid white",
             }}
           >
             <Grid
+              display="grid"
+              padding="5px"
               container
-              spacing={2}
               flexDirection="column"
-              alignItems={headCell.alignLeft ? "left" : "center"}
+              // alignItems={headCell.alignLeft ? "start" : "center"}
+              justifyItems={headCell.alignLeft ? "start" : "center"}
             >
-              <Grid item>
+              <Grid item sx={{ width: "80%" }}>
                 <TableSortLabel
                   hideSortIcon
                   active={orderBy === headCell.id}
                   direction={orderBy === headCell.id ? order : "asc"}
                   onClick={createSortHandler(headCell.id)}
+                  sx={{
+                    fontWeight: "bold",
+                  }}
                 >
                   {headCell.label}
                 </TableSortLabel>
               </Grid>
-              <Grid paddingLeft="16px" height="10px">
+              <Grid item sx={{ width: "20%" }}>
                 <span
                   style={{
                     textTransform: "uppercase",
@@ -85,7 +93,11 @@ export const DataListHead = ({
                     color: "black",
                   }}
                 >
-                  {orderBy === headCell.id ? order : null}
+                  {orderBy === headCell.id ? (
+                    order
+                  ) : (
+                    <span style={{ visibility: "hidden" }}>"aaaaaa"</span>
+                  )}
                 </span>
               </Grid>
             </Grid>
@@ -95,11 +107,12 @@ export const DataListHead = ({
         <TableCell
           align="right"
           sx={{
-            bgcolor: "#F4F6F8",
-            // borderTop: "3px solid #ffffff",
-            // borderBottom: "3px solid #ffffff",
-            borderLeft: "3px solid #ffffff",
-            // borderRight: "3px solid #F4F6F8",
+            height: "10px",
+            bgcolor: "colorTable.main",
+            // borderTop: "3px solid white",
+            // borderBottom: "3px solid white",
+            borderLeft: "3px solid white",
+            // borderRight: "3px solid colorTable.main",
           }}
         >
           {/* <Grid container spacing={2} flexDirection="column">

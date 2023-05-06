@@ -61,7 +61,7 @@ export const PacientesPage = () => {
     // <Box m="20px" display="flex" justifyContent="end" className="box-shadow">
     <Box
       // margin="20px"
-      margin="0 20px 0 20px"
+      margin="-10px 20px 0 20px"
       display="flex"
       justifyContent="end"
       className="box-shadow animate__animated animate__fadeIn"
@@ -78,8 +78,10 @@ export const PacientesPage = () => {
         txt_header={"Lista de pacientes"}
         withToolbar={true}
         withBoxSearch={true}
-        withButton={true}
         typeButton={"PersonAddAlt"}
+        txt_button={"Registar Paciente"}
+        iconosEnFila={false}
+        // bgHeaderColor={"white"}
       />
     </Box>
   );

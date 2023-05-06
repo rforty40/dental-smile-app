@@ -4,6 +4,7 @@ import {
   Box,
   Card,
   Checkbox,
+  Grid,
   IconButton,
   MenuItem,
   Paper,
@@ -103,7 +104,7 @@ function applySortFilter(array, comparator, query, columnaABuscar) {
           }
         } else {
           //es texto
-          console.log(txt_celda);
+
           return txt_celda.toLowerCase().indexOf(query.toLowerCase()) !== -1;
         }
       }
@@ -141,9 +142,10 @@ export const CustomTable = ({
   txt_header,
   bgHeaderColor,
   withToolbar,
-  withButton,
+  txt_button,
   withBoxSearch,
   typeButton,
+  iconosEnFila = true,
 }) => {
   //
   //hooks
@@ -332,14 +334,15 @@ export const CustomTable = ({
           numSelected={selected.length}
           filterName={filterName}
           onFilterName={handleFilterByName}
+          setFilterName={setFilterName}
           orderBy={orderBy}
           bgHeaderColor={bgHeaderColor}
           searchWhat={searchWhat}
           txt_header={txt_header}
           withToolbar={withToolbar}
-          withButton={withButton}
           withBoxSearch={withBoxSearch}
           typeButton={typeButton}
+          txt_button={txt_button}
         />
         {/* </Table> */}
         {/* </TableContainer> */}
@@ -347,7 +350,7 @@ export const CustomTable = ({
         <TableContainer
           sx={{ overflowX: "initial" }} /*sx={{ backgroundColor: "#C4C4C4" }}*/
         >
-          <Table stickyHeader>
+          <Table size="small" stickyHeader>
             {/* Cabecera de las columnas */}
             {/* hook order, 
           hook orderBy, 
@@ -382,19 +385,6 @@ export const CustomTable = ({
 
                   const keys = Object.keys(row);
 
-                  //  [ 'id','nombres', 'apellidos', 'cedula', 'edad', 'sexo', 'telefono', 'correo', 'responsable' ]
-                  //console.log(row[keys[0]]);
-                  //console.log(keys.length);
-                  // const {
-                  //   id,
-                  //   name,
-                  //   role,
-                  //   // status,
-                  //   company,
-                  //   avatarUrl,
-                  //   isVerified,
-                  // } = row;
-
                   const filaSeleccionada = row["id"];
                   //booleana para saber si el nombre esta en el arreglo de filas seleccionadas
                   //es true si el name esta en el array
@@ -406,21 +396,31 @@ export const CustomTable = ({
                     /*fila de la tabla*/
                     <TableRow
                       hover
+                      sx={{
+                        backgroundColor: "white",
+
+                        ":hover": {
+                          backgroundColor: "#E0DAEB !important",
+                        },
+                        "&.Mui-selected": {
+                          backgroundColor: "#602a904d !important",
+                        },
+                      }}
                       key={row[keys[0]]}
                       tabIndex={-1}
                       role="checkbox"
                       selected={selectedUser}
-                      // onClick={() => {
-                      //   console.log("fila clickeada");
-                      // }}
+                      onClick={() => {
+                        console.log("fila clickeada");
+                      }}
                     >
                       {/* celda checkbox */}
                       {withToolbar && (
                         <TableCell
                           padding="checkbox"
                           sx={{
-                            bgcolor: "#ffffff",
-                            border: "3px solid #f4f6f8",
+                            border: "3px solid",
+                            borderColor: "colorTable.main",
                           }}
                         >
                           <Checkbox
@@ -440,8 +440,8 @@ export const CustomTable = ({
                           return (
                             <TableCell
                               sx={{
-                                bgcolor: "#ffffff",
-                                border: "3px solid #f4f6f8",
+                                border: "3px solid",
+                                borderColor: "colorTable.main",
                               }}
                               // className="celdaPaciente"
                               key={`${row[keys[0]]}${index}`}
@@ -455,6 +455,7 @@ export const CustomTable = ({
                                   cursor: "pointer",
                                   // backgroundColor: "#0d2ac536",
                                   color: "secondary.main",
+                                  fontSize: "15px",
                                   fontWeight: "bold",
                                   borderRadius: "5px",
                                 }}
@@ -467,9 +468,12 @@ export const CustomTable = ({
                           return (
                             <TableCell
                               sx={{
-                                bgcolor: "#ffffff",
-                                border: "3px solid #f4f6f8",
+                                height: "10px",
+                                border: "3px solid",
+                                borderColor: "colorTable.main",
                                 color: "black",
+                                fontSize: "14px",
+                                fontWeight: "bold",
                               }}
                               key={`${row[keys[0]]}${index}`}
                               align="left"
@@ -480,30 +484,35 @@ export const CustomTable = ({
                         }
                       })}
 
-                      {/* Icono de los 3 puntitos */}
-                      <TableCell
-                        sx={{ bgcolor: "#ffffff", border: "3px solid #f4f6f8" }}
-                        align="right"
-                      >
-                        <IconButton
-                          size="large"
-                          color="inherit"
-                          onClick={handleOpenMenu}
+                      {iconosEnFila ? (
+                        <TableCell align="right">
+                          <Box display="flex" flexDirection="row">
+                            <IconButton sx={{ color: "primary.main" }}>
+                              <Edit />
+                            </IconButton>
+
+                            <IconButton sx={{ color: "primary.main" }}>
+                              <Delete />
+                            </IconButton>
+                          </Box>
+                        </TableCell>
+                      ) : (
+                        <TableCell
+                          sx={{
+                            border: "3px solid",
+                            borderColor: "colorTable.main",
+                          }}
+                          align="right"
                         >
-                          <MoreVert />
-                        </IconButton>
-                      </TableCell>
-
-                      {/* Icono en la fila */}
-                      {/* <TableCell align="right">
-                        <IconButton sx={{ color: "black" }}>
-                          <Edit />
-                        </IconButton>
-
-                        <IconButton sx={{ color: "red" }}>
-                          <Delete />
-                        </IconButton>
-                      </TableCell> */}
+                          <IconButton
+                            size="large"
+                            color="inherit"
+                            onClick={handleOpenMenu}
+                          >
+                            <MoreVert />
+                          </IconButton>
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}

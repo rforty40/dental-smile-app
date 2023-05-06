@@ -35,6 +35,10 @@ export const purpleTheme = createTheme(
       myBgColor: {
         main: "#f5f7fa",
       },
+
+      colorTable: {
+        main: "#f4f6f8",
+      },
     },
   },
   esES
