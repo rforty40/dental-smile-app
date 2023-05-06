@@ -29,9 +29,9 @@ export const AppTheme = ({ children }) => {
         <main
           className={`content ${
             isSidebarOpen
-              ? "content-sidebar-not-extended"
-              : "content-sidebar-extended"
-          }`}
+              ? "content-sidebar-not-extended "
+              : "content-sidebar-extended "
+          } `}
         >
           {children}
         </main>

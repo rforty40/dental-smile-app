@@ -16,7 +16,6 @@ import { useUiStore } from "../../hooks";
 /**el sidebar se renderiza con cada click */
 export const Sidebar = () => {
   //
-  const { palette } = useTheme();
 
   // hook isCollapsed
   const { isSidebarOpen, changeSidebar, isHovereable, changeHover } =
@@ -53,7 +52,7 @@ export const Sidebar = () => {
           color: `${isHovereable ? `white !important` : undefined}`,
         },
         "& .pro-menu-item.active": {
-          backgroundColor: `${palette.secondary.main}`,
+          backgroundColor: "primary.main",
           color: "white !important",
           borderRadius: "20px",
           clipPath: `${!isSidebarOpen ? "circle(100%)" : "circle(30%)"}`,
@@ -85,11 +84,11 @@ export const Sidebar = () => {
               >
                 <Typography
                   variant="h3"
-                  color={palette.primary.main}
+                  color="primary.main"
                   fontFamily="Brush Script MT"
                   fontWeight="semibold"
                   fontSize="35px"
-                  sx={{ textShadow: "0px 2px 2px rgba(0,0,0,0.40)" }}
+                  className="text-shadow"
                 >
                   Dental Smile
                 </Typography>
@@ -126,8 +125,9 @@ export const Sidebar = () => {
 
               <Box textAlign="center">
                 <Typography
+                  className="text-shadow"
                   variant="h6"
-                  color={palette.primary.main}
+                  color="primary.main"
                   fontWeight="bold"
                   sx={{
                     m: "0 0 20px 0",
@@ -140,7 +140,6 @@ export const Sidebar = () => {
                       fontFamily: "Brush Script MT",
                       fontSize: "30px",
                       fontWeight: "normal",
-                      textShadow: "0px 2px 2px rgba(0,0,0,0.40) !important",
                     }}
                   >
                     "Dental Smile"
@@ -148,8 +147,9 @@ export const Sidebar = () => {
                 </Typography>
 
                 <Typography
+                  className=""
                   variant="h5"
-                  color={palette.primary.main}
+                  color="primary.main"
                   fontFamily="Brush Script MT"
                   fontWeight="semibold"
                 >

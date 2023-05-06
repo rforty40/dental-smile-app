@@ -39,8 +39,14 @@ export const AgendaPage = () => {
     };
   };
   return (
-    <Box m="20px" display="flex" justifyContent="end" className="box-shadow">
+    <Box
+      m="20px"
+      display="flex"
+      justifyContent="end"
+      className="box-shadow animate__animated animate__fadeIn"
+    >
       <DnDCalendar
+        className="animate__animated animate__fadeIn"
         // popup
         selectable
         culture="es"

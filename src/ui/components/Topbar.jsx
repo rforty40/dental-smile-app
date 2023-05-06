@@ -7,8 +7,6 @@ import { useUiStore } from "../../hooks";
 export const Topbar = () => {
   //
 
-  const { palette } = useTheme();
-
   const { isSidebarOpen, pageActive } = useUiStore();
 
   return (
@@ -17,6 +15,10 @@ export const Topbar = () => {
       justifyContent="space-between"
       p={3}
       alignItems="center"
+
+      // sx={{
+      //   backgroundImage: `linear-gradient(90deg,#f5f7fa  ,#7c51a3) !important`,
+      // }}
     >
       <Box
         display={!isSidebarOpen ? "none" : "flex"}
@@ -33,19 +35,18 @@ export const Topbar = () => {
         />
         <Typography
           variant="h3"
-          color={palette.primary.main}
+          color="primary.main"
           fontFamily="Brush Script MT"
           fontWeight="semibold"
           fontSize="40px"
-          sx={{ textShadow: "0px 2px 2px rgba(0,0,0,0.40) !important" }}
+          className=""
         >
           Dental Smile
         </Typography>
       </Box>
-
       <Typography
         variant="h3"
-        color={palette.secondary.light}
+        color="secondary.main"
         fontWeight="bold"
         fontSize="25px"
         fontStyle="italic"
@@ -53,13 +54,12 @@ export const Topbar = () => {
       >
         {pageActive}
       </Typography>
-
       {/* SEARCH BAR */}
       <Box display="flex" gap="20px">
-        <Box
+        {/* <Box
           className="box-shadow"
           display="flex"
-          border={`2px solid ${palette.primary.light}`}
+          border={`2px solid primary.light`}
           borderRadius="5px"
           sx={{ backgroundColor: "white" }}
         >
@@ -81,9 +81,8 @@ export const Topbar = () => {
           >
             <SearchIcon />
           </IconButton>
-        </Box>
+        </Box> */}
 
-        {/* ICONS */}
         <IconButton className="btn-menu" sx={{ color: "black" }}>
           <AdminPanelSettingsOutlined />
         </IconButton>
