@@ -40,10 +40,14 @@ export const AgendaPage = () => {
   };
   return (
     <Box
-      m="20px"
+      margin="20px"
       display="flex"
       justifyContent="end"
       className="box-shadow animate__animated animate__fadeIn"
+
+      // padding="20px"
+      // backgroundColor="white"
+      // borderRadius="10px"
     >
       <DnDCalendar
         className="animate__animated animate__fadeIn"

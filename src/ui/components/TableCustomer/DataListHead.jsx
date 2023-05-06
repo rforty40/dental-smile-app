@@ -33,8 +33,9 @@ export const DataListHead = ({
         {withToolbar && (
           <TableCell
             sx={{
-              borderBottom: "3px solid #ffffff",
-              borderLeft: "3px solid #F4F6F8",
+              // borderBottom: "3px solid #ffffff",
+              // borderLeft: "3px solid #F4F6F8",
+              borderRight: "3px solid #ffffff",
               bgcolor: "#F4F6F8",
             }}
             padding="checkbox"
@@ -95,10 +96,10 @@ export const DataListHead = ({
           align="right"
           sx={{
             bgcolor: "#F4F6F8",
-            borderTop: "3px solid #ffffff",
-            borderBottom: "3px solid #ffffff",
-
-            borderRight: "3px solid #F4F6F8",
+            // borderTop: "3px solid #ffffff",
+            // borderBottom: "3px solid #ffffff",
+            borderLeft: "3px solid #ffffff",
+            // borderRight: "3px solid #F4F6F8",
           }}
         >
           {/* <Grid container spacing={2} flexDirection="column">

@@ -310,7 +310,15 @@ export const CustomTable = ({
   return (
     <>
       <Box
-        sx={{ bgcolor: "#F4F6F8" }}
+        sx={{
+          // bgcolor: "#F4F6F8",
+          bgcolor: "white",
+          width: "100%",
+          // height: "calc( 100vh - 150px )",
+          // height: "100%",
+          padding: "20px",
+          borderRadius: "10px",
+        }}
         //sx={{ padding: 10 }}
       >
         {/* barra toolbar */}

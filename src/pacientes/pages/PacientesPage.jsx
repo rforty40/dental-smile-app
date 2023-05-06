@@ -60,10 +60,15 @@ export const PacientesPage = () => {
   return (
     // <Box m="20px" display="flex" justifyContent="end" className="box-shadow">
     <Box
-      m="20px"
+      // margin="20px"
+      margin="0 20px 0 20px"
       display="flex"
       justifyContent="end"
       className="box-shadow animate__animated animate__fadeIn"
+
+      // padding="20px"
+      // backgroundColor="white"
+      // borderRadius="10px"
     >
       <CustomTable
         TABLE_HEAD={TABLE_HEAD}
