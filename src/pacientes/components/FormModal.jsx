@@ -1,31 +1,21 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { FaIdCard, FaUserEdit } from "react-icons/fa";
-import { GiAges } from "react-icons/gi";
-import { MdEmail } from "react-icons/md";
+import { FaChild, FaIdCard, FaUserEdit } from "react-icons/fa";
+import { MdContactPhone, MdEmail, MdFamilyRestroom } from "react-icons/md";
 import { IoIosContacts } from "react-icons/io";
 import { AiTwotonePhone } from "react-icons/ai";
-import {
-  FormControlLabel,
-  Grid,
-  Icon,
-  IconButton,
-  Radio,
-  RadioGroup,
-  Slide,
-  Typography,
-} from "@mui/material";
+
+import { Grid, Icon, IconButton, Slide } from "@mui/material";
 import {
   CancelOutlined,
   CloseOutlined,
   SaveOutlined,
 } from "@mui/icons-material";
-import { ButtonCustom, IconTextField } from "../../ui";
+import { ButtonCustom, IconTextField, RadioGroupCustom } from "../../ui";
 
 import { usePacienteStore } from "../../hooks";
 
@@ -33,8 +23,18 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="left" ref={ref} {...props} />;
 });
 
+//
+//
+//
+//
+
 export default function FormModal() {
+  //
+
   const { isFormPacOpen, closeModalFormReg } = usePacienteStore();
+
+  const [menorEdad, setMenorEdad] = useState(true);
+  //
   return (
     <div>
       <Dialog
@@ -93,13 +93,12 @@ export default function FormModal() {
                 label="No. Cédula:"
                 type="number"
                 placeholder="xxxxxxxxxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <FaIdCard />
                   </Icon>
                 }
@@ -108,9 +107,20 @@ export default function FormModal() {
 
             <Grid item gridArea="edad">
               <IconTextField
+                onChange={(event) => {
+                  if (event.target.value >= 18) {
+                    setMenorEdad(true);
+                  } else {
+                    setMenorEdad(false);
+                  }
+                }}
                 label="Edad:"
                 type="number"
                 placeholder="xx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
                   <Icon
                     sx={{
@@ -118,7 +128,7 @@ export default function FormModal() {
                       fontSize: "25px",
                     }}
                   >
-                    <GiAges />
+                    <FaChild />
                   </Icon>
                 }
               />
@@ -132,53 +142,11 @@ export default function FormModal() {
               flexDirection="column"
               paddingLeft="5px"
             >
-              <p style={{ padding: "5px 0px 0px 0px", color: "#602a90" }}>
-                Sexo:
-              </p>
-              <RadioGroup row name="row-radio-buttons-group">
-                <FormControlLabel
-                  value="female"
-                  control={
-                    <Radio
-                      sx={{
-                        "&, &.Mui-checked": {
-                          color: "primary.main",
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <Typography
-                      sx={{
-                        fontSize: "14px",
-                      }}
-                    >
-                      Femenino
-                    </Typography>
-                  }
-                />
-                <FormControlLabel
-                  value="male"
-                  control={
-                    <Radio
-                      sx={{
-                        "&, &.Mui-checked": {
-                          color: "primary.main",
-                        },
-                      }}
-                    />
-                  }
-                  label={
-                    <Typography
-                      sx={{
-                        fontSize: "14px",
-                      }}
-                    >
-                      Masculino
-                    </Typography>
-                  }
-                />
-              </RadioGroup>
+              <RadioGroupCustom
+                title="Sexo"
+                colorRadio="primary.main"
+                radioOptions={["Femenino", "Masculino"]}
+              />
             </Grid>
 
             <Grid item gridArea="nombre1">
@@ -193,17 +161,16 @@ export default function FormModal() {
                 }}
                 type="text"
                 placeholder="xxxxxxxxxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
-                    <FaUserEdit />{" "}
+                  <Icon>
+                    <FaUserEdit />
                   </Icon>
                 }
-              />{" "}
+              />
             </Grid>
 
             <Grid item gridArea="nombre2">
@@ -218,13 +185,12 @@ export default function FormModal() {
                 }
                 type="text"
                 placeholder="xxxxxxxxxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <FaUserEdit />{" "}
                   </Icon>
                 }
@@ -243,13 +209,12 @@ export default function FormModal() {
                 }
                 type="text"
                 placeholder="xxxxxxxxxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <FaUserEdit />
                   </Icon>
                 }
@@ -268,13 +233,12 @@ export default function FormModal() {
                 }
                 type="text"
                 placeholder="xxxxxxxxxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <FaUserEdit />
                   </Icon>
                 }
@@ -286,13 +250,12 @@ export default function FormModal() {
                 label="Teléfono:"
                 type="number"
                 placeholder="09xxxxxxxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <AiTwotonePhone />
                   </Icon>
                 }
@@ -307,13 +270,12 @@ export default function FormModal() {
                 label="Email:"
                 type="email"
                 placeholder="xxxxxxx@xxx.xxx"
+                colorIcon="primary.main"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="primary.main"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <MdEmail />
                   </Icon>
                 }
@@ -327,47 +289,47 @@ export default function FormModal() {
               rowGap="10px"
             >
               <IconTextField
+                disabled={menorEdad}
                 label="Familiar:"
                 type="text"
                 placeholder="xxxxx"
+                colorIcon="black"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="black"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
-                    <IoIosContacts />
+                  <Icon>
+                    <MdFamilyRestroom />
                   </Icon>
                 }
               />
               <IconTextField
+                disabled={menorEdad}
                 label="Parentesco:"
                 type="text"
                 placeholder="xxxxx"
+                colorIcon="black"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="black"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
+                  <Icon>
                     <IoIosContacts />
                   </Icon>
                 }
               />
               <IconTextField
+                disabled={menorEdad}
                 label="Teléfono:"
                 type="number"
                 placeholder="09xxxxxxxx"
+                colorIcon="black"
+                colorHover="btnHoverInForm.main"
+                colorTxt="black"
+                colorLabel="black"
                 iconEnd={
-                  <Icon
-                    sx={{
-                      color: "primary.main",
-                      fontSize: "25px",
-                    }}
-                  >
-                    <IoIosContacts />
+                  <Icon>
+                    <MdContactPhone />
                   </Icon>
                 }
               />

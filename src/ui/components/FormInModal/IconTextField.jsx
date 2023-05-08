@@ -1,6 +1,10 @@
 import { InputAdornment, TextField } from "@mui/material";
 
 export const IconTextField = ({
+  colorIcon,
+  colorHover,
+  colorTxt,
+  colorLabel,
   iconStart,
   iconEnd,
   InputProps,
@@ -16,26 +20,34 @@ export const IconTextField = ({
         boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
         ":hover": {
           boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-          color: "btnHoverInForm.main !important",
+        },
+        "& .MuiInputLabel-root.Mui-disabled ": {
+          opacity: "0.3",
+        },
+        "& .Mui-disabled.MuiInputBase-formControl": {
+          opacity: "0.3",
         },
         "& .Mui-focused.MuiInputBase-root ": {
           boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
         },
 
+        "& .Mui-focused > .MuiInputAdornment-root > .material-icons": {
+          color: colorHover,
+        },
         ...propsXS,
         "& .MuiInputBase-root ": {
           "& input": {
             // textAlign: "center",
             // fontStyle: "bold",
-            color: "black",
+            color: colorTxt,
           },
         },
 
         "& .MuiFormLabel-root": {
-          color: "#602A90",
+          color: colorLabel,
         },
         "& .MuiFormLabel-root.Mui-focused": {
-          color: "btnHoverInForm.main",
+          color: colorHover,
         },
         "& input[type=number]": {
           "-moz-appearance": "textfield",
@@ -50,14 +62,19 @@ export const IconTextField = ({
         },
       }}
       {...props}
+      //
       InputProps={{
         ...InputProps,
 
         startAdornment: iconStart ? (
-          <InputAdornment position="start">{iconStart}</InputAdornment>
+          <InputAdornment sx={{ color: colorIcon }} position="start">
+            {iconStart}
+          </InputAdornment>
         ) : null,
         endAdornment: iconEnd ? (
-          <InputAdornment position="end">{iconEnd}</InputAdornment>
+          <InputAdornment sx={{ color: colorIcon }} position="end">
+            {iconEnd}
+          </InputAdornment>
         ) : null,
       }}
     />

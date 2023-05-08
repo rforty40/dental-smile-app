@@ -12,7 +12,7 @@ export const usePacienteStore = () => {
   const { isFormPacOpen } = useSelector((state) => state.pacientes);
 
   const openModalFormReg = () => {
-    console.log("se abre el modal");
+    // console.log("se abre el modal");
     dispatch(openFormPac());
   };
 
