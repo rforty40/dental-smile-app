@@ -69,6 +69,7 @@ export const DataListToolbar = ({
   withBoxSearch,
   typeButton,
   txt_button,
+  funcionBtnTbl,
 }) => {
   /*
 
@@ -198,6 +199,7 @@ export const DataListToolbar = ({
 
               {typeButton && typeButton === "PersonAddAlt" && (
                 <Fab
+                  onClick={funcionBtnTbl}
                   variant="extended"
                   className="button"
                   sx={{

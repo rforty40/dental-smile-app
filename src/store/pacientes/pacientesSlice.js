@@ -4,14 +4,17 @@ export const pacientesSlice = createSlice({
   name: "pacientes",
 
   initialState: {
-    counter: 10,
+    isFormPacOpen: false,
   },
 
   reducers: {
-    increment: (state /* action */) => {
-      state.counter += 1;
+    openFormPac: (state) => {
+      state.isFormPacOpen = true;
+    },
+    closeFormPac: (state) => {
+      state.isFormPacOpen = false;
     },
   },
 });
 
-export const { increment } = pacientesSlice.actions;
+export const { openFormPac, closeFormPac } = pacientesSlice.actions;

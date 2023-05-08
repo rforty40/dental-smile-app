@@ -1,5 +1,5 @@
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import "react-pro-sidebar/dist/css/styles.css";
 
 /*iconos MUI */
@@ -10,25 +10,27 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import { SideBarItem } from "./SideBarItem";
 
 import { useUiStore } from "../../hooks";
+import { useEffect } from "react";
 
 //
 //
 /**el sidebar se renderiza con cada click */
+
 export const Sidebar = () => {
   //
 
-  // hook isCollapsed
-  const { isSidebarOpen, changeSidebar, isHovereable, changeHover } =
-    useUiStore();
+  const { changeSidebar, isSidebarOpen } = useUiStore();
 
   //retorno
   // Box --> ProSidebar --> Menu --> MenuItem
 
   const onClickMenu = () => {
     changeSidebar(!isSidebarOpen);
-    changeHover(false);
   };
-
+  useEffect(() => {
+    const sidebar = document.querySelector(".sidebar");
+    sidebar.classList.toggle("open");
+  }, [isSidebarOpen]);
   //
   return (
     <Box
@@ -48,14 +50,18 @@ export const Sidebar = () => {
           backgroundPosition: "center",
         },
         "& .pro-inner-item:hover": {
-          backgroundColor: `${isHovereable ? "transparent" : undefined}`,
-          color: `${isHovereable ? `white !important` : undefined}`,
+          color: `${
+            !isSidebarOpen ? "white !important" : "#9c27b080 !important"
+          }`,
         },
         "& .pro-menu-item.active": {
-          backgroundColor: "primary.main",
-          color: "white !important",
+          backgroundColor: `${
+            !isSidebarOpen ? "primary.main" : "transparent !important"
+          }`,
+          color: `${
+            !isSidebarOpen ? "white !important" : "#9c27b0cc !important"
+          }`,
           borderRadius: "20px",
-          clipPath: `${!isSidebarOpen ? "circle(100%)" : "circle(30%)"}`,
         },
       }}
     >
@@ -165,19 +171,19 @@ export const Sidebar = () => {
             paddingRight={isSidebarOpen ? undefined : "10%"}
           >
             <SideBarItem
-              title="Agenda"
-              to="/agenda"
+              title={"Agenda"}
+              to={"/agenda"}
               icon={<CalendarTodayOutlinedIcon />}
             />
             <SideBarItem
-              title="Pacientes"
-              to="/pacientes"
+              title={"Pacientes"}
+              to={"/pacientes"}
               icon={<PersonOutlinedIcon />}
             />
 
             <SideBarItem
-              title="Administración"
-              to="/administracion"
+              title={"Administración"}
+              to={"/administracion"}
               icon={<HomeOutlinedIcon />}
             />
           </Box>

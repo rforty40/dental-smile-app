@@ -1,14 +1,53 @@
 /*
-
- */
+/* Tres valores: flex-grow | flex-shrink | flex-basis */
+/* flex: 2 2 10%; */
+* {
+  padding: 0%;
+  margin: 0%;
+  box-sizing: border-box;
+  font-family: "Roboto", "Poppins", sans-serif;
+}
 @font-face {
   font-family: "Brush Script MT";
   src: url("../public/assets/fonts/brush_script_std_italic.ttf");
 }
-* {
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
+
+html,
+body,
+.app,
+#root {
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+.sidebar {
+  min-height: 100vh;
+  width: 80px;
+  z-index: 99;
+  transition: all 0.5s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+.home-section {
+  position: relative;
+  background-color: "blue";
+  min-height: 100vh;
+  top: 0;
+  left: 80px;
+  width: calc(100% - 80px);
+  transition: all 0.5s ease;
+  z-index: 2;
+}
+
+.sidebar.open {
+  width: 270px;
+}
+.sidebar.open ~ .home-section {
+  left: 270px;
+  width: calc(100% - 270px);
+}
+.btn-menu:hover {
+  color: #9c27b0;
 }
 
 .text-shadow {
@@ -17,58 +56,7 @@
 .box-shadow {
   box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.5);
 }
-html,
-body,
-#root,
-.app,
-.content {
-  height: 100%;
-  width: 100%;
-  background-color: #f5f7fa;
-}
 
-/* .content > * {
-  background-color: white;
-} */
-.content-sidebar-extended {
-  padding-left: 270px;
+.Mui-focused > .MuiInputAdornment-root > .material-icons {
+  color: #116482 !important;
 }
-
-.content-sidebar-not-extended {
-  padding-left: 80px;
-}
-
-.app {
-  display: flex;
-  position: relative;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #e0e0e0;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.btn-menu:hover {
-  color: #9c27b0;
-}
-
-/* .MuiTableRow-root:hover {
-}
-
-.MuiTableRow-hover {
-  background: black !important;
-} */

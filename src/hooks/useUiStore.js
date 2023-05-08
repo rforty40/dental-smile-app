@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onChangeHover, onChangePage, onChangeSidebar } from "../store";
+import { onChangePage, onChangeSidebar } from "../store";
 
 //
 //
@@ -9,20 +9,20 @@ export const useUiStore = () => {
 
   const dispatch = useDispatch();
 
-  const { isSidebarOpen, pageActive, isHovereable } = useSelector(
-    (state) => state.ui
-  );
+  const { isSidebarOpen, pageActive } = useSelector((state) => state.ui);
 
   const changeSidebar = (flag) => {
     dispatch(onChangeSidebar(flag));
   };
 
-  const changePage = (page) => {
-    dispatch(onChangePage(page));
-  };
-
-  const changeHover = (hover) => {
-    dispatch(onChangeHover(hover));
+  const changePage = () => {
+    const { pathname } = window.location;
+    let pathnameCut = pathname.substring(1, pathname.length);
+    pathnameCut = pathnameCut.charAt(0).toUpperCase() + pathnameCut.slice(1);
+    if (pathnameCut === "Administracion") {
+      pathnameCut = "Administración";
+    }
+    dispatch(onChangePage(pathnameCut));
   };
 
   //
@@ -30,11 +30,9 @@ export const useUiStore = () => {
     //* Propiedades
     isSidebarOpen,
     pageActive,
-    isHovereable,
 
     //* Métodos
     changeSidebar,
     changePage,
-    changeHover,
   };
 };

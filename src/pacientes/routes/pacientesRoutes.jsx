@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import { PacientesPage } from "../pages/pacientesPage";
+import { PacientesPage } from "../pages/PacientesPage";
 
 export const PacientesRoutes = () => {
   return (

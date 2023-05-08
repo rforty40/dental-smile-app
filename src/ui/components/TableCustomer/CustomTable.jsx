@@ -6,6 +6,7 @@ import {
   Checkbox,
   Grid,
   IconButton,
+  Link,
   MenuItem,
   Paper,
   Popover,
@@ -25,6 +26,7 @@ import { filter } from "lodash";
 
 import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
+import { Link as RouterLink } from "react-router-dom";
 
 //
 //
@@ -146,6 +148,7 @@ export const CustomTable = ({
   withBoxSearch,
   typeButton,
   iconosEnFila = true,
+  funcionBtnTbl,
 }) => {
   //
   //hooks
@@ -343,6 +346,7 @@ export const CustomTable = ({
           withBoxSearch={withBoxSearch}
           typeButton={typeButton}
           txt_button={txt_button}
+          funcionBtnTbl={funcionBtnTbl}
         />
         {/* </Table> */}
         {/* </TableContainer> */}
@@ -399,11 +403,11 @@ export const CustomTable = ({
                       sx={{
                         backgroundColor: "white",
 
-                        ":hover": {
-                          backgroundColor: "#E0DAEB !important",
-                        },
+                        // ":hover": {
+                        //   backgroundColor: "#E0DAEB !important",
+                        // },
                         "&.Mui-selected": {
-                          backgroundColor: "#602a904d !important",
+                          backgroundColor: "#E0DAEB !important",
                         },
                       }}
                       key={row[keys[0]]}
@@ -582,15 +586,21 @@ export const CustomTable = ({
           },
         }}
       >
-        <MenuItem>
-          <IconButton sx={{ color: "primary.main" }}>
-            <Edit />
-          </IconButton>
-          <Typography variant="h7" color="primary.main" fontWeight="bold">
-            Editar
-          </Typography>
-        </MenuItem>
+        <Link
+          component={RouterLink}
+          to="/agenda"
+          style={{ textDecoration: "none" }}
+        >
+          <MenuItem>
+            <IconButton sx={{ color: "primary.main" }}>
+              <Edit />
+            </IconButton>
 
+            <Typography variant="h7" color="primary.main" fontWeight="bold">
+              Editar
+            </Typography>
+          </MenuItem>
+        </Link>
         <MenuItem>
           <IconButton sx={{ color: "error.main" }}>
             <Delete />

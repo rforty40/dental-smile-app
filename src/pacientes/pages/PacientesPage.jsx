@@ -1,16 +1,18 @@
+import { useEffect } from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import { CustomTable } from "../../ui";
 import { dataPacientes } from "./dataPacientes";
+import { usePacienteStore, useUiStore } from "../../hooks";
+import FormModal from "../components/FormModal";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
-  // { id: "apellidos", label: "Apellidos", alignLeft: false },
   { id: "cedula", label: "Cédula", alignLeft: true },
   { id: "edad", label: "Edad", alignLeft: true },
   { id: "sexo", label: "Sexo", alignLeft: true },
   { id: "telefono", label: "Teléfono", alignLeft: true },
-  { id: "correo", label: "Correo", alignLeft: false },
-  { id: "responsable", label: "Responsable", alignLeft: false },
+  { id: "correo", label: "Correo", alignLeft: true },
+  { id: "responsable", label: "Responsable", alignLeft: true },
 ];
 const formatearNombre = (pri, seg) => {
   let nombres = pri;
@@ -37,6 +39,13 @@ const formatearRes = (nom, parent, telres) => {
 };
 
 export const PacientesPage = () => {
+  const { changePage } = useUiStore();
+
+  useEffect(() => {
+    console.log("PacientePage");
+    changePage();
+  }, []);
+
   const dataPacFormated = dataPacientes.map((data) => {
     return {
       id: data.id_paciente,
@@ -57,18 +66,19 @@ export const PacientesPage = () => {
     };
   });
 
+  //funcion abrir modal formulario
+
+  const { openModalFormReg } = usePacienteStore();
+  const openModalPaciente = () => {
+    openModalFormReg();
+  };
   return (
-    // <Box m="20px" display="flex" justifyContent="end" className="box-shadow">
     <Box
       // margin="20px"
       margin="-10px 20px 0 20px"
       display="flex"
       justifyContent="end"
       className="box-shadow animate__animated animate__fadeIn"
-
-      // padding="20px"
-      // backgroundColor="white"
-      // borderRadius="10px"
     >
       <CustomTable
         TABLE_HEAD={TABLE_HEAD}
@@ -81,8 +91,10 @@ export const PacientesPage = () => {
         typeButton={"PersonAddAlt"}
         txt_button={"Registar Paciente"}
         iconosEnFila={false}
-        // bgHeaderColor={"white"}
+        funcionBtnTbl={openModalPaciente}
       />
+
+      <FormModal />
     </Box>
   );
 };

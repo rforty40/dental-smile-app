@@ -6,24 +6,13 @@ import { useUiStore } from "../../hooks";
 export const SideBarItem = ({ title, to, icon }) => {
   //
 
-  const { pageActive, changeHover } = useUiStore();
+  const { pageActive } = useUiStore();
 
   return (
     <MenuItem
       active={pageActive === title}
       style={{
         color: "black",
-      }}
-      onClick={() => {
-        changeHover(false);
-      }}
-      onMouseOver={() => {
-        if (pageActive === title) {
-          changeHover(false);
-
-          return;
-        }
-        changeHover(true);
       }}
       icon={icon}
     >

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
@@ -18,7 +18,16 @@ const DnDCalendar = withDragAndDrop(Calendar);
 //
 
 export const AgendaPage = () => {
-  console.log("CalendarPapge");
+  // const { changePage } = useUiStore();
+  // console.log("CalendarPage");
+  // changePage();
+
+  const { changePage } = useUiStore();
+
+  useEffect(() => {
+    console.log("AgendaPage");
+    changePage();
+  }, []);
 
   const today = new Date();
   const events = [];
@@ -44,10 +53,6 @@ export const AgendaPage = () => {
       display="flex"
       justifyContent="end"
       className="box-shadow animate__animated animate__fadeIn"
-
-      // padding="20px"
-      // backgroundColor="white"
-      // borderRadius="10px"
     >
       <DnDCalendar
         className="animate__animated animate__fadeIn"

@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AgendaRoutes } from "../agenda";
 import { DashboardRoutes } from "../dashboard";
 import { PacientesRoutes } from "../pacientes";
+
 // import { AuthRoutes } from "../auth/routes/AuthRoutes";
 // import { JournalRoutes } from "../journal/routes/JournalRoutes";
 
@@ -33,9 +34,9 @@ export const AppRouter = () => {
       {/* <Route path="/auth/*" element={ <AuthRoutes /> } /> */}
 
       {/* DentalSmileApp */}
-      <Route path="/agenda" element={<AgendaRoutes />} />
-      <Route path="/administracion" element={<DashboardRoutes />} />
-      <Route path="/pacientes" element={<PacientesRoutes />} />
+      <Route path="/agenda/*" element={<AgendaRoutes />} />
+      <Route path="/administracion/*" element={<DashboardRoutes />} />
+      <Route path="/pacientes/*" element={<PacientesRoutes />} />
     </Routes>
   );
 };

@@ -14,7 +14,7 @@ const TABLE_HEAD = [
   // { id: "estado", label: "Estado", alignRight: false },
 ];
 
-export const PacientesPage = () => {
+export const PacientesPageCita = () => {
   const dataPacFormated = dataCitas.map((data) => {
     return {
       id: data.fecha_cita + "-" + data.hora_inicio,

@@ -6,7 +6,6 @@ export const uiSlice = createSlice({
   initialState: {
     isSidebarOpen: false,
     pageActive: "",
-    isHovereable: false,
   },
 
   reducers: {
@@ -16,10 +15,7 @@ export const uiSlice = createSlice({
     onChangePage: (state, { payload }) => {
       state.pageActive = payload;
     },
-    onChangeHover: (state, { payload }) => {
-      state.isHovereable = payload;
-    },
   },
 });
 
-export const { onChangeSidebar, onChangePage, onChangeHover } = uiSlice.actions;
+export const { onChangeSidebar, onChangePage } = uiSlice.actions;

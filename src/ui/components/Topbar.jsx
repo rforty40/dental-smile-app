@@ -1,6 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+import { Box, IconButton, Typography } from "@mui/material";
 import { AdminPanelSettingsOutlined } from "@mui/icons-material";
 import { useUiStore } from "../../hooks";
 
@@ -15,10 +13,6 @@ export const Topbar = () => {
       justifyContent="space-between"
       p={3}
       alignItems="center"
-
-      // sx={{
-      //   backgroundImage: `linear-gradient(90deg,#f5f7fa  ,#7c51a3) !important`,
-      // }}
     >
       <Box
         display={!isSidebarOpen ? "none" : "flex"}
@@ -55,35 +49,9 @@ export const Topbar = () => {
       >
         {pageActive}
       </Typography>
+
       {/* SEARCH BAR */}
       <Box display="flex" gap="20px">
-        {/* <Box
-          className="box-shadow"
-          display="flex"
-          border={`2px solid primary.light`}
-          borderRadius="5px"
-          sx={{ backgroundColor: "white" }}
-        >
-          <InputBase
-            sx={{
-              ml: 2,
-              flex: 1,
-              input: {
-                color: "black",
-                "&::placeholder": { opacity: 1 },
-              },
-            }}
-            placeholder="Buscar paciente"
-          />
-          <IconButton
-            className="btn-menu"
-            type="button"
-            sx={{ p: 1, color: "black" }}
-          >
-            <SearchIcon />
-          </IconButton>
-        </Box> */}
-
         <IconButton className="btn-menu" sx={{ color: "black" }}>
           <AdminPanelSettingsOutlined />
         </IconButton>

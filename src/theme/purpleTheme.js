@@ -39,6 +39,10 @@ export const purpleTheme = createTheme(
       colorTable: {
         main: "#f4f6f8",
       },
+
+      btnHoverInForm: {
+        main: "#116482",
+      },
     },
   },
   esES
