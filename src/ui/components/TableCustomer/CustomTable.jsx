@@ -154,7 +154,7 @@ export const CustomTable = ({
   //hooks
   //
   //hook abrir el popOver eliminar y editar
-  const [open, setOpen] = useState(null);
+  const [open, setOpen] = useState(false);
 
   //hook numero de pagina a mostrar
   const [page, setPage] = useState(0);
@@ -569,7 +569,7 @@ export const CustomTable = ({
       </Box>
 
       <Popover
-        open={Boolean(open)}
+        open={open}
         anchorEl={open}
         onClose={handleCloseMenu}
         anchorOrigin={{ vertical: "top", horizontal: "left" }}

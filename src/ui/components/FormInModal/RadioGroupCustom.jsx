@@ -16,6 +16,7 @@ export const RadioGroupCustom = ({ title, colorRadio, radioOptions }) => {
         {radioOptions.map((radio) => {
           return (
             <FormControlLabel
+              key={radio}
               value={radio}
               control={
                 <Radio

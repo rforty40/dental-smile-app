@@ -20,7 +20,9 @@ import { ButtonCustom, IconTextField, RadioGroupCustom } from "../../ui";
 import { usePacienteStore } from "../../hooks";
 
 const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="left" ref={ref} {...props} />;
+  return (
+    <Slide direction="left" mountOnEnter unmountOnExit ref={ref} {...props} />
+  );
 });
 
 //
@@ -28,7 +30,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 //
 //
 
-export default function FormModal() {
+export default function FormModal({ title }) {
   //
 
   const { isFormPacOpen, closeModalFormReg } = usePacienteStore();
@@ -45,7 +47,7 @@ export default function FormModal() {
         keepMounted
         aria-describedby="alert-dialog-slide-description"
         sx={{
-          backdropFilter: "blur(2px)",
+          backdropFilter: "blur(3px)",
         }}
       >
         <DialogTitle
@@ -61,7 +63,7 @@ export default function FormModal() {
             fontStyle: "italic",
           }}
         >
-          Registro de Paciente
+          {title}
           <IconButton onClick={closeModalFormReg}>
             <CloseOutlined style={{ fontSize: "25px", color: "#602a90" }} />
           </IconButton>
@@ -290,7 +292,7 @@ export default function FormModal() {
             >
               <IconTextField
                 disabled={menorEdad}
-                label="Familiar:"
+                label="Nombre del familiar:"
                 type="text"
                 placeholder="xxxxx"
                 colorIcon="black"
@@ -339,7 +341,7 @@ export default function FormModal() {
               item
               gridArea="btnReg"
               display="flex"
-              flexDirection="column"
+              flexDirection="row"
               columnGap="10px"
               rowGap="10px"
               margin="auto"

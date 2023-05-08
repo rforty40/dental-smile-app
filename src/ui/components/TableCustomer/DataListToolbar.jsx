@@ -23,6 +23,7 @@ import {
   SearchOutlined,
 } from "@mui/icons-material";
 import { useState } from "react";
+import { ButtonCustom } from "../FormInModal/ButtonCustom";
 // component
 
 // ----------------------------------------------------------------------
@@ -198,45 +199,25 @@ export const DataListToolbar = ({
               )}
 
               {typeButton && typeButton === "PersonAddAlt" && (
-                <Fab
+                <ButtonCustom
+                  altura={"40px"}
+                  colorf={
+                    bgHeaderColor === "primary.main"
+                      ? "colorTable.main"
+                      : "primary.main"
+                  }
+                  colorh={
+                    bgHeaderColor === "primary.main"
+                      ? "white"
+                      : "secondary.main"
+                  }
+                  colort={bgHeaderColor === "primary.main" ? "black" : "white"}
+                  txt_b={txt_button}
+                  // colorth={}
+                  fontW="bold"
+                  iconB={<PersonAddAlt />}
                   onClick={funcionBtnTbl}
-                  variant="extended"
-                  className="button"
-                  sx={{
-                    height: "40px",
-                    textTransform: "none",
-                    fontWeight: "bold",
-
-                    backgroundColor:
-                      bgHeaderColor === "primary.main"
-                        ? "colorTable.main"
-                        : "primary.main",
-                    boxShadow: "none",
-                    ":hover": {
-                      backgroundColor:
-                        bgHeaderColor === "primary.main"
-                          ? "white"
-                          : "secondary.main",
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-                  }}
-                >
-                  <span
-                    style={{
-                      color:
-                        bgHeaderColor === "primary.main" ? "black" : "white",
-                    }}
-                  >
-                    {txt_button}
-                  </span>
-                  <PersonAddAlt
-                    sx={{
-                      ml: 1,
-                      color:
-                        bgHeaderColor === "primary.main" ? "black" : "white",
-                    }}
-                  />
-                </Fab>
+                />
               )}
 
               {typeButton && typeButton === "PostAdd" && (

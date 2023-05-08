@@ -89,12 +89,12 @@ export const PacientesPage = () => {
         withToolbar={true}
         withBoxSearch={true}
         typeButton={"PersonAddAlt"}
-        txt_button={"Registar Paciente"}
+        txt_button={"Registrar Paciente"}
         iconosEnFila={false}
         funcionBtnTbl={openModalPaciente}
       />
 
-      <FormModal />
+      <FormModal title={"Registro de Paciente"} />
     </Box>
   );
 };
