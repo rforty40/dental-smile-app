@@ -1,29 +1,18 @@
 import { styled, alpha } from "@mui/material/styles";
 import {
   Toolbar,
-  Tooltip,
-  Button,
   IconButton,
   Typography,
   OutlinedInput,
-  InputAdornment,
   Box,
-  TableHead,
-  Fab,
-  Icon,
 } from "@mui/material";
 
-import {
-  Close,
-  DeleteOutline,
-  DeleteSharp,
-  PersonAdd,
-  PersonAddAlt,
-  PostAdd,
-  SearchOutlined,
-} from "@mui/icons-material";
+import { Close, DeleteSharp, PersonAddAlt, PostAdd } from "@mui/icons-material";
 import { useState } from "react";
 import { ButtonCustom } from "../FormInModal/ButtonCustom";
+import { usePacienteStore, useUiStore } from "../../../hooks";
+import { DeleteConfirm } from "../FormInModal/DeleteConfirm";
+
 // component
 
 // ----------------------------------------------------------------------
@@ -68,20 +57,33 @@ export const DataListToolbar = ({
   txt_header,
   withToolbar,
   withBoxSearch,
-  typeButton,
+  typeDatos,
   txt_button,
   funcionBtnTbl,
 }) => {
-  /*
+  const { changeTitleFormReg } = usePacienteStore();
+  const { changeModalConfDel } = useUiStore();
 
-  */
-  // console.log({ numSelected, filterName, onFilterName });
-  // numSelected = 4;
+  const deleteVarious = () => {
+    changeModalConfDel(true);
+  };
+
+  const handleAdd = () => {
+    switch (typeDatos) {
+      case "pacientes":
+        changeTitleFormReg("Registro de paciente");
+        funcionBtnTbl();
+        break;
+
+      default:
+        break;
+    }
+  };
 
   const [showBusqText, setShowBusqText] = useState(false);
+
   return (
     withToolbar && (
-      // <TableHead>
       <StyledRoot
         sx={{
           backgroundColor: bgHeaderColor,
@@ -108,8 +110,6 @@ export const DataListToolbar = ({
             {txt_header}
           </Typography>
           <Typography
-            // display={!showBusqText && "none"}
-
             visibility={!showBusqText && "hidden"}
             variant="p"
             fontSize="12px"
@@ -118,8 +118,8 @@ export const DataListToolbar = ({
                 bgHeaderColor === "primary.main" ? "colorTable.main" : "black",
             }}
           >
-            Buscando por{" "}
-            <span style={{ textTransform: "capitalize" }}>{orderBy}</span>
+            Buscando por
+            <span style={{ textTransform: "capitalize" }}>{" " + orderBy}</span>
           </Typography>
         </Box>
 
@@ -128,7 +128,7 @@ export const DataListToolbar = ({
             <Typography component="div" variant="subtitle1">
               {numSelected} {numSelected > 1 ? "seleccionados" : "seleccionado"}
             </Typography>
-            <IconButton>
+            <IconButton onClick={deleteVarious}>
               <DeleteSharp
                 sx={{
                   color: bgHeaderColor === "primary.main" ? "white" : "black",
@@ -136,6 +136,16 @@ export const DataListToolbar = ({
                 fontSize="medium"
               />
             </IconButton>
+            <DeleteConfirm
+              message={
+                <>
+                  ¿Está segura que desea eliminar
+                  {numSelected > 1
+                    ? ` los ${numSelected} registros seleccionados?`
+                    : ` el registro seleccionado?`}
+                </>
+              }
+            />
           </Box>
         ) : (
           <>
@@ -171,11 +181,6 @@ export const DataListToolbar = ({
                     value={filterName}
                     onChange={onFilterName}
                     placeholder={searchWhat}
-                    // startAdornment={
-                    //   <IconButton>
-                    //     <SearchOutlined />
-                    //   </IconButton>
-                    // }
                     endAdornment={
                       <IconButton
                         sx={{
@@ -198,29 +203,27 @@ export const DataListToolbar = ({
                 </Box>
               )}
 
-              {typeButton && typeButton === "PersonAddAlt" && (
+              {typeDatos && typeDatos === "pacientes" && (
                 <ButtonCustom
                   altura={"40px"}
                   colorf={
-                    bgHeaderColor === "primary.main"
-                      ? "colorTable.main"
-                      : "primary.main"
+                    bgHeaderColor === "primary.main" ? "white" : "primary.main"
                   }
                   colorh={
                     bgHeaderColor === "primary.main"
-                      ? "white"
+                      ? "btnHoverInForm.main"
                       : "secondary.main"
                   }
                   colort={bgHeaderColor === "primary.main" ? "black" : "white"}
                   txt_b={txt_button}
-                  // colorth={}
+                  colorth="white"
                   fontW="bold"
                   iconB={<PersonAddAlt />}
-                  onClick={funcionBtnTbl}
+                  onClick={handleAdd}
                 />
               )}
 
-              {typeButton && typeButton === "PostAdd" && (
+              {typeDatos && typeDatos === "citas" && (
                 <PostAdd
                   sx={{
                     color: bgHeaderColor === "primary.main" ? "white" : "black",
@@ -240,6 +243,7 @@ export const DataListToolbar = ({
           </Tooltip>
         )} */}
       </StyledRoot>
+
       // </TableHead>
     )
   );

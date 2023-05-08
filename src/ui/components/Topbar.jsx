@@ -25,7 +25,7 @@ export const Topbar = () => {
           alt="profile-user"
           width="32px"
           height="32px"
-          src={`../../../public/assets/premolarIcon2.svg`}
+          src={`../../../public/assets/premolarIcon.svg`}
           style={{ borderRadius: "20%" }}
         />
         <Typography
@@ -39,7 +39,9 @@ export const Topbar = () => {
           Dental Smile
         </Typography>
       </Box>
+
       <Typography
+        paddingRight="180px"
         variant="h3"
         color="secondary.main"
         fontWeight="bold"
@@ -50,7 +52,6 @@ export const Topbar = () => {
         {pageActive}
       </Typography>
 
-      {/* SEARCH BAR */}
       <Box display="flex" gap="20px">
         <IconButton className="btn-menu" sx={{ color: "black" }}>
           <AdminPanelSettingsOutlined />

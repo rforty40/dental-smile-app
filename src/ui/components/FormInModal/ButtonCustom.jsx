@@ -1,4 +1,4 @@
-import { Box, Fab, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 
 export const ButtonCustom = ({
@@ -19,11 +19,9 @@ export const ButtonCustom = ({
     <Box
       onClick={onClick}
       onMouseEnter={() => {
-        //console.log("Enter en mi boton");
         setColorTextBtn(colorth);
       }}
       onMouseLeave={() => {
-        //console.log("Leave en mi boton");
         setColorTextBtn(colort);
       }}
       variant="extended"
@@ -50,7 +48,7 @@ export const ButtonCustom = ({
       <Box display="flex" flexDirection="row" alignItems="center">
         <Typography
           sx={{
-            paddingLeft: "8px",
+            paddingLeft: "12px",
             color: colorTextBtn,
             fontSize: "16px",
             fontStyle: "italic",

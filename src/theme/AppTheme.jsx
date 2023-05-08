@@ -20,9 +20,3 @@ export const AppTheme = ({ children }) => {
     </ThemeProvider>
   );
 };
-
-// ${
-//   isSidebarOpen
-//     ? "content-sidebar-not-extended "
-//     : "content-sidebar-extended "
-// }

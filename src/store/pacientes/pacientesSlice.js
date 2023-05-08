@@ -5,16 +5,24 @@ export const pacientesSlice = createSlice({
 
   initialState: {
     isFormPacOpen: false,
+    titleForm: "",
+    pacienteActivo: {
+      nombre: "Juan Peréz",
+      cedula: "1394342433",
+    },
   },
 
   reducers: {
-    openFormPac: (state) => {
-      state.isFormPacOpen = true;
+    changeFormPacOpen: (state, { payload }) => {
+      state.isFormPacOpen = payload;
     },
-    closeFormPac: (state) => {
-      state.isFormPacOpen = false;
+    // closeFormPac: (state) => {
+    //   state.isFormPacOpen = false;
+    // },
+    changeTitleForm: (state, { payload }) => {
+      state.titleForm = payload;
     },
   },
 });
 
-export const { openFormPac, closeFormPac } = pacientesSlice.actions;
+export const { changeFormPacOpen, changeTitleForm } = pacientesSlice.actions;

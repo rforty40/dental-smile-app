@@ -4,8 +4,9 @@ export const uiSlice = createSlice({
   name: "ui",
 
   initialState: {
-    isSidebarOpen: false,
     pageActive: "",
+    isSidebarOpen: false,
+    isConfirmDeleteOpen: false,
   },
 
   reducers: {
@@ -15,7 +16,12 @@ export const uiSlice = createSlice({
     onChangePage: (state, { payload }) => {
       state.pageActive = payload;
     },
+
+    onChangeConfirmDelete: (state, { payload }) => {
+      state.isConfirmDeleteOpen = payload;
+    },
   },
 });
 
-export const { onChangeSidebar, onChangePage } = uiSlice.actions;
+export const { onChangeSidebar, onChangePage, onChangeConfirmDelete } =
+  uiSlice.actions;

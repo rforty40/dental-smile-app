@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 // @mui
 import {
   Checkbox,
@@ -8,7 +7,6 @@ import {
   TableSortLabel,
   Grid,
 } from "@mui/material";
-import { Visibility } from "@mui/icons-material";
 
 // ----------------------------------------------------------------------
 
@@ -34,8 +32,6 @@ export const DataListHead = ({
         {withToolbar && (
           <TableCell
             sx={{
-              // borderBottom: "3px solid white",
-              // borderLeft: "3px solid colorTable.main",
               borderRight: "3px solid white",
               bgcolor: "colorTable.main",
             }}
@@ -55,7 +51,6 @@ export const DataListHead = ({
             key={headCell.id}
             sortDirection={orderBy === headCell.id ? order : false}
             sx={{
-              // color: "#939EA8",
               padding: "0",
               margin: "0",
               bgcolor: "colorTable.main",
@@ -69,7 +64,6 @@ export const DataListHead = ({
               padding="5px"
               container
               flexDirection="column"
-              // alignItems={headCell.alignLeft ? "start" : "center"}
               justifyItems={headCell.alignLeft ? "start" : "center"}
             >
               <Grid item sx={{ width: "80%" }}>
@@ -109,17 +103,9 @@ export const DataListHead = ({
           sx={{
             height: "10px",
             bgcolor: "colorTable.main",
-            // borderTop: "3px solid white",
-            // borderBottom: "3px solid white",
             borderLeft: "3px solid white",
-            // borderRight: "3px solid colorTable.main",
           }}
-        >
-          {/* <Grid container spacing={2} flexDirection="column">
-            <TableSortLabel hideSortIcon>Acciones</TableSortLabel>
-            <span style={{ visibility: "hidden" }}>-------</span>
-          </Grid> */}
-        </TableCell>
+        ></TableCell>
       </TableRow>
     </TableHead>
   );

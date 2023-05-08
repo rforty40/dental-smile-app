@@ -2,19 +2,13 @@ import { useEffect, useState } from "react";
 
 import {
   Box,
-  Card,
   Checkbox,
-  Grid,
   IconButton,
   Link,
-  MenuItem,
-  Paper,
-  Popover,
   Table,
   TableBody,
   TableCell,
   TableContainer,
-  TableHead,
   TablePagination,
   TableRow,
   Typography,
@@ -27,6 +21,8 @@ import { filter } from "lodash";
 import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
 import { Link as RouterLink } from "react-router-dom";
+import { CustomPopover } from "./CustomPopover";
+import { DeleteConfirm } from "../FormInModal/DeleteConfirm";
 
 //
 //
@@ -146,15 +142,17 @@ export const CustomTable = ({
   withToolbar,
   txt_button,
   withBoxSearch,
-  typeButton,
+  typeDatos,
   iconosEnFila = true,
-  funcionBtnTbl,
+  funcionBtnTbl = null,
 }) => {
   //
   //hooks
+
   //
+
   //hook abrir el popOver eliminar y editar
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(null);
 
   //hook numero de pagina a mostrar
   const [page, setPage] = useState(0);
@@ -208,7 +206,6 @@ export const CustomTable = ({
 
   //handle seleccionar todo
   const handleSelectAllClick = (event) => {
-    //console.log("first");
     //el checked esta seleccionado
     if (event.target.checked) {
       const newSelecteds = DATALIST.map((n) => n["id"]);
@@ -309,30 +306,20 @@ export const CustomTable = ({
   //
   //
 
-  //  const obtenerLlaves= {
-
-  //  } Object.keys()
   return (
     <>
       <Box
         sx={{
-          // bgcolor: "#F4F6F8",
           bgcolor: "white",
           width: "100%",
-          // height: "calc( 100vh - 150px )",
-          // height: "100%",
+
           padding: "20px",
           borderRadius: "10px",
         }}
         //sx={{ padding: 10 }}
       >
         {/* barra toolbar */}
-        {/* longitud del hook selected, hook filterName, funcion handleFilterByName  */}
 
-        {/* <TableContainer
-          sx={{ overflowX: "initial" }} 
-        >
-          <Table stickyHeader> */}
         <DataListToolbar
           numSelected={selected.length}
           filterName={filterName}
@@ -344,24 +331,15 @@ export const CustomTable = ({
           txt_header={txt_header}
           withToolbar={withToolbar}
           withBoxSearch={withBoxSearch}
-          typeButton={typeButton}
+          typeDatos={typeDatos}
           txt_button={txt_button}
           funcionBtnTbl={funcionBtnTbl}
         />
-        {/* </Table> */}
-        {/* </TableContainer> */}
 
-        <TableContainer
-          sx={{ overflowX: "initial" }} /*sx={{ backgroundColor: "#C4C4C4" }}*/
-        >
+        <TableContainer sx={{ overflowX: "initial" }}>
           <Table size="small" stickyHeader>
             {/* Cabecera de las columnas */}
-            {/* hook order, 
-          hook orderBy, 
-          cabeceras de las tablas TABLE_HEAD, 
-          el numero de registros DATALIST.length  
-          el numero de filas seleccionada selected.length
-          funcion handleRequestSort para el evento onClick de la celda de de la columna*/}
+
             <DataListHead
               order={order}
               orderBy={orderBy}
@@ -374,7 +352,6 @@ export const CustomTable = ({
             />
 
             {/* Cuerpo de Tabla */}
-            {/* page * rowsPerPage + rowsPerPage = registros que se deberian estar mostrando */}
 
             <TableBody>
               {filteredUsers
@@ -385,8 +362,6 @@ export const CustomTable = ({
                 //
 
                 .map((row) => {
-                  //console.log(row);
-
                   const keys = Object.keys(row);
 
                   const filaSeleccionada = row["id"];
@@ -394,7 +369,6 @@ export const CustomTable = ({
                   //es true si el name esta en el array
                   const selectedUser =
                     selected.indexOf(filaSeleccionada) !== -1;
-                  // //console.log(selectedUser);
 
                   return (
                     /*fila de la tabla*/
@@ -403,9 +377,6 @@ export const CustomTable = ({
                       sx={{
                         backgroundColor: "white",
 
-                        // ":hover": {
-                        //   backgroundColor: "#E0DAEB !important",
-                        // },
                         "&.Mui-selected": {
                           backgroundColor: "#E0DAEB !important",
                         },
@@ -414,9 +385,6 @@ export const CustomTable = ({
                       tabIndex={-1}
                       role="checkbox"
                       selected={selectedUser}
-                      onClick={() => {
-                        console.log("fila clickeada");
-                      }}
                     >
                       {/* celda checkbox */}
                       {withToolbar && (
@@ -437,8 +405,6 @@ export const CustomTable = ({
                       )}
                       {/* celdas de los datos */}
 
-                      {/* {//console.log(keys)} */}
-
                       {keys.slice(1).map((key, index) => {
                         if (key === "paciente" || key === "nombre") {
                           return (
@@ -447,25 +413,27 @@ export const CustomTable = ({
                                 border: "3px solid",
                                 borderColor: "colorTable.main",
                               }}
-                              // className="celdaPaciente"
                               key={`${row[keys[0]]}${index}`}
                               align="left"
-                              onClick={() => {
-                                console.log("paciente clickeable");
-                              }}
                             >
-                              <Typography
-                                sx={{
-                                  cursor: "pointer",
-                                  // backgroundColor: "#0d2ac536",
-                                  color: "secondary.main",
-                                  fontSize: "15px",
-                                  fontWeight: "bold",
-                                  borderRadius: "5px",
-                                }}
+                              <Link
+                                component={RouterLink}
+                                to="/agenda"
+                                style={{ textDecoration: "none" }}
                               >
-                                {row[key]}
-                              </Typography>
+                                <Typography
+                                  sx={{
+                                    cursor: "pointer",
+
+                                    color: "secondary.main",
+                                    fontSize: "15px",
+                                    fontWeight: "bold",
+                                    borderRadius: "5px",
+                                  }}
+                                >
+                                  {row[key]}
+                                </Typography>
+                              </Link>
                             </TableCell>
                           );
                         } else {
@@ -568,48 +536,13 @@ export const CustomTable = ({
         />
       </Box>
 
-      <Popover
-        open={open}
-        anchorEl={open}
-        onClose={handleCloseMenu}
-        anchorOrigin={{ vertical: "top", horizontal: "left" }}
-        transformOrigin={{ vertical: "top", horizontal: "right" }}
-        PaperProps={{
-          sx: {
-            p: 1,
-            width: 140,
-            "& .MuiMenuItem-root": {
-              px: 1,
-              typography: "body2",
-              borderRadius: 0.75,
-            },
-          },
-        }}
-      >
-        <Link
-          component={RouterLink}
-          to="/agenda"
-          style={{ textDecoration: "none" }}
-        >
-          <MenuItem>
-            <IconButton sx={{ color: "primary.main" }}>
-              <Edit />
-            </IconButton>
-
-            <Typography variant="h7" color="primary.main" fontWeight="bold">
-              Editar
-            </Typography>
-          </MenuItem>
-        </Link>
-        <MenuItem>
-          <IconButton sx={{ color: "error.main" }}>
-            <Delete />
-          </IconButton>
-          <Typography variant="h7" color="error.main" fontWeight="bold">
-            Eliminar
-          </Typography>
-        </MenuItem>
-      </Popover>
+      <CustomPopover
+        stateOpen={open}
+        setStateOpen={setOpen}
+        handleCloseMenu={handleCloseMenu}
+        funcionBtnTbl={funcionBtnTbl}
+        typeDatos={typeDatos}
+      />
     </>
   );
 };

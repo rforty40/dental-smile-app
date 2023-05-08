@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onChangePage, onChangeSidebar } from "../store";
+import { onChangePage, onChangeSidebar, onChangeConfirmDelete } from "../store";
 
 //
 //
@@ -9,7 +9,9 @@ export const useUiStore = () => {
 
   const dispatch = useDispatch();
 
-  const { isSidebarOpen, pageActive } = useSelector((state) => state.ui);
+  const { isSidebarOpen, pageActive, isConfirmDeleteOpen } = useSelector(
+    (state) => state.ui
+  );
 
   const changeSidebar = (flag) => {
     dispatch(onChangeSidebar(flag));
@@ -25,14 +27,19 @@ export const useUiStore = () => {
     dispatch(onChangePage(pathnameCut));
   };
 
+  const changeModalConfDel = (flag) => {
+    dispatch(onChangeConfirmDelete(flag));
+  };
   //
   return {
     //* Propiedades
     isSidebarOpen,
     pageActive,
+    isConfirmDeleteOpen,
 
     //* Métodos
     changeSidebar,
     changePage,
+    changeModalConfDel,
   };
 };

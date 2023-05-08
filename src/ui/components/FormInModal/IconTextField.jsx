@@ -11,12 +11,10 @@ export const IconTextField = ({
   propsXS,
   ...props
 }) => {
-  // console.log(props);
   return (
     <TextField
       variant="outlined"
       sx={{
-        // backgroundColor: "#F0F0F0",
         boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
         ":hover": {
           boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",

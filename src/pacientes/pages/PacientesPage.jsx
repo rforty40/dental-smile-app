@@ -1,6 +1,6 @@
 import { useEffect } from "react";
-import { Box, Grid, Typography } from "@mui/material";
-import { CustomTable } from "../../ui";
+import { Box } from "@mui/material";
+import { CustomTable, DeleteConfirm } from "../../ui";
 import { dataPacientes } from "./dataPacientes";
 import { usePacienteStore, useUiStore } from "../../hooks";
 import FormModal from "../components/FormModal";
@@ -68,13 +68,15 @@ export const PacientesPage = () => {
 
   //funcion abrir modal formulario
 
-  const { openModalFormReg } = usePacienteStore();
+  const { changeModalFormReg, pacienteActivo } = usePacienteStore();
+
   const openModalPaciente = () => {
-    openModalFormReg();
+    changeModalFormReg(true);
   };
+
+  //
   return (
     <Box
-      // margin="20px"
       margin="-10px 20px 0 20px"
       display="flex"
       justifyContent="end"
@@ -88,13 +90,25 @@ export const PacientesPage = () => {
         txt_header={"Lista de pacientes"}
         withToolbar={true}
         withBoxSearch={true}
-        typeButton={"PersonAddAlt"}
+        typeDatos={"pacientes"}
         txt_button={"Registrar Paciente"}
         iconosEnFila={false}
         funcionBtnTbl={openModalPaciente}
       />
 
-      <FormModal title={"Registro de Paciente"} />
+      <FormModal />
+      <DeleteConfirm
+        message={
+          <>
+            ¿Está segura que desea eliminar el registro de
+            <span style={{ color: "#9c27b0" }}>
+              {" "}
+              {pacienteActivo.nombre} - {pacienteActivo.cedula}
+            </span>
+            ?
+          </>
+        }
+      />
     </Box>
   );
 };

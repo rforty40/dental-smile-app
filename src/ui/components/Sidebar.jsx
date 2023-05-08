@@ -124,7 +124,7 @@ export const Sidebar = () => {
                   alt="profile-user"
                   width="80px"
                   height="80px"
-                  src={`../../../public/assets/premolarIcon2.svg`}
+                  src={`../../../public/assets/premolarIcon.svg`}
                   style={{ borderRadius: "20%" }}
                 />
               </Box>

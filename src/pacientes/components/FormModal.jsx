@@ -9,7 +9,7 @@ import { MdContactPhone, MdEmail, MdFamilyRestroom } from "react-icons/md";
 import { IoIosContacts } from "react-icons/io";
 import { AiTwotonePhone } from "react-icons/ai";
 
-import { Grid, Icon, IconButton, Slide } from "@mui/material";
+import { Grid, Icon, IconButton, Slide, Typography } from "@mui/material";
 import {
   CancelOutlined,
   CloseOutlined,
@@ -30,22 +30,26 @@ const Transition = forwardRef(function Transition(props, ref) {
 //
 //
 
-export default function FormModal({ title }) {
+export default function FormModal() {
   //
 
-  const { isFormPacOpen, closeModalFormReg } = usePacienteStore();
+  const { isFormPacOpen, changeModalFormReg, titleForm } = usePacienteStore();
 
   const [menorEdad, setMenorEdad] = useState(true);
+
+  const cerrarModal = () => {
+    changeModalFormReg(false);
+  };
   //
   return (
     <div>
       <Dialog
         maxWidth="sm"
         open={isFormPacOpen}
-        onClose={closeModalFormReg}
+        onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted
-        aria-describedby="alert-dialog-slide-description"
+        // aria-describedby="alert-dialog-slide-description"
         sx={{
           backdropFilter: "blur(3px)",
         }}
@@ -56,15 +60,19 @@ export default function FormModal({ title }) {
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
-          className="text-shadow"
-          sx={{
-            fontWeight: "bold",
-            fontSize: "28px",
-            fontStyle: "italic",
-          }}
         >
-          {title}
-          <IconButton onClick={closeModalFormReg}>
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              fontSize: "25px",
+              fontStyle: "italic",
+              textShadow: "0px 1px 1px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            {titleForm}
+          </Typography>
+
+          <IconButton onClick={cerrarModal}>
             <CloseOutlined style={{ fontSize: "25px", color: "#602a90" }} />
           </IconButton>
         </DialogTitle>
@@ -357,8 +365,9 @@ export default function FormModal({ title }) {
                 colorth={"white"}
                 propsXS={{ border: "1px solid black" }}
                 iconB={<CancelOutlined />}
-                onClick={closeModalFormReg}
+                onClick={cerrarModal}
               />
+
               <ButtonCustom
                 altura={"40px"}
                 colorf={"primary.main"}
