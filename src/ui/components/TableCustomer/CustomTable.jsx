@@ -22,7 +22,7 @@ import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
 import { Link as RouterLink } from "react-router-dom";
 import { CustomPopover } from "./CustomPopover";
-import { DeleteConfirm } from "../FormInModal/DeleteConfirm";
+import { useDataStore, useUiStore } from "../../../hooks";
 
 //
 //
@@ -145,11 +145,18 @@ export const CustomTable = ({
   typeDatos,
   iconosEnFila = true,
   funcionBtnTbl = null,
+  dataOmitida = 1, // por defecto solo el id
 }) => {
   //
   //hooks
 
   //
+
+  const { changeDataActiva } = useDataStore();
+
+  // const loadDataFromRow = (event, row) => {
+  //   changeDataActiva(row);
+  // };
 
   //hook abrir el popOver eliminar y editar
   const [open, setOpen] = useState(null);
@@ -385,6 +392,10 @@ export const CustomTable = ({
                       tabIndex={-1}
                       role="checkbox"
                       selected={selectedUser}
+                      // onClick={loadDataFromRow(row)}
+                      onClick={() => {
+                        changeDataActiva(row);
+                      }}
                     >
                       {/* celda checkbox */}
                       {withToolbar && (
@@ -405,7 +416,7 @@ export const CustomTable = ({
                       )}
                       {/* celdas de los datos */}
 
-                      {keys.slice(1).map((key, index) => {
+                      {keys.slice(dataOmitida).map((key, index) => {
                         if (key === "paciente" || key === "nombre") {
                           return (
                             <TableCell

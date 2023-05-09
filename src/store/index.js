@@ -3,5 +3,5 @@ export * from "./agenda/agendaSlice";
 export * from "./ui/uiSlice";
 export * from "./dashboard/dashboardSlice";
 export * from "./pacientes/pacientesSlice";
-
+export * from "./global/dataSlice";
 export * from "./store";

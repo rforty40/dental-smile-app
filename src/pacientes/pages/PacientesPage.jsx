@@ -3,7 +3,8 @@ import { Box } from "@mui/material";
 import { CustomTable, DeleteConfirm } from "../../ui";
 import { dataPacientes } from "./dataPacientes";
 import { usePacienteStore, useUiStore } from "../../hooks";
-import FormModal from "../components/FormModal";
+
+import { FormModalPac } from "../components";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -11,7 +12,7 @@ const TABLE_HEAD = [
   { id: "edad", label: "Edad", alignLeft: true },
   { id: "sexo", label: "Sexo", alignLeft: true },
   { id: "telefono", label: "Teléfono", alignLeft: true },
-  { id: "correo", label: "Correo", alignLeft: true },
+  { id: "email", label: "Email", alignLeft: true },
   { id: "responsable", label: "Responsable", alignLeft: true },
 ];
 const formatearNombre = (pri, seg) => {
@@ -49,6 +50,15 @@ export const PacientesPage = () => {
   const dataPacFormated = dataPacientes.map((data) => {
     return {
       id: data.id_paciente,
+      erNombre: data.priNom_paciente,
+      doNombre: data.segNom_paciente,
+      erApellido: data.priApe_paciente,
+      doApellido: data.segApe_paciente,
+      nomRes: data.nomRes_paciente,
+      parRes: data.parRes_paciente,
+      telRes: data.telRes_paciente,
+      //
+
       nombre:
         `${formatearNombre(data.priNom_paciente, data.segNom_paciente)}` +
         ` ${formatearNombre(data.priApe_paciente, data.segApe_paciente)}`,
@@ -57,7 +67,7 @@ export const PacientesPage = () => {
       edad: data.eda_paciente,
       sexo: data.sex_paciente,
       telefono: data.tel_paciente,
-      correo: data.ema_paciente,
+      email: data.ema_paciente,
       responsable: formatearRes(
         data.nomRes_paciente,
         data.parRes_paciente,
@@ -94,9 +104,10 @@ export const PacientesPage = () => {
         txt_button={"Registrar Paciente"}
         iconosEnFila={false}
         funcionBtnTbl={openModalPaciente}
+        dataOmitida={8}
       />
 
-      <FormModal />
+      <FormModalPac />
       <DeleteConfirm
         message={
           <>

@@ -1,5 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { agendaSlice, dashboardSlice, pacientesSlice, uiSlice } from "./";
+import {
+  agendaSlice,
+  dashboardSlice,
+  dataSlice,
+  pacientesSlice,
+  uiSlice,
+} from "./";
 
 export const store = configureStore({
   reducer: {
@@ -7,6 +13,7 @@ export const store = configureStore({
     agenda: agendaSlice.reducer,
     pacientes: pacientesSlice.reducer,
     dashboard: dashboardSlice.reducer,
+    dataGlobal: dataSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>

@@ -4,7 +4,13 @@ import { FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 //
 //
 
-export const RadioGroupCustom = ({ title, colorRadio, radioOptions }) => {
+export const RadioGroupCustom = ({
+  title,
+  colorRadio,
+  radioOptions,
+  hookRadio,
+  setHookRadio,
+}) => {
   return (
     <>
       <p
@@ -16,7 +22,15 @@ export const RadioGroupCustom = ({ title, colorRadio, radioOptions }) => {
       >
         {title}
       </p>
-      <RadioGroup row name="row-radio-buttons-group">
+      <RadioGroup
+        row
+        name="row-radio-buttons-group"
+        value={hookRadio}
+        onChange={(event) => {
+          // console.log(event.target.value);
+          setHookRadio(event.target.value);
+        }}
+      >
         {radioOptions.map((radio) => {
           return (
             <FormControlLabel

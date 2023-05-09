@@ -1,5 +1,5 @@
-import { Box, IconButton, Typography } from "@mui/material";
-import { useState } from "react";
+import { Box, Icon, IconButton, Typography } from "@mui/material";
+import { useMemo, useState } from "react";
 
 export const ButtonCustom = ({
   altura = "45px",
@@ -11,12 +11,15 @@ export const ButtonCustom = ({
   iconB,
   onClick,
   fontW = "normal",
+  tipoBtn = "",
   propsXS,
 }) => {
   const [colorTextBtn, setColorTextBtn] = useState(colort);
 
   return (
     <Box
+      component="button"
+      type="submit"
       onClick={onClick}
       onMouseEnter={() => {
         setColorTextBtn(colorth);
@@ -35,6 +38,7 @@ export const ButtonCustom = ({
         borderRadius: "10px",
         backgroundColor: colorf,
         boxShadow: "none",
+        border: "none",
         ":hover": {
           border: "none",
           backgroundColor: colorh,
@@ -45,10 +49,15 @@ export const ButtonCustom = ({
         ...propsXS,
       }}
     >
-      <Box display="flex" flexDirection="row" alignItems="center">
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        sx={{ paddingLeft: "10px", paddingRight: "7px" }}
+        columnGap="10px"
+      >
         <Typography
           sx={{
-            paddingLeft: "12px",
             color: colorTextBtn,
             fontSize: "16px",
             fontStyle: "italic",
@@ -57,13 +66,14 @@ export const ButtonCustom = ({
         >
           {txt_b}
         </Typography>
-        <IconButton
+        <Icon
+          type={tipoBtn}
           sx={{
             color: colorTextBtn,
           }}
         >
           {iconB}
-        </IconButton>
+        </Icon>
       </Box>
     </Box>
   );

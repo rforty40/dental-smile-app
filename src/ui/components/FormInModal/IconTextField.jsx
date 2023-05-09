@@ -22,6 +22,10 @@ export const IconTextField = ({
         "& .MuiInputLabel-root.Mui-disabled ": {
           opacity: "0.3",
         },
+        "& .MuiFormHelperText-contained": {
+          color: colorHover,
+          // margin: "2px 3px",
+        },
         "& .Mui-disabled.MuiInputBase-formControl": {
           opacity: "0.3",
         },

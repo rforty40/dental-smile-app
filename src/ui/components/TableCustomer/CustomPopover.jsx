@@ -7,8 +7,6 @@ import {
   Typography,
 } from "@mui/material";
 import { usePacienteStore, useUiStore } from "../../../hooks";
-import { DeleteConfirm } from "../FormInModal/DeleteConfirm";
-
 //
 //
 
