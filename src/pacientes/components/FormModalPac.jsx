@@ -1,3 +1,6 @@
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
 import Dialog from "@mui/material/Dialog";
@@ -9,14 +12,34 @@ import { MdContactPhone, MdEmail, MdFamilyRestroom } from "react-icons/md";
 import { IoIosContacts } from "react-icons/io";
 import { AiTwotonePhone } from "react-icons/ai";
 
-import { Grid, Icon, IconButton, Slide, Typography } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Fade,
+  Grid,
+  Grow,
+  Icon,
+  IconButton,
+  Portal,
+  Slide,
+  Snackbar,
+  Typography,
+} from "@mui/material";
 import {
   CancelOutlined,
+  Check,
+  CheckBoxRounded,
+  CheckCircleOutline,
   CloseOutlined,
   PhoneIphone,
   SaveOutlined,
 } from "@mui/icons-material";
-import { ButtonCustom, IconTextField, RadioGroupCustom } from "../../ui";
+import {
+  ButtonCustom,
+  CustomAlert,
+  IconTextField,
+  RadioGroupCustom,
+} from "../../ui";
 
 import { useDataStore, useForm, usePacienteStore } from "../../hooks";
 
@@ -32,6 +55,8 @@ import { formValidations } from "./validationsFormPac";
 //
 //
 //
+//
+//
 
 export const FormModalPac = () => {
   //
@@ -43,9 +68,12 @@ export const FormModalPac = () => {
 
   const [menorEdad, setMenorEdad] = useState(true);
 
+  const [msgAlert, setMsgAlert] = useState("");
+
   const formDataPac = useMemo(() => {
     if (titleForm.toUpperCase().includes("EDITAR")) {
       setMenorEdad(false);
+      setMsgAlert(`Se actualizaron los datos de ${dataActiva.nombre} 🙂.`);
 
       return {
         dataForm: {
@@ -66,6 +94,8 @@ export const FormModalPac = () => {
       };
     } else {
       setMenorEdad(true);
+      setMsgAlert("Paciente registrado con éxito");
+
       return {
         dataForm: {
           cedula: "",
@@ -102,16 +132,41 @@ export const FormModalPac = () => {
     setHookRadio(formDataPac.dataForm.sexo);
   }, [titleForm, dataActiva]);
 
+  //control alert
+  const [stateSnackbar, setStateSnackbar] = useState(false);
+  const handleCloseSnackbar = () => {
+    setStateSnackbar(false);
+  };
+  const handleOpenSnackbar = () => {
+    setStateSnackbar(true);
+  };
+
   //control envio del formulario
   const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
 
     if (!isFormValid) return;
-
     if (hookRadio === "") return;
+    console.log("Envio mi data", formState);
+    cerrarModal();
+    handleOpenSnackbar();
+    setFormSubmitted(false);
 
-    console.log("Envio mi data");
+    formDataPac.dataForm = {
+      cedula: "",
+      edad: "",
+      sexo: "",
+      erNombre: "",
+      doNombre: "",
+      erApellido: "",
+      doApellido: "",
+      telefono: "",
+      email: "",
+      nomRes: "",
+      parRes: "",
+      telRes: "",
+    };
   };
 
   //
@@ -241,12 +296,23 @@ export const FormModalPac = () => {
                 display="flex"
                 flexDirection="column"
                 paddingLeft="5px"
-                boxShadow={
-                  hookRadio === "" ? "1px 4px 4px rgba(0, 0, 0, 0.5)" : "none"
-                }
+                sx={{
+                  boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
+                  ":hover": {
+                    boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
+                  },
+                }}
+                // boxShadow={
+                //   hookRadio === "" ? "1px 4px 4px rgba(0, 0, 0, 0.5)" : "none"
+                // }
               >
                 {hookRadio === "" ? (
-                  <p style={{ fontSize: "13px", color: "#116482" }}>
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: formSubmitted ? "#D74646" : "#116482",
+                    }}
+                  >
                     Opción requerida
                   </p>
                 ) : (
@@ -511,11 +577,11 @@ export const FormModalPac = () => {
 
                 <ButtonCustom
                   tipoBtn="submit"
-                  altura={"40px"}
-                  colorf={"primary.main"}
-                  colorh={"btnHoverInForm.main"}
-                  colort={"white"}
-                  txt_b={"Registrar"}
+                  altura="40px"
+                  colorf="primary.main"
+                  colorh="btnHoverInForm.main"
+                  colort="white"
+                  txt_b="Registrar"
                   iconB={<SaveOutlined />}
                 />
               </Grid>
@@ -523,6 +589,17 @@ export const FormModalPac = () => {
           </form>
         </DialogContent>
       </Dialog>
+      {/* <Portal> */}
+      <CustomAlert
+        stateSnackbar={stateSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        title={"Completado"}
+        message={msgAlert}
+        colorbg="btnHoverInForm.main"
+        colortxt="white"
+        iconAlert={<CheckCircleOutline sx={{ color: "white" }} />}
+      />
+      {/* </Portal> */}
     </div>
   );
 };

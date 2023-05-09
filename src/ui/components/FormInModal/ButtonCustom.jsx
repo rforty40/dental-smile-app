@@ -11,7 +11,7 @@ export const ButtonCustom = ({
   iconB,
   onClick,
   fontW = "normal",
-  tipoBtn = "",
+  tipoBtn = "button",
   propsXS,
 }) => {
   const [colorTextBtn, setColorTextBtn] = useState(colort);
@@ -19,7 +19,7 @@ export const ButtonCustom = ({
   return (
     <Box
       component="button"
-      type="submit"
+      type={tipoBtn}
       onClick={onClick}
       onMouseEnter={() => {
         setColorTextBtn(colorth);
@@ -27,8 +27,6 @@ export const ButtonCustom = ({
       onMouseLeave={() => {
         setColorTextBtn(colort);
       }}
-      variant="extended"
-      className="button"
       sx={{
         cursor: "pointer",
         paddingRight: "0px",
@@ -67,7 +65,6 @@ export const ButtonCustom = ({
           {txt_b}
         </Typography>
         <Icon
-          type={tipoBtn}
           sx={{
             color: colorTextBtn,
           }}
