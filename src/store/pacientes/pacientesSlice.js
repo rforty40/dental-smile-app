@@ -6,10 +6,7 @@ export const pacientesSlice = createSlice({
   initialState: {
     isFormPacOpen: false,
     titleForm: "",
-    pacienteActivo: {
-      nombre: "Juan Peréz",
-      cedula: "1394342433",
-    },
+    pacienteActivo: {},
   },
 
   reducers: {
@@ -22,7 +19,14 @@ export const pacientesSlice = createSlice({
     changeTitleForm: (state, { payload }) => {
       state.titleForm = payload;
     },
+
+    onLoadPacActivo: (state, { payload }) => {
+      state.pacienteActivo = {
+        ...payload,
+      };
+    },
   },
 });
 
-export const { changeFormPacOpen, changeTitleForm } = pacientesSlice.actions;
+export const { changeFormPacOpen, changeTitleForm, onLoadPacActivo } =
+  pacientesSlice.actions;

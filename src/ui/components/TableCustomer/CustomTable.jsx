@@ -22,7 +22,7 @@ import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
 import { Link as RouterLink } from "react-router-dom";
 import { CustomPopover } from "./CustomPopover";
-import { useDataStore, useUiStore } from "../../../hooks";
+import { useDataStore, usePacienteStore, useUiStore } from "../../../hooks";
 
 //
 //
@@ -154,10 +154,7 @@ export const CustomTable = ({
 
   const { changeDataActiva } = useDataStore();
 
-  // const loadDataFromRow = (event, row) => {
-  //   changeDataActiva(row);
-  // };
-
+  const { changeDataPaciente } = usePacienteStore();
   //hook abrir el popOver eliminar y editar
   const [open, setOpen] = useState(null);
 
@@ -319,7 +316,6 @@ export const CustomTable = ({
         sx={{
           bgcolor: "white",
           width: "100%",
-
           padding: "20px",
           borderRadius: "10px",
         }}
@@ -395,6 +391,14 @@ export const CustomTable = ({
                       // onClick={loadDataFromRow(row)}
                       onClick={() => {
                         changeDataActiva(row);
+
+                        if (
+                          keys.includes("nombre") ||
+                          keys.includes("paciente")
+                        ) {
+                          changeDataPaciente(row);
+                          // console.log("tine nombre");
+                        }
                       }}
                     >
                       {/* celda checkbox */}
@@ -429,7 +433,7 @@ export const CustomTable = ({
                             >
                               <Link
                                 component={RouterLink}
-                                to="/agenda"
+                                to="ronny/historial"
                                 style={{ textDecoration: "none" }}
                               >
                                 <Typography

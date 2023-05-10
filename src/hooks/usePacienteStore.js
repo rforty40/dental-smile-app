@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { changeFormPacOpen, changeTitleForm } from "../store";
+import { changeFormPacOpen, changeTitleForm, onLoadPacActivo } from "../store";
 
 //
 //
@@ -12,14 +12,7 @@ export const usePacienteStore = () => {
   const { isFormPacOpen, titleForm, pacienteActivo } = useSelector(
     (state) => state.pacientes
   );
-
-  // const openModalFormReg = () => {
-  //   dispatch(openFormPac());
-  // };
-
-  // const closeModalFormReg = () => {
-  //   dispatch(closeFormPac());
-  // };
+  // const { dataActiva } = useSelector((state) => state.dataGlobal);
 
   const changeModalFormReg = (flag) => {
     dispatch(changeFormPacOpen(flag));
@@ -28,17 +21,22 @@ export const usePacienteStore = () => {
     dispatch(changeTitleForm(title));
   };
 
+  const changeDataPaciente = (dataPac) => {
+    dispatch(onLoadPacActivo(dataPac));
+  };
+  // const changeDataPaciente = () => {
+  //   dispatch(onLoadPacActivo(dataActiva));
+  // };
   //
   return {
     //* Propiedades
     isFormPacOpen,
     titleForm,
     pacienteActivo,
+
     //* Métodos
-    // openModalFormReg,
-    // closeModalFormReg,
     changeModalFormReg,
     changeTitleFormReg,
-    // changeHover,
+    changeDataPaciente,
   };
 };
