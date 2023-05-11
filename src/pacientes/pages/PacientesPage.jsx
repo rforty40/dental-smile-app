@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Box } from "@mui/material";
-import { CustomTable, DeleteConfirm } from "../../ui";
+import { CustomTable, DeleteConfirm, Topbar } from "../../ui";
 import { dataPacientes } from "./dataPacientes";
 import { usePacienteStore, useUiStore } from "../../hooks";
 
@@ -41,13 +41,20 @@ const formatearRes = (nom, parent, telres) => {
 
 export const PacientesPage = () => {
   const { changePage } = useUiStore();
+  const { pacientesList, pacienteActivo, changeModalFormReg, loadPacientes } =
+    usePacienteStore();
+  // const { } = usePacienteStore();
 
   useEffect(() => {
     console.log("PacientePage");
     changePage();
   }, []);
 
-  const dataPacFormated = dataPacientes.map((data) => {
+  useEffect(() => {
+    loadPacientes();
+  }, []);
+
+  const dataPacFormated = pacientesList.map((data) => {
     return {
       id: data.id_paciente,
       erNombre: data.priNom_paciente,
@@ -77,49 +84,49 @@ export const PacientesPage = () => {
   });
 
   //funcion abrir modal formulario
-
-  const { changeModalFormReg, pacienteActivo } = usePacienteStore();
-
   const openModalPaciente = () => {
     changeModalFormReg(true);
   };
 
   //
   return (
-    <Box
-      margin="-10px 20px 0 20px"
-      display="flex"
-      justifyContent="end"
-      className="box-shadow animate__animated animate__fadeIn"
-    >
-      <CustomTable
-        TABLE_HEAD={TABLE_HEAD}
-        DATALIST={dataPacFormated}
-        columnaABuscarPri="nombre"
-        searchWhat={"Buscar pacientes ..."}
-        txt_header={"Lista de pacientes"}
-        withToolbar={true}
-        withBoxSearch={true}
-        typeDatos={"pacientes"}
-        txt_button={"Registrar Paciente"}
-        iconosEnFila={false}
-        funcionBtnTbl={openModalPaciente}
-        dataOmitida={8}
-      />
+    <>
+      <Topbar />
+      <Box
+        margin="-10px 20px 0 20px"
+        display="flex"
+        justifyContent="end"
+        className="box-shadow animate__animated animate__fadeIn"
+      >
+        <CustomTable
+          TABLE_HEAD={TABLE_HEAD}
+          DATALIST={dataPacFormated}
+          columnaABuscarPri="nombre"
+          searchWhat={"Buscar pacientes ..."}
+          txt_header={"Lista de pacientes"}
+          withToolbar={true}
+          withBoxSearch={true}
+          typeDatos={"pacientes"}
+          txt_button={"Registrar Paciente"}
+          iconosEnFila={false}
+          funcionBtnTbl={openModalPaciente}
+          dataOmitida={8}
+        />
 
-      <FormModalPac />
-      <DeleteConfirm
-        message={
-          <>
-            ¿Está segura que desea eliminar el registro de
-            <span style={{ color: "#9c27b0" }}>
-              {" "}
-              {pacienteActivo.nombre} - {pacienteActivo.cedula}
-            </span>
-            ?
-          </>
-        }
-      />
-    </Box>
+        <FormModalPac />
+        <DeleteConfirm
+          message={
+            <>
+              ¿Está segura que desea eliminar el registro de
+              <span style={{ color: "#9c27b0" }}>
+                {" "}
+                {pacienteActivo.nombre} - {pacienteActivo.cedula}
+              </span>
+              ?
+            </>
+          }
+        />
+      </Box>
+    </>
   );
 };

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { Box, Card, Tab, Tabs } from "@mui/material";
+import { Box, Card, Tab, Tabs, Typography } from "@mui/material";
 import { CustomTable, DeleteConfirm } from "../../ui";
 import { dataPacientes } from "./dataPacientes";
 import { usePacienteStore, useUiStore } from "../../hooks";
 
 import { FormModalPac } from "../components";
 import { ContactPage, MedicalInformation } from "@mui/icons-material";
+import { InfoPagePaciente } from "./InfoPagePaciente";
+import { HistorialPagePaciente } from "./HistorialPagePaciente";
 
 export const PacienteHistorial = () => {
   const { changePage } = useUiStore();
@@ -29,21 +31,38 @@ export const PacienteHistorial = () => {
   const handleChangeTabs = (event, newValue) => {
     setHookTabs(newValue);
   };
+  const dataPacienteLocal = JSON.parse(localStorage.getItem("pacienteActivo"));
 
   return (
-    <Box>
+    <>
       <Box
         position="sticky"
-        top="0px"
         display="flex"
-        justifyContent="end"
-        alignContent="end"
-        alignItems="end"
-        paddingRight="20px"
+        justifyContent="space-between"
+        alignItems="center"
+        padding="0px 20px"
         sx={{
-          backgroundColor: "rgba(245, 247, 250, 0.8)",
+          // backgroundColor: "rgba(245, 247, 250, 0.9)",
+          backgroundColor: "myBgColor.main",
         }}
       >
+        <Typography
+          paddingRight="180px"
+          variant="h3"
+          color="black"
+          fontWeight="bold"
+          fontSize="25px"
+          fontStyle="italic"
+          sx={{ textShadow: "0px 2px 2px rgba(0,0,0,0.20)  !important" }}
+        >
+          Paciente:{" "}
+          <span style={{ color: "#9c27b0" }}>
+            {pacienteActivo.nombre
+              ? pacienteActivo.nombre
+              : dataPacienteLocal.nombre}
+          </span>
+        </Typography>
+
         <Tabs value={hookTabs} onChange={handleChangeTabs}>
           <Tab
             sx={{ color: "black" }}
@@ -57,35 +76,18 @@ export const PacienteHistorial = () => {
           />
         </Tabs>
       </Box>
+
       <Box
         height="100%"
-        sx={
-          {
-            // backgroundImage: `linear-gradient(#f5f7fa,#a082bd)`,
-          }
-        }
+        padding="20px"
+        // sx={{ backgroundColor: "orange" }}
       >
-        <>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-          <h1>mostrar informacion</h1>
-        </>
-        {hookTabs === 0 && <h1>mostrar informacion</h1>}
-        {hookTabs === 1 && <h1>mostrar historial</h1>}
+        <div style={{ display: hookTabs === 0 ? "flex" : "none" }}>
+          <InfoPagePaciente />
+        </div>
+        <div style={{ display: hookTabs === 1 ? "flex" : "none" }}>
+          <HistorialPagePaciente />
+        </div>
       </Box>
 
       <DeleteConfirm
@@ -94,12 +96,18 @@ export const PacienteHistorial = () => {
             ¿Está segura que desea eliminar el registro de
             <span style={{ color: "#9c27b0" }}>
               {" "}
-              {pacienteActivo.nombre} - {pacienteActivo.cedula}
+              {pacienteActivo.nombre
+                ? pacienteActivo.nombre
+                : dataPacienteLocal.nombre}{" "}
+              -{" "}
+              {pacienteActivo.cedula
+                ? pacienteActivo.cedula
+                : dataPacienteLocal.cedula}
             </span>
             ?
           </>
         }
       />
-    </Box>
+    </>
   );
 };

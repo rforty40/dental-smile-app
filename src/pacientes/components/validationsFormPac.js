@@ -13,6 +13,10 @@ export const formValidations = {
   erApellido: [(value) => value.length > 0, "Campo requerido"],
   // doApellido: [(value) => true, "Opcional"],
   // telefono: [(value) => true, "Opcional"],
+  telefono: [
+    (value) => value.length === 10 || value.length === 0,
+    "Opcional. El número debe tener 10 dígitos",
+  ],
   email: [
     (value) => value.match(mailformat) || value.length === 0,
     "Opcional. Escriba un correo válido",

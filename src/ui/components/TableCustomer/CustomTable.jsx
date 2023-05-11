@@ -397,6 +397,10 @@ export const CustomTable = ({
                           keys.includes("paciente")
                         ) {
                           changeDataPaciente(row);
+                          localStorage.setItem(
+                            "pacienteActivo",
+                            JSON.stringify(row)
+                          );
                           // console.log("tine nombre");
                         }
                       }}

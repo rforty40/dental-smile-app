@@ -7,6 +7,8 @@ export const pacientesSlice = createSlice({
     isFormPacOpen: false,
     titleForm: "",
     pacienteActivo: {},
+    pacientesList: [],
+    registerError: true,
   },
 
   reducers: {
@@ -25,8 +27,27 @@ export const pacientesSlice = createSlice({
         ...payload,
       };
     },
+
+    onLoadPacientesList: (state, { payload = [] }) => {
+      state.pacientesList = payload;
+    },
+
+    changeRegisterError: (state, { payload }) => {
+      state.registerError = payload;
+    },
+
+    onSavePaciente: (state, { payload = [] }) => {
+      console.log("Payload in pacienteSlice", payload);
+      state.pacientesList.push(payload);
+    },
   },
 });
 
-export const { changeFormPacOpen, changeTitleForm, onLoadPacActivo } =
-  pacientesSlice.actions;
+export const {
+  changeFormPacOpen,
+  changeTitleForm,
+  onLoadPacActivo,
+  onLoadPacientesList,
+  onSavePaciente,
+  changeRegisterError,
+} = pacientesSlice.actions;

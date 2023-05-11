@@ -11,7 +11,6 @@ function DentalSmileApp() {
       <Provider store={store}>
         <BrowserRouter>
           <AppTheme>
-            <Topbar />
             <AppRouter />
           </AppTheme>
         </BrowserRouter>

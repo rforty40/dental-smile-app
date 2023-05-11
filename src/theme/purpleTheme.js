@@ -43,6 +43,10 @@ export const purpleTheme = createTheme(
       btnHoverInForm: {
         main: "#116482",
       },
+
+      blueSecondary: {
+        main: "#116482",
+      },
     },
   },
   esES

@@ -12,6 +12,8 @@ export const ButtonCustom = ({
   onClick,
   fontW = "normal",
   tipoBtn = "button",
+  flexDir = "row",
+  txt_b_size = "16px",
   propsXS,
 }) => {
   const [colorTextBtn, setColorTextBtn] = useState(colort);
@@ -49,15 +51,18 @@ export const ButtonCustom = ({
     >
       <Box
         display="flex"
-        flexDirection="row"
+        flexDirection={flexDir}
         alignItems="center"
-        sx={{ paddingLeft: "10px", paddingRight: "7px" }}
+        sx={{
+          paddingLeft: flexDir === "row" ? "10px" : "7px",
+          paddingRight: "7px",
+        }}
         columnGap="10px"
       >
         <Typography
           sx={{
             color: colorTextBtn,
-            fontSize: "16px",
+            fontSize: txt_b_size,
             fontStyle: "italic",
             fontWeight: fontW,
           }}

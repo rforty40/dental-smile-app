@@ -50,6 +50,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 import { formValidations } from "./validationsFormPac";
+import { formatearDataPacToBD } from "../../helpers";
 
 //
 //
@@ -61,9 +62,16 @@ import { formValidations } from "./validationsFormPac";
 export const FormModalPac = () => {
   //
 
+  const {
+    isFormPacOpen,
+    changeModalFormReg,
+    titleForm,
+    savePaciente,
+    registerError,
+  } = usePacienteStore();
+
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  const { isFormPacOpen, changeModalFormReg, titleForm } = usePacienteStore();
   const { dataActiva } = useDataStore();
 
   const [menorEdad, setMenorEdad] = useState(true);
@@ -141,32 +149,50 @@ export const FormModalPac = () => {
     setStateSnackbar(true);
   };
 
+  const [stateSnackbarError, setStateSnackbarError] = useState(false);
+  const handleCloseSnackbarError = () => {
+    setStateSnackbarError(false);
+  };
+  const handleOpenSnackbarError = () => {
+    setStateSnackbarError(true);
+  };
+
   //control envio del formulario
   const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
 
     if (!isFormValid) return;
-    if (hookRadio === "") return;
-    console.log("Envio mi data", formState);
-    cerrarModal();
-    handleOpenSnackbar();
-    setFormSubmitted(false);
 
-    formDataPac.dataForm = {
-      cedula: "",
-      edad: "",
-      sexo: "",
-      erNombre: "",
-      doNombre: "",
-      erApellido: "",
-      doApellido: "",
-      telefono: "",
-      email: "",
-      nomRes: "",
-      parRes: "",
-      telRes: "",
-    };
+    if (hookRadio === "") return;
+    formState.sexo = hookRadio;
+    savePaciente(formState);
+
+    console.log(registerError);
+    if (registerError) {
+      handleOpenSnackbarError();
+    } else {
+      console.log("Envio mi data", formState);
+      cerrarModal();
+      handleOpenSnackbar();
+      setFormSubmitted(false);
+
+      formDataPac.dataForm = {
+        cedula: "",
+        edad: "",
+        sexo: "",
+        erNombre: "",
+        doNombre: "",
+        erApellido: "",
+        doApellido: "",
+        telefono: "",
+        email: "",
+        nomRes: "",
+        parRes: "",
+        telRes: "",
+      };
+      setHookRadio("");
+    }
   };
 
   //
@@ -589,7 +615,7 @@ export const FormModalPac = () => {
           </form>
         </DialogContent>
       </Dialog>
-      {/* <Portal> */}
+
       <CustomAlert
         stateSnackbar={stateSnackbar}
         handleCloseSnackbar={handleCloseSnackbar}
@@ -599,7 +625,19 @@ export const FormModalPac = () => {
         colortxt="white"
         iconAlert={<CheckCircleOutline sx={{ color: "white" }} />}
       />
-      {/* </Portal> */}
+      <Portal>
+        <CustomAlert
+          stateSnackbar={stateSnackbarError}
+          handleCloseSnackbar={handleCloseSnackbarError}
+          title={"Tarea no completada"}
+          message={
+            "Hubo un problema con el registro, contactese con el administrador"
+          }
+          colorbg="error.main"
+          colortxt="white"
+          iconAlert={<CancelOutlined sx={{ color: "white" }} />}
+        />
+      </Portal>
     </div>
   );
 };
