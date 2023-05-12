@@ -15,6 +15,7 @@ export const CustomPopover = ({
   setStateOpen,
   handleCloseMenu,
   funcionBtnTbl,
+  funcionBtnTblDelete,
   typeDatos,
 }) => {
   //
@@ -36,7 +37,14 @@ export const CustomPopover = ({
   };
 
   const handleDelete = () => {
-    changeModalConfDel(true);
+    switch (typeDatos) {
+      case "pacientes":
+        funcionBtnTblDelete();
+        break;
+
+      default:
+        break;
+    }
     setStateOpen(!stateOpen);
   };
   //

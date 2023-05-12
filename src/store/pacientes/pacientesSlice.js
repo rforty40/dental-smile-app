@@ -45,14 +45,28 @@ export const pacientesSlice = createSlice({
       });
     },
 
-    onDeletePaciente: (state) => {
-      if (state.pacienteActivo) {
+    onDeletePaciente: (state, { payload }) => {
+      console.log(payload.length);
+      if (state.pacienteActivo && payload.length === 0) {
         state.pacientesList = state.pacientesList.filter(
           (paciente) => paciente.id_paciente !== state.pacienteActivo.id
         );
         state.pacienteActivo = null;
+      } else {
+        state.pacientesList = state.pacientesList.filter(
+          (paciente) => !payload.includes(paciente.id_paciente)
+        );
+        state.pacienteActivo = null;
       }
     },
+    // onDeletePaciente: (state) => {
+    //   if (state.pacienteActivo) {
+    //     state.pacientesList = state.pacientesList.filter(
+    //       (paciente) => paciente.id_paciente !== state.pacienteActivo.id
+    //     );
+    //     state.pacienteActivo = null;
+    //   }
+    // },
 
     changeRegisterError: (state, { payload }) => {
       state.errorRegMessage = payload;

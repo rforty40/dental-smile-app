@@ -104,6 +104,7 @@ export const formatearDataPacToTable = (dataFromBD) => {
         data.parRes_paciente,
         data.telRes_paciente
       ),
+      fecha_reg: data.create_paciente,
     };
   });
 };

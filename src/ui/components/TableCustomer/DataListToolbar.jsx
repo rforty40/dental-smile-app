@@ -48,6 +48,8 @@ const StyledSearch = styled(OutlinedInput)(({ theme }) => ({
 
 export const DataListToolbar = ({
   numSelected,
+  selected,
+  setSelected,
   filterName,
   onFilterName,
   setFilterName,
@@ -61,12 +63,7 @@ export const DataListToolbar = ({
   txt_button,
   funcionBtnTbl,
 }) => {
-  const { changeTitleFormReg } = usePacienteStore();
-  const { changeModalConfDel } = useUiStore();
-
-  const deleteVarious = () => {
-    changeModalConfDel(true);
-  };
+  const { changeTitleFormReg, startDeletingPaciente } = usePacienteStore();
 
   const handleAdd = () => {
     switch (typeDatos) {
@@ -83,6 +80,24 @@ export const DataListToolbar = ({
   const [showBusqText, setShowBusqText] = useState(false);
 
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
+
+  const handleOpenDialogDel = () => {
+    setOpenDialogDelete(true);
+  };
+
+  const deleteVarious = () => {
+    console.log("deleteVarious");
+    console.log(selected);
+    startDeletingPaciente(selected);
+    // for (const i of selected) {
+    //   setTimeout(() => {
+    //     console.log(i);
+    //     startDeletingPaciente(i);
+    //   }, 1500);
+    // }
+    setSelected([]);
+    console.log(selected);
+  };
 
   return (
     withToolbar && (
@@ -136,7 +151,7 @@ export const DataListToolbar = ({
                 {numSelected}{" "}
                 {numSelected > 1 ? "seleccionados" : "seleccionado"}
               </Typography>
-              <IconButton onClick={deleteVarious}>
+              <IconButton onClick={handleOpenDialogDel}>
                 <DeleteSharp
                   sx={{
                     color: bgHeaderColor === "primary.main" ? "white" : "black",
@@ -144,6 +159,7 @@ export const DataListToolbar = ({
                   fontSize="medium"
                 />
               </IconButton>
+
               <DeleteConfirm
                 message={
                   <>
@@ -153,6 +169,9 @@ export const DataListToolbar = ({
                       : ` el registro seleccionado?`}
                   </>
                 }
+                stateOpen={openDialogDelete}
+                setStateOpen={setOpenDialogDelete}
+                funcionDelete={deleteVarious}
               />
             </Box>
           ) : (

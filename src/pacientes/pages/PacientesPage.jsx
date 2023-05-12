@@ -16,6 +16,7 @@ const TABLE_HEAD = [
   { id: "telefono", label: "Teléfono", alignLeft: true },
   { id: "email", label: "Email", alignLeft: true },
   { id: "responsable", label: "Responsable", alignLeft: true },
+  { id: "fecha_reg", label: "Fecha", alignLeft: true },
 ];
 
 export const PacientesPage = () => {
@@ -37,11 +38,19 @@ export const PacientesPage = () => {
     startLoadPacientes();
   }, []);
 
+  console.log(pacientesList);
   const dataPacFormated = formatearDataPacToTable(pacientesList);
 
   //funcion abrir modal formulario
   const openModalPaciente = () => {
     changeModalFormReg(true);
+  };
+
+  //controlDialog
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+
+  const handleOpenDialogDel = () => {
+    setOpenDialogDelete(true);
   };
 
   //control alert
@@ -83,10 +92,14 @@ export const PacientesPage = () => {
           iconosEnFila={false}
           funcionBtnTbl={openModalPaciente}
           dataOmitida={8}
+          funcionBtnTblDelete={handleOpenDialogDel}
         />
 
         <FormModalPac />
+
         <DeleteConfirm
+          stateOpen={openDialogDelete}
+          setStateOpen={setOpenDialogDelete}
           message={
             <>
               ¿Está segura que desea eliminar el registro de

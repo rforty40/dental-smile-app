@@ -148,6 +148,7 @@ export const CustomTable = ({
   iconosEnFila = true,
   funcionBtnTbl = null,
   dataOmitida = 1, // por defecto solo el id
+  funcionBtnTblDelete,
 }) => {
   //
   //hooks
@@ -332,6 +333,8 @@ export const CustomTable = ({
 
         <DataListToolbar
           numSelected={selected.length}
+          selected={selected}
+          setSelected={setSelected}
           filterName={filterName}
           onFilterName={handleFilterByName}
           setFilterName={setFilterName}
@@ -568,6 +571,7 @@ export const CustomTable = ({
         handleCloseMenu={handleCloseMenu}
         funcionBtnTbl={funcionBtnTbl}
         typeDatos={typeDatos}
+        funcionBtnTblDelete={funcionBtnTblDelete}
       />
     </>
   );

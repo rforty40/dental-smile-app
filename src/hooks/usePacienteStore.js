@@ -106,11 +106,19 @@ export const usePacienteStore = () => {
     }
   };
 
-  const startDeletingPaciente = async () => {
+  const startDeletingPaciente = async (id_paciente = []) => {
+    console.log(id_paciente);
     try {
-      console.log(pacienteActivo.id);
-      await deletePaciente(pacienteActivo.id);
-      dispatch(onDeletePaciente());
+      if (id_paciente.length === 0) {
+        await deletePaciente(pacienteActivo.id);
+      } else {
+        for (const i of id_paciente) {
+          await deletePaciente(i);
+        }
+      }
+
+      dispatch(onDeletePaciente(id_paciente));
+      // console.log(pacienteActivo.id);
     } catch (error) {
       console.log(error);
     }

@@ -21,13 +21,18 @@ const Transition = forwardRef(function Transition(props, ref) {
   );
 });
 
-export const DeleteConfirm = ({ message, funcionDelete }) => {
+export const DeleteConfirm = ({
+  message,
+  funcionDelete,
+  stateOpen,
+  setStateOpen,
+}) => {
   //
 
-  const { isConfirmDeleteOpen, changeModalConfDel } = useUiStore();
+  // const { isConfirmDeleteOpen, changeModalConfDel } = useUiStore();
 
   const cerrarModalDelete = () => {
-    changeModalConfDel(false);
+    setStateOpen(false);
   };
   //
 
@@ -38,7 +43,7 @@ export const DeleteConfirm = ({ message, funcionDelete }) => {
   return (
     <Dialog
       maxWidth="sm"
-      open={isConfirmDeleteOpen}
+      open={stateOpen}
       onClose={cerrarModalDelete}
       TransitionComponent={Transition}
       fullWidth
