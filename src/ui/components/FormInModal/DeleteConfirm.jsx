@@ -21,7 +21,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   );
 });
 
-export const DeleteConfirm = ({ message }) => {
+export const DeleteConfirm = ({ message, funcionDelete }) => {
   //
 
   const { isConfirmDeleteOpen, changeModalConfDel } = useUiStore();
@@ -30,6 +30,11 @@ export const DeleteConfirm = ({ message }) => {
     changeModalConfDel(false);
   };
   //
+
+  const confirmedDelete = () => {
+    funcionDelete();
+    cerrarModalDelete();
+  };
   return (
     <Dialog
       maxWidth="sm"
@@ -84,6 +89,7 @@ export const DeleteConfirm = ({ message }) => {
           colort={"white"}
           txt_b={"Confirmar"}
           iconB={<GiConfirmed />}
+          onClick={confirmedDelete}
         />
       </DialogActions>
     </Dialog>

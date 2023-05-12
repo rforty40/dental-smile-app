@@ -69,6 +69,7 @@ function descendingComparator(a, b, orderBy) {
 }
 //funcion del ordenamiento de registro
 function getComparator(order, orderBy) {
+  // console.log(orderBy);
   return order === "desc"
     ? //estas funciones son las que se ejecutas en applySortFilter
       (a, b) => descendingComparator(a, b, orderBy)
@@ -78,10 +79,11 @@ function getComparator(order, orderBy) {
 //aplicar ordenamiento por filtro
 function applySortFilter(array, comparator, query, columnaABuscar) {
   const stabilizedThis = array.map((el, index) => [el, index]);
-
+  // console.log("columnaABuscar", columnaABuscar);
   //ordeamiento de los datos
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0]);
+
     if (order !== 0) return order;
     return a[1] - b[1];
   });
@@ -155,6 +157,7 @@ export const CustomTable = ({
   const { changeDataActiva } = useDataStore();
 
   const { changeDataPaciente } = usePacienteStore();
+
   //hook abrir el popOver eliminar y editar
   const [open, setOpen] = useState(null);
 
@@ -167,7 +170,7 @@ export const CustomTable = ({
   //hook captura de  la columna seleccionada debe ser una columna con un dato unico
   const [orderBy, setOrderBy] = useState(columnaABuscarPri);
 
-  //hook arreglo de nombres de cada fila selecionada con el checkbox
+  //hook arreglo de id´s de cada fila selecionada con el checkbox
   const [selected, setSelected] = useState([]);
 
   //hook text del cuadro de busqueda
@@ -206,19 +209,7 @@ export const CustomTable = ({
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
-  };
-
-  //handle seleccionar todo
-  const handleSelectAllClick = (event) => {
-    //el checked esta seleccionado
-    if (event.target.checked) {
-      const newSelecteds = DATALIST.map((n) => n["id"]);
-      //seleccionamos todos los nombres
-      setSelected(newSelecteds);
-      return;
-    }
-    //se limpia la lista de registros seleccionados si no esta seleccionado el checkbox
-    setSelected([]);
+    setPage(0);
   };
 
   //handler del checkbox de la fila
@@ -292,6 +283,22 @@ export const CustomTable = ({
     filterName,
     orderBy
   );
+
+  //handle seleccionar todo
+  const handleSelectAllClick = (event) => {
+    //el checked esta seleccionado
+    if (event.target.checked) {
+      // const newSelecteds = DATALIST.map((n) => n["id"]);
+      const newSelecteds = filteredUsers.map((n) => n["id"]);
+
+      //seleccionamos todos los id
+      setSelected(newSelecteds);
+
+      return;
+    }
+    //se limpia la lista de registros seleccionados si no esta seleccionado el checkbox
+    setSelected([]);
+  };
 
   //filas vacias
   const emptyRows =
@@ -397,6 +404,7 @@ export const CustomTable = ({
                           keys.includes("paciente")
                         ) {
                           changeDataPaciente(row);
+
                           localStorage.setItem(
                             "pacienteActivo",
                             JSON.stringify(row)
@@ -443,7 +451,6 @@ export const CustomTable = ({
                                 <Typography
                                   sx={{
                                     cursor: "pointer",
-
                                     color: "secondary.main",
                                     fontSize: "15px",
                                     fontWeight: "bold",

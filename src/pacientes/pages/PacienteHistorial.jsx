@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Card, Tab, Tabs, Typography } from "@mui/material";
 import { CustomTable, DeleteConfirm } from "../../ui";
-import { dataPacientes } from "./dataPacientes";
 import { usePacienteStore, useUiStore } from "../../hooks";
 
 import { FormModalPac } from "../components";

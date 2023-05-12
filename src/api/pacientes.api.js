@@ -6,5 +6,8 @@ export const getAllPaciente = async () =>
 export const createPaciente = async (paciente) =>
   await dentalSmileApi.post("/createPaciente", paciente);
 
-export const updateTaskRequest = async (id, newFields) =>
-  await axios.put(`http://localhost:4000/tasks/${id}`, newFields);
+export const updatePaciente = async (id_pac, paciente) =>
+  await dentalSmileApi.put(`/updatePaciente/${id_pac}`, paciente);
+
+export const deletePaciente = async (id_pac) =>
+  await dentalSmileApi.delete(`/deletePaciente/${id_pac}`);

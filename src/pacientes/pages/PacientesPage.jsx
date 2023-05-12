@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { CustomTable, DeleteConfirm, Topbar } from "../../ui";
-import { dataPacientes } from "./dataPacientes";
+import { CustomAlert, CustomTable, DeleteConfirm, Topbar } from "../../ui";
+
 import { usePacienteStore, useUiStore } from "../../hooks";
 
 import { FormModalPac } from "../components";
+import { formatearDataPacToTable } from "../helpers";
+import { CheckCircleOutline, DeleteForever } from "@mui/icons-material";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -15,35 +17,16 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignLeft: true },
   { id: "responsable", label: "Responsable", alignLeft: true },
 ];
-const formatearNombre = (pri, seg) => {
-  let nombres = pri;
-  if (seg !== null) {
-    nombres += " " + seg;
-  }
-  return nombres;
-};
-
-const formatearRes = (nom, parent, telres) => {
-  let responsable = "";
-
-  if (nom !== null) {
-    responsable += nom;
-  }
-  if (parent !== null) {
-    responsable += " - " + parent;
-  }
-  if (telres !== null) {
-    responsable += " - " + telres;
-  }
-
-  return responsable;
-};
 
 export const PacientesPage = () => {
   const { changePage } = useUiStore();
-  const { pacientesList, pacienteActivo, changeModalFormReg, loadPacientes } =
-    usePacienteStore();
-  // const { } = usePacienteStore();
+  const {
+    pacientesList,
+    pacienteActivo,
+    changeModalFormReg,
+    startLoadPacientes,
+    startDeletingPaciente,
+  } = usePacienteStore();
 
   useEffect(() => {
     console.log("PacientePage");
@@ -51,44 +34,33 @@ export const PacientesPage = () => {
   }, []);
 
   useEffect(() => {
-    loadPacientes();
+    startLoadPacientes();
   }, []);
 
-  const dataPacFormated = pacientesList.map((data) => {
-    return {
-      id: data.id_paciente,
-      erNombre: data.priNom_paciente,
-      doNombre: data.segNom_paciente,
-      erApellido: data.priApe_paciente,
-      doApellido: data.segApe_paciente,
-      nomRes: data.nomRes_paciente,
-      parRes: data.parRes_paciente,
-      telRes: data.telRes_paciente,
-      //
-
-      nombre:
-        `${formatearNombre(data.priNom_paciente, data.segNom_paciente)}` +
-        ` ${formatearNombre(data.priApe_paciente, data.segApe_paciente)}`,
-
-      cedula: data.ced_paciente,
-      edad: data.eda_paciente,
-      sexo: data.sex_paciente,
-      telefono: data.tel_paciente,
-      email: data.ema_paciente,
-      responsable: formatearRes(
-        data.nomRes_paciente,
-        data.parRes_paciente,
-        data.telRes_paciente
-      ),
-    };
-  });
+  const dataPacFormated = formatearDataPacToTable(pacientesList);
 
   //funcion abrir modal formulario
   const openModalPaciente = () => {
     changeModalFormReg(true);
   };
 
+  //control alert
+  const [stateSnackbar, setStateSnackbar] = useState(false);
+  const handleCloseSnackbar = () => {
+    setStateSnackbar(false);
+  };
+  const handleOpenSnackbar = () => {
+    setStateSnackbar(true);
+  };
+
   //
+
+  //funcion eliminar registro pacient
+  const deleteRegisterPaciente = (/*event*/) => {
+    startDeletingPaciente();
+    handleOpenSnackbar();
+  };
+
   return (
     <>
       <Topbar />
@@ -120,11 +92,23 @@ export const PacientesPage = () => {
               ¿Está segura que desea eliminar el registro de
               <span style={{ color: "#9c27b0" }}>
                 {" "}
-                {pacienteActivo.nombre} - {pacienteActivo.cedula}
+                {pacienteActivo !== null &&
+                  `${pacienteActivo.nombre} - ${pacienteActivo.cedula}`}
               </span>
               ?
             </>
           }
+          funcionDelete={deleteRegisterPaciente}
+        />
+
+        <CustomAlert
+          stateSnackbar={stateSnackbar}
+          handleCloseSnackbar={handleCloseSnackbar}
+          title={"Completado"}
+          message={"El registro fue eliminado exitosamente"}
+          colorbg="blueSecondary.main"
+          colortxt="white"
+          iconAlert={<DeleteForever sx={{ color: "white" }} />}
         />
       </Box>
     </>

@@ -82,168 +82,183 @@ export const DataListToolbar = ({
 
   const [showBusqText, setShowBusqText] = useState(false);
 
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+
   return (
     withToolbar && (
-      <StyledRoot
-        sx={{
-          backgroundColor: bgHeaderColor,
+      <>
+        <StyledRoot
+          sx={{
+            backgroundColor: bgHeaderColor,
 
-          ...(numSelected > 0 && {
-            color: bgHeaderColor === "primary.main" ? "white" : "black",
-          }),
-        }}
-      >
-        {/** caso de filas seleccionadas */}
-
-        <Box
-          display="flex"
-          flexDirection="column"
-          justifyContent="space-between"
-        >
-          <Typography
-            className="text-shadow"
-            variant="h5"
-            sx={{
+            ...(numSelected > 0 && {
               color: bgHeaderColor === "primary.main" ? "white" : "black",
-            }}
-          >
-            {txt_header}
-          </Typography>
-          <Typography
-            visibility={!showBusqText && "hidden"}
-            variant="p"
-            fontSize="12px"
-            sx={{
-              color:
-                bgHeaderColor === "primary.main" ? "colorTable.main" : "black",
-            }}
-          >
-            Buscando por
-            <span style={{ textTransform: "capitalize" }}>{" " + orderBy}</span>
-          </Typography>
-        </Box>
+            }),
+          }}
+        >
+          {/** caso de filas seleccionadas */}
 
-        {numSelected > 0 ? (
-          <Box display="flex" gap="15px" alignItems="center">
-            <Typography component="div" variant="subtitle1">
-              {numSelected} {numSelected > 1 ? "seleccionados" : "seleccionado"}
+          <Box
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
+          >
+            <Typography
+              className="text-shadow"
+              variant="h5"
+              sx={{
+                color: bgHeaderColor === "primary.main" ? "white" : "black",
+              }}
+            >
+              {txt_header}
             </Typography>
-            <IconButton onClick={deleteVarious}>
-              <DeleteSharp
-                sx={{
-                  color: bgHeaderColor === "primary.main" ? "white" : "black",
-                }}
-                fontSize="medium"
-              />
-            </IconButton>
-            <DeleteConfirm
-              message={
-                <>
-                  ¿Está segura que desea eliminar
-                  {numSelected > 1
-                    ? ` los ${numSelected} registros seleccionados?`
-                    : ` el registro seleccionado?`}
-                </>
-              }
-            />
+            <Typography
+              visibility={!showBusqText && "hidden"}
+              variant="p"
+              fontSize="12px"
+              sx={{
+                color:
+                  bgHeaderColor === "primary.main"
+                    ? "colorTable.main"
+                    : "black",
+              }}
+            >
+              Buscando por
+              <span style={{ textTransform: "capitalize" }}>
+                {" " + orderBy}
+              </span>
+            </Typography>
           </Box>
-        ) : (
-          <>
-            <Box display="flex" gap="30px" alignItems="center">
-              {withBoxSearch && (
-                <Box display="flex" flexDirection="column" gap="3px">
-                  <StyledSearch
-                    sx={{
-                      backgroundColor:
-                        bgHeaderColor === "primary.main"
-                          ? "colorTable.main"
-                          : "primary.main",
-                      ":hover": {
-                        width: 380,
-                        backgroundColor:
-                          bgHeaderColor === "primary.main"
-                            ? "white"
-                            : "secondary.main",
-                        boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                      },
-                      input: {
-                        color:
-                          bgHeaderColor === "primary.main" ? "black" : "white",
-                        "&::placeholder": { opacity: 1 },
-                      },
-                    }}
-                    onClick={() => {
-                      setShowBusqText(true);
-                    }}
-                    onBlur={() => {
-                      setShowBusqText(false);
-                    }}
-                    value={filterName}
-                    onChange={onFilterName}
-                    placeholder={searchWhat}
-                    endAdornment={
-                      <IconButton
-                        sx={{
-                          visibility:
-                            filterName.length > 0 ? "visible" : "hidden",
-                        }}
-                        onClick={() => setFilterName("")}
-                      >
-                        <Close
-                          sx={{
-                            color:
-                              bgHeaderColor === "primary.main"
-                                ? "black"
-                                : "white",
-                          }}
-                        />
-                      </IconButton>
-                    }
-                  />
-                </Box>
-              )}
 
-              {typeDatos && typeDatos === "pacientes" && (
-                <ButtonCustom
-                  altura={"40px"}
-                  colorf={
-                    bgHeaderColor === "primary.main" ? "white" : "primary.main"
-                  }
-                  colorh={
-                    bgHeaderColor === "primary.main"
-                      ? "btnHoverInForm.main"
-                      : "secondary.main"
-                  }
-                  colort={bgHeaderColor === "primary.main" ? "black" : "white"}
-                  txt_b={txt_button}
-                  colorth="white"
-                  fontW="bold"
-                  iconB={<PersonAddAlt />}
-                  onClick={handleAdd}
-                />
-              )}
-
-              {typeDatos && typeDatos === "citas" && (
-                <PostAdd
+          {numSelected > 0 ? (
+            <Box display="flex" gap="15px" alignItems="center">
+              <Typography component="div" variant="subtitle1">
+                {numSelected}{" "}
+                {numSelected > 1 ? "seleccionados" : "seleccionado"}
+              </Typography>
+              <IconButton onClick={deleteVarious}>
+                <DeleteSharp
                   sx={{
                     color: bgHeaderColor === "primary.main" ? "white" : "black",
                   }}
-                  fontSize="large"
+                  fontSize="medium"
                 />
-              )}
+              </IconButton>
+              <DeleteConfirm
+                message={
+                  <>
+                    ¿Está segura que desea eliminar
+                    {numSelected > 1
+                      ? ` los ${numSelected} registros seleccionados?`
+                      : ` el registro seleccionado?`}
+                  </>
+                }
+              />
             </Box>
-          </>
-        )}
+          ) : (
+            <>
+              <Box display="flex" gap="30px" alignItems="center">
+                {withBoxSearch && (
+                  <Box display="flex" flexDirection="column" gap="3px">
+                    <StyledSearch
+                      sx={{
+                        backgroundColor:
+                          bgHeaderColor === "primary.main"
+                            ? "colorTable.main"
+                            : "primary.main",
+                        ":hover": {
+                          width: 380,
+                          backgroundColor:
+                            bgHeaderColor === "primary.main"
+                              ? "white"
+                              : "secondary.main",
+                          boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
+                        },
+                        input: {
+                          color:
+                            bgHeaderColor === "primary.main"
+                              ? "black"
+                              : "white",
+                          "&::placeholder": { opacity: 1 },
+                        },
+                      }}
+                      onClick={() => {
+                        setShowBusqText(true);
+                      }}
+                      onBlur={() => {
+                        setShowBusqText(false);
+                      }}
+                      value={filterName}
+                      onChange={onFilterName}
+                      placeholder={searchWhat}
+                      endAdornment={
+                        <IconButton
+                          sx={{
+                            visibility:
+                              filterName.length > 0 ? "visible" : "hidden",
+                          }}
+                          onClick={() => setFilterName("")}
+                        >
+                          <Close
+                            sx={{
+                              color:
+                                bgHeaderColor === "primary.main"
+                                  ? "black"
+                                  : "white",
+                            }}
+                          />
+                        </IconButton>
+                      }
+                    />
+                  </Box>
+                )}
 
-        {/* {numSelected > 0 && (
+                {typeDatos && typeDatos === "pacientes" && (
+                  <ButtonCustom
+                    altura={"40px"}
+                    colorf={
+                      bgHeaderColor === "primary.main"
+                        ? "white"
+                        : "primary.main"
+                    }
+                    colorh={
+                      bgHeaderColor === "primary.main"
+                        ? "btnHoverInForm.main"
+                        : "secondary.main"
+                    }
+                    colort={
+                      bgHeaderColor === "primary.main" ? "black" : "white"
+                    }
+                    txt_b={txt_button}
+                    colorth="white"
+                    fontW="bold"
+                    iconB={<PersonAddAlt />}
+                    onClick={handleAdd}
+                  />
+                )}
+
+                {typeDatos && typeDatos === "citas" && (
+                  <PostAdd
+                    sx={{
+                      color:
+                        bgHeaderColor === "primary.main" ? "white" : "black",
+                    }}
+                    fontSize="large"
+                  />
+                )}
+              </Box>
+            </>
+          )}
+
+          {/* {numSelected > 0 && (
           <Tooltip title="Delete">
             <IconButton>
               <DeleteSharp />
             </IconButton>
           </Tooltip>
         )} */}
-      </StyledRoot>
-
+        </StyledRoot>
+      </>
       // </TableHead>
     )
   );

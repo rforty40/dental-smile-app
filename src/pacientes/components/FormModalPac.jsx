@@ -41,23 +41,21 @@ import {
   RadioGroupCustom,
 } from "../../ui";
 
-import { useDataStore, useForm, usePacienteStore } from "../../hooks";
+import { useForm, usePacienteStore } from "../../hooks";
 
+import { formValidations } from "./validationsFormPac";
+
+//
+//
+//
+//
+//
+//
 const Transition = forwardRef(function Transition(props, ref) {
   return (
     <Slide direction="left" mountOnEnter unmountOnExit ref={ref} {...props} />
   );
 });
-
-import { formValidations } from "./validationsFormPac";
-import { formatearDataPacToBD } from "../../helpers";
-
-//
-//
-//
-//
-//
-//
 
 export const FormModalPac = () => {
   //
@@ -66,44 +64,49 @@ export const FormModalPac = () => {
     isFormPacOpen,
     changeModalFormReg,
     titleForm,
-    savePaciente,
-    registerError,
+    startSavingPaciente,
+    errorRegMessage,
+    pacienteActivo,
   } = usePacienteStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
-
-  const { dataActiva } = useDataStore();
 
   const [menorEdad, setMenorEdad] = useState(true);
 
   const [msgAlert, setMsgAlert] = useState("");
 
+  const [txtButton, setTxtButton] = useState("");
+
   const formDataPac = useMemo(() => {
     if (titleForm.toUpperCase().includes("EDITAR")) {
       setMenorEdad(false);
-      setMsgAlert(`Se actualizaron los datos de ${dataActiva.nombre} 🙂.`);
-
+      setMsgAlert(`Se actualizaron los datos de ${pacienteActivo.nombre} 🙂.`);
+      setTxtButton("Actualizar");
+      console.log(pacienteActivo);
       return {
         dataForm: {
-          cedula: dataActiva.cedula,
-          edad: dataActiva.edad,
-          sexo: dataActiva.sexo,
-          erNombre: dataActiva.erNombre,
-          doNombre: !dataActiva.doNombre ? "" : dataActiva.doNombre,
-          erApellido: dataActiva.erApellido,
-          doApellido: !dataActiva.doApellido ? "" : dataActiva.doApellido,
-          telefono: !dataActiva.telefono ? "" : dataActiva.telefono,
-          email: !dataActiva.email ? "" : dataActiva.email,
-          nomRes: !dataActiva.nomRes ? "" : dataActiva.nomRes,
-          parRes: !dataActiva.parRes ? "" : dataActiva.parRes,
-          telRes: !dataActiva.telRes ? "" : dataActiva.telRes,
+          id: pacienteActivo.id,
+          cedula: pacienteActivo.cedula,
+          edad: pacienteActivo.edad,
+          sexo: pacienteActivo.sexo,
+          erNombre: pacienteActivo.erNombre,
+          doNombre: !pacienteActivo.doNombre ? "" : pacienteActivo.doNombre,
+          erApellido: pacienteActivo.erApellido,
+          doApellido: !pacienteActivo.doApellido
+            ? ""
+            : pacienteActivo.doApellido,
+          telefono: !pacienteActivo.telefono ? "" : pacienteActivo.telefono,
+          email: !pacienteActivo.email ? "" : pacienteActivo.email,
+          nomRes: !pacienteActivo.nomRes ? "" : pacienteActivo.nomRes,
+          parRes: !pacienteActivo.parRes ? "" : pacienteActivo.parRes,
+          telRes: !pacienteActivo.telRes ? "" : pacienteActivo.telRes,
         },
         formValidations,
       };
     } else {
       setMenorEdad(true);
-      setMsgAlert("Paciente registrado con éxito");
-
+      setMsgAlert("Paciente registrado con éxito 🙂.");
+      setTxtButton("Registrar");
       return {
         dataForm: {
           cedula: "",
@@ -122,8 +125,9 @@ export const FormModalPac = () => {
         formValidations,
       };
     }
-  }, [titleForm, dataActiva]);
+  }, [titleForm, pacienteActivo]);
 
+  //
   const { formState, formValidation, onInputChange, isFormValid } = useForm(
     formDataPac.dataForm,
     formDataPac.formValidations
@@ -138,7 +142,7 @@ export const FormModalPac = () => {
   const [hookRadio, setHookRadio] = useState("");
   useEffect(() => {
     setHookRadio(formDataPac.dataForm.sexo);
-  }, [titleForm, dataActiva]);
+  }, [titleForm, pacienteActivo]);
 
   //control alert
   const [stateSnackbar, setStateSnackbar] = useState(false);
@@ -158,21 +162,17 @@ export const FormModalPac = () => {
   };
 
   //control envio del formulario
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
-
     if (!isFormValid) return;
-
     if (hookRadio === "") return;
     formState.sexo = hookRadio;
-    savePaciente(formState);
+    startSavingPaciente(formState);
+  };
 
-    console.log(registerError);
-    if (registerError) {
-      handleOpenSnackbarError();
-    } else {
-      console.log("Envio mi data", formState);
+  useEffect(() => {
+    if (errorRegMessage.msg === "Sin errores" && formSubmitted) {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
@@ -193,7 +193,12 @@ export const FormModalPac = () => {
       };
       setHookRadio("");
     }
-  };
+
+    if (errorRegMessage.msg === "Hay errores" && formSubmitted) {
+      handleOpenSnackbarError();
+      setFormSubmitted(false);
+    }
+  }, [errorRegMessage]);
 
   //
   return (
@@ -607,7 +612,7 @@ export const FormModalPac = () => {
                   colorf="primary.main"
                   colorh="btnHoverInForm.main"
                   colort="white"
-                  txt_b="Registrar"
+                  txt_b={txtButton}
                   iconB={<SaveOutlined />}
                 />
               </Grid>
@@ -621,7 +626,7 @@ export const FormModalPac = () => {
         handleCloseSnackbar={handleCloseSnackbar}
         title={"Completado"}
         message={msgAlert}
-        colorbg="btnHoverInForm.main"
+        colorbg="blueSecondary.main"
         colortxt="white"
         iconAlert={<CheckCircleOutline sx={{ color: "white" }} />}
       />
@@ -629,10 +634,8 @@ export const FormModalPac = () => {
         <CustomAlert
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
-          title={"Tarea no completada"}
-          message={
-            "Hubo un problema con el registro, contactese con el administrador"
-          }
+          title={"Registro no completado"}
+          message={errorRegMessage.error}
           colorbg="error.main"
           colortxt="white"
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}

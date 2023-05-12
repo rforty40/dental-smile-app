@@ -3,12 +3,22 @@ import {
   changeFormPacOpen,
   changeRegisterError,
   changeTitleForm,
+  clearErrorMessage,
+  onDeletePaciente,
   onLoadPacActivo,
   onLoadPacientesList,
   onSavePaciente,
+  onUpdatePaciente,
 } from "../store";
-import { getAllPaciente, createPaciente } from "../api/pacientes.api";
-import { formatearDataPacToBD } from "../helpers";
+import {
+  getAllPaciente,
+  createPaciente,
+  updatePaciente,
+  deletePaciente,
+} from "../api/pacientes.api";
+
+import Swal from "sweetalert2";
+import { comprobarError, formatearDataPacToBD } from "../pacientes/helpers";
 
 //
 //
@@ -23,7 +33,7 @@ export const usePacienteStore = () => {
     isFormPacOpen,
     titleForm,
     pacienteActivo,
-    registerError,
+    errorRegMessage,
   } = useSelector((state) => state.pacientes);
   // const { dataActiva } = useSelector((state) => state.dataGlobal);
 
@@ -46,7 +56,7 @@ export const usePacienteStore = () => {
     dispatch(onLoadPacActivo(dataPac));
   };
 
-  const loadPacientes = async () => {
+  const startLoadPacientes = async () => {
     try {
       // const response = await getAllPaciente();
       // const { data } = response;
@@ -59,30 +69,67 @@ export const usePacienteStore = () => {
     // setTasks(response.data);
   };
 
-  const savePaciente = async (dataPaciente) => {
+  const startSavingPaciente = async (dataPaciente) => {
+    console.log(dataPaciente);
+
+    dispatch(clearErrorMessage());
+
     try {
-      const { data } = await createPaciente(formatearDataPacToBD(dataPaciente));
-      dispatch(onSavePaciente(data));
-      dispatch(changeRegisterError(false));
+      if (dataPaciente.id) {
+        //actualizando
+        const { data } = await updatePaciente(
+          dataPaciente.id,
+          formatearDataPacToBD(dataPaciente)
+        );
+
+        dispatch(onUpdatePaciente(data));
+      } else {
+        //registrando
+        const { data } = await createPaciente(
+          formatearDataPacToBD(dataPaciente)
+        );
+        dispatch(onSavePaciente(data));
+      }
+
+      dispatch(changeRegisterError({ msg: "Sin errores", error: "" }));
+
       //
     } catch (error) {
-      console.log("Error registrando paciente", error);
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(
+        changeRegisterError({
+          msg: "Hay errores",
+          error: comprobarError(error.response.data.message),
+        })
+      );
     }
   };
+
+  const startDeletingPaciente = async () => {
+    try {
+      console.log(pacienteActivo.id);
+      await deletePaciente(pacienteActivo.id);
+      dispatch(onDeletePaciente());
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     pacientesList,
     isFormPacOpen,
     titleForm,
     pacienteActivo,
-    registerError,
+    errorRegMessage,
 
     //* Métodos
     changeModalFormReg,
     changeTitleFormReg,
     changeDataPaciente,
-    loadPacientes,
-    savePaciente,
-    // openModalFormReg,
+    startLoadPacientes,
+    startSavingPaciente,
+    startDeletingPaciente,
   };
 };

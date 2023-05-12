@@ -30,6 +30,7 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
   const onInputChange = ({ target }) => {
     const { name, value } = target;
     //se reemplaza la propiedad que llama el evento en su onChange
+
     setFormState({
       ...formState,
       [name]: value,
