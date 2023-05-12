@@ -137,18 +137,21 @@ function applySortFilter(array, comparator, query, columnaABuscar) {
 export const CustomTable = ({
   TABLE_HEAD,
   DATALIST,
+  dataOmitida = 1, // por defecto solo el id
+  iconosEnFila = true,
   columnaABuscarPri,
+  openModalEdit,
+  funcionBtnTblDelete,
+
+  /*DataListToolbar */
+  withToolbar = true,
+  withBoxSearch = true,
+  withButton = true,
+  btnToolbarTable,
   searchWhat,
   txt_header,
   bgHeaderColor,
-  withToolbar,
-  txt_button,
-  withBoxSearch,
-  typeDatos,
-  iconosEnFila = true,
-  funcionBtnTbl = null,
-  dataOmitida = 1, // por defecto solo el id
-  funcionBtnTblDelete,
+  funcionDeleteVarious,
 }) => {
   //
   //hooks
@@ -339,14 +342,15 @@ export const CustomTable = ({
           onFilterName={handleFilterByName}
           setFilterName={setFilterName}
           orderBy={orderBy}
-          bgHeaderColor={bgHeaderColor}
-          searchWhat={searchWhat}
-          txt_header={txt_header}
+          /* from PacientesPage */
           withToolbar={withToolbar}
           withBoxSearch={withBoxSearch}
-          typeDatos={typeDatos}
-          txt_button={txt_button}
-          funcionBtnTbl={funcionBtnTbl}
+          withButton={withButton}
+          BtnToolbarTable={btnToolbarTable}
+          searchWhat={searchWhat}
+          txt_header={txt_header}
+          bgHeaderColor={bgHeaderColor}
+          funcionDeleteVarious={funcionDeleteVarious}
         />
 
         <TableContainer sx={{ overflowX: "initial" }}>
@@ -357,10 +361,9 @@ export const CustomTable = ({
               order={order}
               orderBy={orderBy}
               headLabel={TABLE_HEAD}
-              rowCount={DATALIST.length}
-              numSelected={selected.length}
               onRequestSort={handleRequestSort}
               onSelectAllClick={handleSelectAllClick}
+              /* from PacientePage */
               withToolbar={withToolbar}
             />
 
@@ -393,12 +396,15 @@ export const CustomTable = ({
                         "&.Mui-selected": {
                           backgroundColor: "#E0DAEB !important",
                         },
+
+                        // ":hover": {
+                        //   backgroundColor: "orange !important",
+                        // },
                       }}
                       key={row[keys[0]]}
                       tabIndex={-1}
                       role="checkbox"
                       selected={selectedUser}
-                      // onClick={loadDataFromRow(row)}
                       onClick={() => {
                         changeDataActiva(row);
 
@@ -486,13 +492,29 @@ export const CustomTable = ({
                       })}
 
                       {iconosEnFila ? (
-                        <TableCell align="right">
+                        <TableCell
+                          sx={{
+                            border: "3px solid",
+                            borderColor: "colorTable.main",
+                          }}
+                          align="right"
+                        >
                           <Box display="flex" flexDirection="row">
-                            <IconButton sx={{ color: "primary.main" }}>
+                            <IconButton
+                              sx={{ color: "btnHoverInForm.main" }}
+                              onClick={() => {
+                                openModalEdit();
+                              }}
+                            >
                               <Edit />
                             </IconButton>
 
-                            <IconButton sx={{ color: "primary.main" }}>
+                            <IconButton
+                              sx={{ color: "error.main" }}
+                              onClick={() => {
+                                funcionBtnTblDelete();
+                              }}
+                            >
                               <Delete />
                             </IconButton>
                           </Box>
@@ -569,8 +591,8 @@ export const CustomTable = ({
         stateOpen={open}
         setStateOpen={setOpen}
         handleCloseMenu={handleCloseMenu}
-        funcionBtnTbl={funcionBtnTbl}
-        typeDatos={typeDatos}
+        /** from Paciente Page */
+        openModalEdit={openModalEdit}
         funcionBtnTblDelete={funcionBtnTblDelete}
       />
     </>

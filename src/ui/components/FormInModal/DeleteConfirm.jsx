@@ -29,8 +29,6 @@ export const DeleteConfirm = ({
 }) => {
   //
 
-  // const { isConfirmDeleteOpen, changeModalConfDel } = useUiStore();
-
   const cerrarModalDelete = () => {
     setStateOpen(false);
   };
@@ -49,7 +47,7 @@ export const DeleteConfirm = ({
       fullWidth
       keepMounted
       sx={{
-        backdropFilter: "blur(3px)",
+        backdropFilter: "blur(0.7px)",
       }}
     >
       <DialogTitle>

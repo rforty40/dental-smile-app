@@ -70,8 +70,6 @@ export const usePacienteStore = () => {
   };
 
   const startSavingPaciente = async (dataPaciente) => {
-    console.log(dataPaciente);
-
     dispatch(clearErrorMessage());
 
     try {

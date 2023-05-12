@@ -13,11 +13,10 @@ import {
 export const DataListHead = ({
   order,
   orderBy,
-  rowCount,
   headLabel,
-  numSelected,
   onRequestSort,
   onSelectAllClick,
+
   withToolbar,
 }) => {
   // funcion que retorna funcion
@@ -37,11 +36,7 @@ export const DataListHead = ({
             }}
             padding="checkbox"
           >
-            <Checkbox
-              // indeterminate={numSelected > 0 && numSelected < rowCount}
-              // checked={rowCount > 0 && numSelected === rowCount}
-              onChange={onSelectAllClick}
-            />
+            <Checkbox onChange={onSelectAllClick} />
           </TableCell>
         )}
         {/** headers */}

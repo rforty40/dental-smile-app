@@ -14,37 +14,19 @@ export const CustomPopover = ({
   stateOpen,
   setStateOpen,
   handleCloseMenu,
-  funcionBtnTbl,
+
   funcionBtnTblDelete,
-  typeDatos,
+  openModalEdit,
 }) => {
   //
-  const { changeModalConfDel } = useUiStore();
-
-  const { changeTitleFormReg } = usePacienteStore();
 
   const handleEdit = () => {
-    switch (typeDatos) {
-      case "pacientes":
-        changeTitleFormReg("Editar datos del paciente");
-        funcionBtnTbl();
-        break;
-
-      default:
-        break;
-    }
+    openModalEdit();
     setStateOpen(!stateOpen);
   };
 
   const handleDelete = () => {
-    switch (typeDatos) {
-      case "pacientes":
-        funcionBtnTblDelete();
-        break;
-
-      default:
-        break;
-    }
+    funcionBtnTblDelete();
     setStateOpen(!stateOpen);
   };
   //

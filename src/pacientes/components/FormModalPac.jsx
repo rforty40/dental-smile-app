@@ -82,7 +82,7 @@ export const FormModalPac = () => {
       setMenorEdad(false);
       setMsgAlert(`Se actualizaron los datos de ${pacienteActivo.nombre} 🙂.`);
       setTxtButton("Actualizar");
-      console.log(pacienteActivo);
+      // console.log(pacienteActivo);
       return {
         dataForm: {
           id: pacienteActivo.id,
@@ -209,9 +209,8 @@ export const FormModalPac = () => {
         onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted
-        // aria-describedby="alert-dialog-slide-description"
         sx={{
-          backdropFilter: "blur(3px)",
+          backdropFilter: "blur(0.7px)",
         }}
       >
         <DialogTitle

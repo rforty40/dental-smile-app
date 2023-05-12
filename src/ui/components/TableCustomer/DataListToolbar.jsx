@@ -54,29 +54,15 @@ export const DataListToolbar = ({
   onFilterName,
   setFilterName,
   orderBy,
-  bgHeaderColor = "primary.main",
-  searchWhat,
-  txt_header,
   withToolbar,
   withBoxSearch,
-  typeDatos,
-  txt_button,
-  funcionBtnTbl,
+  withButton,
+  BtnToolbarTable,
+  searchWhat,
+  txt_header,
+  bgHeaderColor = "primary.main",
+  funcionDeleteVarious,
 }) => {
-  const { changeTitleFormReg, startDeletingPaciente } = usePacienteStore();
-
-  const handleAdd = () => {
-    switch (typeDatos) {
-      case "pacientes":
-        changeTitleFormReg("Registro de paciente");
-        funcionBtnTbl();
-        break;
-
-      default:
-        break;
-    }
-  };
-
   const [showBusqText, setShowBusqText] = useState(false);
 
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
@@ -86,7 +72,7 @@ export const DataListToolbar = ({
   };
 
   const deleteVarious = () => {
-    startDeletingPaciente(selected);
+    funcionDeleteVarious(selected);
     setSelected([]);
   };
 
@@ -221,53 +207,14 @@ export const DataListToolbar = ({
                   </Box>
                 )}
 
-                {typeDatos && typeDatos === "pacientes" && (
-                  <ButtonCustom
-                    altura={"40px"}
-                    colorf={
-                      bgHeaderColor === "primary.main"
-                        ? "white"
-                        : "primary.main"
-                    }
-                    colorh={
-                      bgHeaderColor === "primary.main"
-                        ? "btnHoverInForm.main"
-                        : "secondary.main"
-                    }
-                    colort={
-                      bgHeaderColor === "primary.main" ? "black" : "white"
-                    }
-                    txt_b={txt_button}
-                    colorth="white"
-                    fontW="bold"
-                    iconB={<PersonAddAlt />}
-                    onClick={handleAdd}
-                  />
-                )}
-
-                {typeDatos && typeDatos === "citas" && (
-                  <PostAdd
-                    sx={{
-                      color:
-                        bgHeaderColor === "primary.main" ? "white" : "black",
-                    }}
-                    fontSize="large"
-                  />
+                {withButton && (
+                  <BtnToolbarTable bgHeaderColor={bgHeaderColor} />
                 )}
               </Box>
             </>
           )}
-
-          {/* {numSelected > 0 && (
-          <Tooltip title="Delete">
-            <IconButton>
-              <DeleteSharp />
-            </IconButton>
-          </Tooltip>
-        )} */}
         </StyledRoot>
       </>
-      // </TableHead>
     )
   );
 };

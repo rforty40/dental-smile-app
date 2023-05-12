@@ -1,12 +1,22 @@
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
-import { CustomAlert, CustomTable, DeleteConfirm, Topbar } from "../../ui";
+import {
+  ButtonCustom,
+  CustomAlert,
+  CustomTable,
+  DeleteConfirm,
+  Topbar,
+} from "../../ui";
 
 import { usePacienteStore, useUiStore } from "../../hooks";
 
 import { FormModalPac } from "../components";
 import { formatearDataPacToTable } from "../helpers";
-import { CheckCircleOutline, DeleteForever } from "@mui/icons-material";
+import {
+  CheckCircleOutline,
+  DeleteForever,
+  PersonAddAlt,
+} from "@mui/icons-material";
 import { format } from "date-fns";
 
 const TABLE_HEAD = [
@@ -17,7 +27,7 @@ const TABLE_HEAD = [
   { id: "telefono", label: "Teléfono", alignLeft: true },
   { id: "email", label: "Email", alignLeft: true },
   { id: "responsable", label: "Responsable", alignLeft: true },
-  { id: "fecha_reg", label: "Fecha", alignLeft: true },
+  { id: "fecha", label: "Fecha", alignLeft: true },
 ];
 
 export const PacientesPage = () => {
@@ -28,6 +38,7 @@ export const PacientesPage = () => {
     changeModalFormReg,
     startLoadPacientes,
     startDeletingPaciente,
+    changeTitleFormReg,
   } = usePacienteStore();
 
   useEffect(() => {
@@ -39,28 +50,18 @@ export const PacientesPage = () => {
     startLoadPacientes();
   }, []);
 
-  console.log(pacientesList);
-
-  if (pacientesList[0]) {
-    const pruebaFecha = pacientesList[0].create_paciente;
-    console.log("pruebaFecha", pruebaFecha);
-
-    let date = Date.parse(pruebaFecha);
-    console.log(date);
-
-    console.log(typeof date);
-    let jsDate = new Date(date);
-
-    console.log(jsDate);
-  }
-
   const dataPacFormated = formatearDataPacToTable(pacientesList);
 
-  //funcion abrir modal formulario
+  //funcion abrir modal registrar
   const openModalPaciente = () => {
+    changeTitleFormReg("Registro de paciente");
     changeModalFormReg(true);
   };
-
+  //funcion abrir modal editar
+  const openModalPacienteEdit = () => {
+    changeTitleFormReg("Editar datos del paciente");
+    changeModalFormReg(true);
+  };
   //controlDialog
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
@@ -79,10 +80,36 @@ export const PacientesPage = () => {
 
   //
 
-  //funcion eliminar registro pacient
-  const deleteRegisterPaciente = (/*event*/) => {
-    startDeletingPaciente();
+  const [msgAlertDel, setMsgAlertDel] = useState("");
+  //funcion eliminar registro paciente y eliminar varios registros
+  const deleteRegisterPaciente = (selected = []) => {
+    startDeletingPaciente(selected);
+    if (selected.length <= 1) {
+      setMsgAlertDel("El registro del paciente fue eliminado.");
+    } else {
+      setMsgAlertDel("Los registros fueron eliminados exitosamente.");
+    }
     handleOpenSnackbar();
+  };
+
+  const BtnToolbarTable = ({ bgHeaderColor }) => {
+    return (
+      <ButtonCustom
+        altura={"40px"}
+        colorf={bgHeaderColor === "primary.main" ? "white" : "primary.main"}
+        colorh={
+          bgHeaderColor === "primary.main"
+            ? "btnHoverInForm.main"
+            : "secondary.main"
+        }
+        colort={bgHeaderColor === "primary.main" ? "black" : "white"}
+        txt_b={"Registrar Paciente"}
+        colorth="white"
+        fontW="bold"
+        iconB={<PersonAddAlt />}
+        onClick={openModalPaciente}
+      />
+    );
   };
 
   return (
@@ -97,17 +124,19 @@ export const PacientesPage = () => {
         <CustomTable
           TABLE_HEAD={TABLE_HEAD}
           DATALIST={dataPacFormated}
-          columnaABuscarPri="fecha_reg"
+          withToolbar
+          withBoxSearch
+          withButton
+          iconosEnFila={false}
+          btnToolbarTable={BtnToolbarTable}
+          columnaABuscarPri="fecha"
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}
-          withToolbar={true}
-          withBoxSearch={true}
-          typeDatos={"pacientes"}
-          txt_button={"Registrar Paciente"}
-          iconosEnFila={false}
-          funcionBtnTbl={openModalPaciente}
+          // bgHeaderColor={""}
           dataOmitida={8}
+          openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
+          funcionDeleteVarious={deleteRegisterPaciente}
         />
 
         <FormModalPac />
@@ -133,7 +162,7 @@ export const PacientesPage = () => {
           stateSnackbar={stateSnackbar}
           handleCloseSnackbar={handleCloseSnackbar}
           title={"Completado"}
-          message={"El registro fue eliminado exitosamente"}
+          message={msgAlertDel}
           colorbg="blueSecondary.main"
           colortxt="white"
           iconAlert={<DeleteForever sx={{ color: "white" }} />}
