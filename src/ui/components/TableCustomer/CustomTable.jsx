@@ -166,7 +166,7 @@ export const CustomTable = ({
   const [page, setPage] = useState(0);
 
   //hook  orden de la columna asc or desc
-  const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("desc");
 
   //hook captura de  la columna seleccionada debe ser una columna con un dato unico
   const [orderBy, setOrderBy] = useState(columnaABuscarPri);

@@ -7,6 +7,7 @@ import { usePacienteStore, useUiStore } from "../../hooks";
 import { FormModalPac } from "../components";
 import { formatearDataPacToTable } from "../helpers";
 import { CheckCircleOutline, DeleteForever } from "@mui/icons-material";
+import { format } from "date-fns";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -39,6 +40,20 @@ export const PacientesPage = () => {
   }, []);
 
   console.log(pacientesList);
+
+  if (pacientesList[0]) {
+    const pruebaFecha = pacientesList[0].create_paciente;
+    console.log("pruebaFecha", pruebaFecha);
+
+    let date = Date.parse(pruebaFecha);
+    console.log(date);
+
+    console.log(typeof date);
+    let jsDate = new Date(date);
+
+    console.log(jsDate);
+  }
+
   const dataPacFormated = formatearDataPacToTable(pacientesList);
 
   //funcion abrir modal formulario
@@ -82,7 +97,7 @@ export const PacientesPage = () => {
         <CustomTable
           TABLE_HEAD={TABLE_HEAD}
           DATALIST={dataPacFormated}
-          columnaABuscarPri="nombre"
+          columnaABuscarPri="fecha_reg"
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}
           withToolbar={true}

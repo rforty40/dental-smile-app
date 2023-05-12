@@ -86,17 +86,8 @@ export const DataListToolbar = ({
   };
 
   const deleteVarious = () => {
-    console.log("deleteVarious");
-    console.log(selected);
     startDeletingPaciente(selected);
-    // for (const i of selected) {
-    //   setTimeout(() => {
-    //     console.log(i);
-    //     startDeletingPaciente(i);
-    //   }, 1500);
-    // }
     setSelected([]);
-    console.log(selected);
   };
 
   return (
@@ -111,8 +102,6 @@ export const DataListToolbar = ({
             }),
           }}
         >
-          {/** caso de filas seleccionadas */}
-
           <Box
             display="flex"
             flexDirection="column"
