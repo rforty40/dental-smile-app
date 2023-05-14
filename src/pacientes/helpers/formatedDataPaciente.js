@@ -1,5 +1,4 @@
 export const formatearDataPacToBD = (data) => {
-  console.log(typeof data.edad);
   return {
     // id_paciente: data.id,
     priNom_paciente: data.erNombre.trim(),
@@ -21,6 +20,7 @@ export const formatearDataPacToBD = (data) => {
 
 export const columnEquivalent = {
   priNom_paciente: "1er Nombre",
+  eda_paciente: "Edad",
   segNom_paciente: "2do Nombre",
   priApe_paciente: "1er Apellido",
   segApe_paciente: "2do Apellido",
@@ -88,6 +88,7 @@ export const formatearDataPacToTable = (dataFromBD) => {
       nomRes: data.nomRes_paciente,
       parRes: data.parRes_paciente,
       telRes: data.telRes_paciente,
+      fecha_upd: data.update_paciente,
       //
 
       nombre:
@@ -107,4 +108,22 @@ export const formatearDataPacToTable = (dataFromBD) => {
       fecha: data.create_paciente,
     };
   });
+};
+
+export const formatearPacActiveToForm = (pacActive) => {
+  return {
+    id: pacActive.id,
+    cedula: pacActive.cedula,
+    edad: pacActive.edad,
+    sexo: pacActive.sexo,
+    erNombre: pacActive.erNombre,
+    doNombre: !pacActive.doNombre ? "" : pacActive.doNombre,
+    erApellido: pacActive.erApellido,
+    doApellido: !pacActive.doApellido ? "" : pacActive.doApellido,
+    telefono: !pacActive.telefono ? "" : pacActive.telefono,
+    email: !pacActive.email ? "" : pacActive.email,
+    nomRes: !pacActive.nomRes ? "" : pacActive.nomRes,
+    parRes: !pacActive.parRes ? "" : pacActive.parRes,
+    telRes: !pacActive.telRes ? "" : pacActive.telRes,
+  };
 };

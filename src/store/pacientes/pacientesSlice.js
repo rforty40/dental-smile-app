@@ -9,7 +9,6 @@ export const pacientesSlice = createSlice({
     pacienteActivo: {},
     pacientesList: [],
     errorRegMessage: { msg: "", error: "" },
-    // errorDelMessage: "",
   },
 
   reducers: {
@@ -37,7 +36,7 @@ export const pacientesSlice = createSlice({
 
     onUpdatePaciente: (state, { payload }) => {
       state.pacientesList = state.pacientesList.map((paciente) => {
-        if (paciente.id_paciente === payload.id_paciente) {
+        if (paciente.id === payload.id) {
           return payload;
         }
 
@@ -46,27 +45,18 @@ export const pacientesSlice = createSlice({
     },
 
     onDeletePaciente: (state, { payload }) => {
-      console.log(payload.length);
       if (state.pacienteActivo && payload.length === 0) {
         state.pacientesList = state.pacientesList.filter(
-          (paciente) => paciente.id_paciente !== state.pacienteActivo.id
+          (paciente) => paciente.id !== state.pacienteActivo.id
         );
         state.pacienteActivo = null;
       } else {
         state.pacientesList = state.pacientesList.filter(
-          (paciente) => !payload.includes(paciente.id_paciente)
+          (paciente) => !payload.includes(paciente.id)
         );
         state.pacienteActivo = null;
       }
     },
-    // onDeletePaciente: (state) => {
-    //   if (state.pacienteActivo) {
-    //     state.pacientesList = state.pacientesList.filter(
-    //       (paciente) => paciente.id_paciente !== state.pacienteActivo.id
-    //     );
-    //     state.pacienteActivo = null;
-    //   }
-    // },
 
     changeRegisterError: (state, { payload }) => {
       state.errorRegMessage = payload;

@@ -139,7 +139,7 @@ export const CustomTable = ({
   DATALIST,
   dataOmitida = 1, // por defecto solo el id
   iconosEnFila = true,
-  columnaABuscarPri,
+  columnaABuscarPri = "",
   openModalEdit,
   funcionBtnTblDelete,
 
@@ -148,7 +148,7 @@ export const CustomTable = ({
   withBoxSearch = true,
   withButton = true,
   btnToolbarTable,
-  searchWhat,
+  searchWhat = "",
   txt_header,
   bgHeaderColor,
   funcionDeleteVarious,
@@ -414,11 +414,10 @@ export const CustomTable = ({
                         ) {
                           changeDataPaciente(row);
 
-                          localStorage.setItem(
-                            "pacienteActivo",
-                            JSON.stringify(row)
-                          );
-                          // console.log("tine nombre");
+                          // localStorage.setItem(
+                          //   "pacienteActivo",
+                          //   JSON.stringify(row)
+                          // );
                         }
                       }}
                     >
@@ -454,7 +453,7 @@ export const CustomTable = ({
                             >
                               <Link
                                 component={RouterLink}
-                                to="ronny/historial"
+                                to={`${row.id}/historial`}
                                 style={{ textDecoration: "none" }}
                               >
                                 <Typography

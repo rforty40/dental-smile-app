@@ -63,3 +63,6 @@ body,
 /*
 /* Tres valores: flex-grow | flex-shrink | flex-basis */
 /* flex: 2 2 10%; */
+.fondo_paciente{
+  opacity: 0.5;
+}

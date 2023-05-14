@@ -50,7 +50,7 @@ export const PacientesPage = () => {
     startLoadPacientes();
   }, []);
 
-  const dataPacFormated = formatearDataPacToTable(pacientesList);
+  // const dataPacFormated = formatearDataPacToTable(pacientesList);
 
   //funcion abrir modal registrar
   const openModalPaciente = () => {
@@ -77,8 +77,6 @@ export const PacientesPage = () => {
   const handleOpenSnackbar = () => {
     setStateSnackbar(true);
   };
-
-  //
 
   const [msgAlertDel, setMsgAlertDel] = useState("");
   //funcion eliminar registro paciente y eliminar varios registros
@@ -123,7 +121,7 @@ export const PacientesPage = () => {
       >
         <CustomTable
           TABLE_HEAD={TABLE_HEAD}
-          DATALIST={dataPacFormated}
+          DATALIST={pacientesList}
           withToolbar
           withBoxSearch
           withButton
@@ -133,7 +131,7 @@ export const PacientesPage = () => {
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}
           // bgHeaderColor={""}
-          dataOmitida={8}
+          dataOmitida={9}
           openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterPaciente}

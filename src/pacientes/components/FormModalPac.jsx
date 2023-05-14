@@ -1,4 +1,3 @@
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 import { forwardRef, useEffect, useMemo, useState } from "react";
@@ -10,25 +9,17 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { FaChild, FaIdCard, FaUserEdit } from "react-icons/fa";
 import { MdContactPhone, MdEmail, MdFamilyRestroom } from "react-icons/md";
 import { IoIosContacts } from "react-icons/io";
-import { AiTwotonePhone } from "react-icons/ai";
 
 import {
-  Alert,
-  AlertTitle,
-  Fade,
   Grid,
-  Grow,
   Icon,
   IconButton,
   Portal,
   Slide,
-  Snackbar,
   Typography,
 } from "@mui/material";
 import {
   CancelOutlined,
-  Check,
-  CheckBoxRounded,
   CheckCircleOutline,
   CloseOutlined,
   PhoneIphone,
@@ -44,6 +35,7 @@ import {
 import { useForm, usePacienteStore } from "../../hooks";
 
 import { formValidations } from "./validationsFormPac";
+import { formatearPacActiveToForm } from "../helpers";
 
 //
 //
@@ -59,7 +51,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export const FormModalPac = () => {
   //
-
+  console.log("ABIERTO EL MODAL PAC");
   const {
     isFormPacOpen,
     changeModalFormReg,
@@ -80,29 +72,26 @@ export const FormModalPac = () => {
   const formDataPac = useMemo(() => {
     if (titleForm.toUpperCase().includes("EDITAR")) {
       setMenorEdad(false);
-      setMsgAlert(`Se actualizaron los datos de ${pacienteActivo.nombre} 🙂.`);
+      setMsgAlert(
+        `Se actualizaron los datos de ${
+          pacienteActivo && pacienteActivo.nombre
+        } 🙂.`
+      );
       setTxtButton("Actualizar");
-      // console.log(pacienteActivo);
-      return {
-        dataForm: {
-          id: pacienteActivo.id,
-          cedula: pacienteActivo.cedula,
-          edad: pacienteActivo.edad,
-          sexo: pacienteActivo.sexo,
-          erNombre: pacienteActivo.erNombre,
-          doNombre: !pacienteActivo.doNombre ? "" : pacienteActivo.doNombre,
-          erApellido: pacienteActivo.erApellido,
-          doApellido: !pacienteActivo.doApellido
-            ? ""
-            : pacienteActivo.doApellido,
-          telefono: !pacienteActivo.telefono ? "" : pacienteActivo.telefono,
-          email: !pacienteActivo.email ? "" : pacienteActivo.email,
-          nomRes: !pacienteActivo.nomRes ? "" : pacienteActivo.nomRes,
-          parRes: !pacienteActivo.parRes ? "" : pacienteActivo.parRes,
-          telRes: !pacienteActivo.telRes ? "" : pacienteActivo.telRes,
-        },
-        formValidations,
-      };
+
+      if (pacienteActivo) {
+        return {
+          dataForm: {
+            ...formatearPacActiveToForm(pacienteActivo),
+          },
+          formValidations,
+        };
+      } else {
+        return {
+          dataForm: {},
+          formValidations: {},
+        };
+      }
     } else {
       setMenorEdad(true);
       setMsgAlert("Paciente registrado con éxito 🙂.");
@@ -177,20 +166,22 @@ export const FormModalPac = () => {
       handleOpenSnackbar();
       setFormSubmitted(false);
 
-      formDataPac.dataForm = {
-        cedula: "",
-        edad: "",
-        sexo: "",
-        erNombre: "",
-        doNombre: "",
-        erApellido: "",
-        doApellido: "",
-        telefono: "",
-        email: "",
-        nomRes: "",
-        parRes: "",
-        telRes: "",
-      };
+      if (!titleForm.toUpperCase().includes("EDITAR")) {
+        formDataPac.dataForm = {
+          cedula: "",
+          edad: "",
+          sexo: "",
+          erNombre: "",
+          doNombre: "",
+          erApellido: "",
+          doApellido: "",
+          telefono: "",
+          email: "",
+          nomRes: "",
+          parRes: "",
+          telRes: "",
+        };
+      }
       setHookRadio("");
     }
 

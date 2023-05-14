@@ -11,3 +11,6 @@ export const updatePaciente = async (id_pac, paciente) =>
 
 export const deletePaciente = async (id_pac) =>
   await dentalSmileApi.delete(`/deletePaciente/${id_pac}`);
+
+export const getPacienteById = async (id_pac) =>
+  await dentalSmileApi.get(`/paciente/${id_pac}`);

@@ -15,10 +15,15 @@ import {
   createPaciente,
   updatePaciente,
   deletePaciente,
+  getPacienteById,
 } from "../api/pacientes.api";
 
 import Swal from "sweetalert2";
-import { comprobarError, formatearDataPacToBD } from "../pacientes/helpers";
+import {
+  comprobarError,
+  formatearDataPacToBD,
+  formatearDataPacToTable,
+} from "../pacientes/helpers";
 
 //
 //
@@ -39,15 +44,8 @@ export const usePacienteStore = () => {
 
   const changeModalFormReg = (flag) => {
     dispatch(changeFormPacOpen(flag));
-    // if (flag) {
-    //   console.log("pilas con el " + flag);
-    //   dispatch(changeRegisterError(false));
-    // }
   };
 
-  // const openModalFormReg = () => {
-  //   dispatch(changeFormPacOpen(true));
-  // };
   const changeTitleFormReg = (title) => {
     dispatch(changeTitleForm(title));
   };
@@ -58,15 +56,23 @@ export const usePacienteStore = () => {
 
   const startLoadPacientes = async () => {
     try {
-      // const response = await getAllPaciente();
-      // const { data } = response;
       const { data } = await getAllPaciente();
-      dispatch(onLoadPacientesList(data));
+      dispatch(onLoadPacientesList(formatearDataPacToTable(data)));
     } catch (error) {
       console.log("Error cargando lista de pacientes");
       console.log(error);
     }
-    // setTasks(response.data);
+  };
+
+  const startLoadPaciente = async (id) => {
+    try {
+      const { data } = await getPacienteById(id);
+
+      dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
+    } catch (error) {
+      console.log("Error cargando datos del paciente por ID");
+      console.log(error);
+    }
   };
 
   const startSavingPaciente = async (dataPaciente) => {
@@ -80,13 +86,17 @@ export const usePacienteStore = () => {
           formatearDataPacToBD(dataPaciente)
         );
 
-        dispatch(onUpdatePaciente(data));
+        dispatch(onUpdatePaciente(formatearDataPacToTable([data])[0]));
+        dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
       } else {
         //registrando
         const { data } = await createPaciente(
           formatearDataPacToBD(dataPaciente)
         );
-        dispatch(onSavePaciente(data));
+
+        console.log(data);
+        dispatch(onSavePaciente(formatearDataPacToTable([data])[0]));
+        dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
       }
 
       dispatch(changeRegisterError({ msg: "Sin errores", error: "" }));
@@ -105,7 +115,6 @@ export const usePacienteStore = () => {
   };
 
   const startDeletingPaciente = async (id_paciente = []) => {
-    console.log(id_paciente);
     try {
       if (id_paciente.length === 0) {
         await deletePaciente(pacienteActivo.id);
@@ -114,7 +123,6 @@ export const usePacienteStore = () => {
           await deletePaciente(i);
         }
       }
-
       dispatch(onDeletePaciente(id_paciente));
       // console.log(pacienteActivo.id);
     } catch (error) {
@@ -135,6 +143,7 @@ export const usePacienteStore = () => {
     changeTitleFormReg,
     changeDataPaciente,
     startLoadPacientes,
+    startLoadPaciente,
     startSavingPaciente,
     startDeletingPaciente,
   };
