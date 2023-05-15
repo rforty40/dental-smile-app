@@ -49,7 +49,16 @@ export const AgendaPage = () => {
     };
   };
   return (
-    <>
+    <div
+      style={{
+        height: "100vh",
+        width: "100%",
+        backgroundImage: " url(../../../public/assets/img/calendar_fondo.jpg)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        objectPosition: "center",
+      }}
+    >
       <Topbar />
       <Box
         margin="20px"
@@ -101,6 +110,6 @@ export const AgendaPage = () => {
           // resizableAccessor={() => lastView !== "month"}
         />
       </Box>
-    </>
+    </div>
   );
 };

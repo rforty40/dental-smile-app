@@ -4,17 +4,20 @@ export const pacientesSlice = createSlice({
   name: "pacientes",
 
   initialState: {
-    isFormPacOpen: false,
+    // isFormPacOpen: false,
     titleForm: "",
     pacienteActivo: {},
     pacientesList: [],
     errorRegMessage: { msg: "", error: "" },
+    antecedentes: [[], []],
+    antecedenteActivo: {},
+    errorRegAntecedente: { msg: "", error: "" },
   },
 
   reducers: {
-    changeFormPacOpen: (state, { payload }) => {
-      state.isFormPacOpen = payload;
-    },
+    // changeFormPacOpen: (state, { payload }) => {
+    //   state.isFormPacOpen = payload;
+    // },
 
     changeTitleForm: (state, { payload }) => {
       state.titleForm = payload;
@@ -66,14 +69,54 @@ export const pacientesSlice = createSlice({
       state.errorRegMessage = { msg: "", error: "" };
     },
 
-    // changeDeleteError: (state, { payload }) => {
-    //   state.errorRegMessage = payload;
-    // },
+    onLoadAntecedentes: (state, { payload }) => {
+      state.antecedentes = payload;
+    },
+
+    onSaveAntecedente: (state, { payload }) => {
+      const tipo = payload.par_antecedente === null ? 0 : 1;
+      state.antecedentes[tipo].push(payload);
+    },
+
+    onUpdateAntecedente: (state, { payload }) => {
+      const tipo = payload.par_antecedente === null ? 0 : 1;
+
+      state.antecedentes[tipo] = state.antecedentes[tipo].map((anteced) => {
+        if (anteced.id_antecedente === payload.id_antecedente) {
+          return payload;
+        }
+
+        return anteced;
+      });
+    },
+
+    onDeleteAntecedente: (state) => {
+      const tipo = state.antecedenteActivo.par_antecedente === null ? 0 : 1;
+
+      state.antecedentes[tipo] = state.antecedentes[tipo].filter(
+        (anteced) =>
+          anteced.id_antecedente !== state.antecedenteActivo.id_antecedente
+      );
+    },
+
+    onLoadAntecActivo: (state, { payload }) => {
+      state.antecedenteActivo = {
+        ...payload,
+      };
+    },
+
+    changeRegisterErrorAnte: (state, { payload }) => {
+      state.errorRegAntecedente = payload;
+    },
+
+    clearErrorMessageAnte: (state) => {
+      state.errorRegAntecedente = { msg: "", error: "" };
+    },
   },
 });
 
 export const {
-  changeFormPacOpen,
+  // changeFormPacOpen,
   changeTitleForm,
   onLoadPacActivo,
   onLoadPacientesList,
@@ -82,4 +125,11 @@ export const {
   clearErrorMessage,
   onUpdatePaciente,
   onDeletePaciente,
+  onLoadAntecedentes,
+  onSaveAntecedente,
+  onUpdateAntecedente,
+  onDeleteAntecedente,
+  onLoadAntecActivo,
+  changeRegisterErrorAnte,
+  clearErrorMessageAnte,
 } = pacientesSlice.actions;

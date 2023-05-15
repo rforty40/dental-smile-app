@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
-import { usePacienteStore, useUiStore } from "../../hooks";
+import { useAntecedenteStore, usePacienteStore, useUiStore } from "../../hooks";
 import { ContactPage, MedicalInformation } from "@mui/icons-material";
 import { InfoPagePaciente } from "./InfoPagePaciente";
 import { HistorialPagePaciente } from "./HistorialPagePaciente";
@@ -10,30 +10,35 @@ import { useParams } from "react-router-dom";
 //
 //
 export const PacienteHistorial = () => {
+  //
+
   const { changePage } = useUiStore();
+
+  const { pacienteActivo, startLoadPaciente } = usePacienteStore();
+
+  const { startLoadAntecedentes } = useAntecedenteStore();
+
   const [hookTabs, setHookTabs] = useState(0);
 
   const handleChangeTabs = (event, newValue) => {
     setHookTabs(newValue);
   };
 
-  const { pacienteActivo, startLoadPaciente } = usePacienteStore();
-
   const { id_pac } = useParams();
 
   useEffect(() => {
     changePage();
     startLoadPaciente(id_pac);
+    startLoadAntecedentes(id_pac);
   }, []);
 
-  const a = "../../../public/assets/img/imgFondoPac.jpg";
   return (
     <div
       style={{
         height: "100%",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.2),rgba(250,250,250, 0.2)) , url(../../../public/assets/img/imgFondoPac.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/imgFondoPac.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}
@@ -46,9 +51,11 @@ export const PacienteHistorial = () => {
         position="sticky"
         top="0px"
         zIndex="10000"
+        boxShadow="3px 3px 5px rgba(0, 0, 0, 0.5)"
         sx={{
           // backgroundColor: "rgba(245, 247, 250, 0.9)",
           backgroundColor: "myBgColor.main",
+          // borderBottom: "2px solid grey",
         }}
       >
         <Typography
@@ -80,13 +87,18 @@ export const PacienteHistorial = () => {
       </Box>
 
       <Box height="100%" padding="20px">
+        {hookTabs === 0 && <InfoPagePaciente />}
+        {hookTabs === 1 && <HistorialPagePaciente />}
+      </Box>
+    </div>
+  );
+};
+
+/* <Box height="100%" padding="20px">
         <div style={{ display: hookTabs === 0 ? "flex" : "none" }}>
           <InfoPagePaciente />
         </div>
         <div style={{ display: hookTabs === 1 ? "flex" : "none" }}>
           <HistorialPagePaciente />
         </div>
-      </Box>
-    </div>
-  );
-};
+      </Box> */

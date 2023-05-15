@@ -496,7 +496,7 @@ export const CustomTable = ({
                             border: "3px solid",
                             borderColor: "colorTable.main",
                           }}
-                          align="right"
+                          align="center"
                         >
                           <Box display="flex" flexDirection="row">
                             <IconButton

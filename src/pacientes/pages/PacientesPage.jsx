@@ -31,6 +31,9 @@ const TABLE_HEAD = [
 ];
 
 export const PacientesPage = () => {
+  //control form
+  const [stateModalPac, setStateModalPac] = useState(false);
+
   const { changePage } = useUiStore();
   const {
     pacientesList,
@@ -55,12 +58,14 @@ export const PacientesPage = () => {
   //funcion abrir modal registrar
   const openModalPaciente = () => {
     changeTitleFormReg("Registro de paciente");
-    changeModalFormReg(true);
+    // changeModalFormReg(true);
+    setStateModalPac(true);
   };
   //funcion abrir modal editar
   const openModalPacienteEdit = () => {
     changeTitleFormReg("Editar datos del paciente");
-    changeModalFormReg(true);
+    // changeModalFormReg(true);
+    setStateModalPac(true);
   };
   //controlDialog
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
@@ -79,6 +84,7 @@ export const PacientesPage = () => {
   };
 
   const [msgAlertDel, setMsgAlertDel] = useState("");
+
   //funcion eliminar registro paciente y eliminar varios registros
   const deleteRegisterPaciente = (selected = []) => {
     startDeletingPaciente(selected);
@@ -111,7 +117,16 @@ export const PacientesPage = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        height: "100vh",
+        width: "100%",
+        backgroundImage:
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+      }}
+    >
       <Topbar />
       <Box
         margin="-10px 20px 0 20px"
@@ -137,7 +152,10 @@ export const PacientesPage = () => {
           funcionDeleteVarious={deleteRegisterPaciente}
         />
 
-        <FormModalPac />
+        <FormModalPac
+          openModalForm={stateModalPac}
+          setOpenModalForm={setStateModalPac}
+        />
 
         <DeleteConfirm
           stateOpen={openDialogDelete}
@@ -166,6 +184,6 @@ export const PacientesPage = () => {
           iconAlert={<DeleteForever sx={{ color: "white" }} />}
         />
       </Box>
-    </>
+    </div>
   );
 };

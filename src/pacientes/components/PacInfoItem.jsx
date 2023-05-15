@@ -22,7 +22,9 @@ export const PacInfoItem = ({ gridArea, lblItem, dataPac }) => {
         <Typography sx={{ fontStyle: "italic", fontWeight: "bold" }}>
           {dataPac}
         </Typography>
-        <Typography sx={{ color: "grey" }}>{lblItem}</Typography>
+        <Typography sx={{ color: "grey", fontWeight: "bold" }}>
+          {lblItem}
+        </Typography>
       </Box>
     </Grid>
   );

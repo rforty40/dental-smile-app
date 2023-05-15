@@ -49,17 +49,10 @@ const Transition = forwardRef(function Transition(props, ref) {
   );
 });
 
-export const FormModalPac = () => {
+export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
   //
-  console.log("ABIERTO EL MODAL PAC");
-  const {
-    isFormPacOpen,
-    changeModalFormReg,
-    titleForm,
-    startSavingPaciente,
-    errorRegMessage,
-    pacienteActivo,
-  } = usePacienteStore();
+  const { titleForm, startSavingPaciente, errorRegMessage, pacienteActivo } =
+    usePacienteStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
 
@@ -68,6 +61,8 @@ export const FormModalPac = () => {
   const [msgAlert, setMsgAlert] = useState("");
 
   const [txtButton, setTxtButton] = useState("");
+
+  const [hookRadio, setHookRadio] = useState("");
 
   const formDataPac = useMemo(() => {
     if (titleForm.toUpperCase().includes("EDITAR")) {
@@ -80,6 +75,7 @@ export const FormModalPac = () => {
       setTxtButton("Actualizar");
 
       if (pacienteActivo) {
+        setHookRadio(pacienteActivo.sexo);
         return {
           dataForm: {
             ...formatearPacActiveToForm(pacienteActivo),
@@ -96,6 +92,7 @@ export const FormModalPac = () => {
       setMenorEdad(true);
       setMsgAlert("Paciente registrado con éxito 🙂.");
       setTxtButton("Registrar");
+      setHookRadio("");
       return {
         dataForm: {
           cedula: "",
@@ -123,15 +120,10 @@ export const FormModalPac = () => {
   );
 
   const cerrarModal = () => {
-    changeModalFormReg(false);
+    setOpenModalForm(false);
   };
 
   //control del RadioGroup
-
-  const [hookRadio, setHookRadio] = useState("");
-  useEffect(() => {
-    setHookRadio(formDataPac.dataForm.sexo);
-  }, [titleForm, pacienteActivo]);
 
   //control alert
   const [stateSnackbar, setStateSnackbar] = useState(false);
@@ -181,8 +173,8 @@ export const FormModalPac = () => {
           parRes: "",
           telRes: "",
         };
+        setHookRadio("");
       }
-      setHookRadio("");
     }
 
     if (errorRegMessage.msg === "Hay errores" && formSubmitted) {
@@ -196,7 +188,7 @@ export const FormModalPac = () => {
     <div>
       <Dialog
         maxWidth="sm"
-        open={isFormPacOpen}
+        open={openModalForm}
         onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  changeFormPacOpen,
+  // changeFormPacOpen,
   changeRegisterError,
   changeTitleForm,
   clearErrorMessage,
@@ -18,7 +18,6 @@ import {
   getPacienteById,
 } from "../api/pacientes.api";
 
-import Swal from "sweetalert2";
 import {
   comprobarError,
   formatearDataPacToBD,
@@ -40,11 +39,10 @@ export const usePacienteStore = () => {
     pacienteActivo,
     errorRegMessage,
   } = useSelector((state) => state.pacientes);
-  // const { dataActiva } = useSelector((state) => state.dataGlobal);
 
-  const changeModalFormReg = (flag) => {
-    dispatch(changeFormPacOpen(flag));
-  };
+  // const changeModalFormReg = (flag) => {
+  //   dispatch(changeFormPacOpen(flag));
+  // };
 
   const changeTitleFormReg = (title) => {
     dispatch(changeTitleForm(title));
@@ -139,7 +137,7 @@ export const usePacienteStore = () => {
     errorRegMessage,
 
     //* Métodos
-    changeModalFormReg,
+    // changeModalFormReg,
     changeTitleFormReg,
     changeDataPaciente,
     startLoadPacientes,

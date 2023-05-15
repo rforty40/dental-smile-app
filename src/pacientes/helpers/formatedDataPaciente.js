@@ -18,7 +18,7 @@ export const formatearDataPacToBD = (data) => {
   };
 };
 
-export const columnEquivalent = {
+const columnEquivalent = {
   priNom_paciente: "1er Nombre",
   eda_paciente: "Edad",
   segNom_paciente: "2do Nombre",
@@ -54,6 +54,7 @@ export const comprobarError = (typeError) => {
 
   return msgError;
 };
+
 const formatearNombre = (pri, seg) => {
   let nombres = pri;
   if (seg !== null) {
@@ -126,4 +127,45 @@ export const formatearPacActiveToForm = (pacActive) => {
     parRes: !pacActive.parRes ? "" : pacActive.parRes,
     telRes: !pacActive.telRes ? "" : pacActive.telRes,
   };
+};
+
+export const formatearDataAntecedToTable = (dataFromBD) => {
+  return dataFromBD.map((data) => {
+    return {
+      id_antecedente: data.id_antecedente,
+      id_paciente: data.id_paciente,
+      //
+      par_antecedente: data.par_antecedente,
+      //
+      tip_antecedente: data.tip_antecedente,
+      des_antecedente: data.des_antecedente,
+    };
+  });
+};
+
+const columnEquivalentAnteced = {
+  par_antecedente: "Parentesco",
+  tip_antecedente: "Tipo de antecedente",
+  des_antecedente: "Descripción",
+};
+
+export const comprobarErrorAnteced = (typeError) => {
+  let msgError = "";
+  if (typeError.includes("Data too long for column")) {
+    let campo = "";
+    for (const key in columnEquivalentAnteced) {
+      if (typeError.includes(key)) {
+        campo = columnEquivalentAnteced[key];
+        break;
+      }
+    }
+    msgError = "Se excedió el límite en el campo " + campo;
+  } else {
+    msgError =
+      "Error: " +
+      typeError +
+      ". Para mas información contactese con el administrador";
+  }
+
+  return msgError;
 };
