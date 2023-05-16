@@ -152,6 +152,7 @@ export const CustomTable = ({
   txt_header,
   bgHeaderColor,
   funcionDeleteVarious,
+  bgColorTable = "transparent",
 }) => {
   //
   //hooks
@@ -325,7 +326,7 @@ export const CustomTable = ({
     <>
       <Box
         sx={{
-          bgcolor: "white",
+          bgcolor: bgColorTable,
           width: "100%",
           padding: "20px",
           borderRadius: "10px",

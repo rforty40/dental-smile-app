@@ -268,7 +268,6 @@ export const FormModalAntec = ({
                     fullWidth
                     label="Parentesco:"
                     type="text"
-                    placeholder="xxxxxxxxxx"
                     name="par_antecedente"
                     value={formState.par_antecedente}
                     onChange={onInputChange}
@@ -306,7 +305,7 @@ export const FormModalAntec = ({
                   fullWidth
                   label="Descripción:"
                   type="text"
-                  placeholder="xxxxxxxxxx"
+                  multiline
                   name="des_antecedente"
                   value={formState.des_antecedente}
                   onChange={onInputChange}

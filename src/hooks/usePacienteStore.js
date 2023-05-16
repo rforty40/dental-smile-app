@@ -7,6 +7,7 @@ import {
   onDeletePaciente,
   onLoadPacActivo,
   onLoadPacientesList,
+  onLoadPacientesListBusq,
   onSavePaciente,
   onUpdatePaciente,
 } from "../store";
@@ -21,6 +22,7 @@ import {
 import {
   comprobarError,
   formatearDataPacToBD,
+  formatearDataPacToBusList,
   formatearDataPacToTable,
 } from "../pacientes/helpers";
 
@@ -34,15 +36,12 @@ export const usePacienteStore = () => {
 
   const {
     pacientesList,
+    pacientesListBusq,
     isFormPacOpen,
     titleForm,
     pacienteActivo,
     errorRegMessage,
   } = useSelector((state) => state.pacientes);
-
-  // const changeModalFormReg = (flag) => {
-  //   dispatch(changeFormPacOpen(flag));
-  // };
 
   const changeTitleFormReg = (title) => {
     dispatch(changeTitleForm(title));
@@ -56,6 +55,8 @@ export const usePacienteStore = () => {
     try {
       const { data } = await getAllPaciente();
       dispatch(onLoadPacientesList(formatearDataPacToTable(data)));
+
+      dispatch(onLoadPacientesListBusq(formatearDataPacToBusList(data)));
     } catch (error) {
       console.log("Error cargando lista de pacientes");
       console.log(error);
@@ -131,13 +132,13 @@ export const usePacienteStore = () => {
   return {
     //* Propiedades
     pacientesList,
+    pacientesListBusq,
     isFormPacOpen,
     titleForm,
     pacienteActivo,
     errorRegMessage,
 
     //* Métodos
-    // changeModalFormReg,
     changeTitleFormReg,
     changeDataPaciente,
     startLoadPacientes,

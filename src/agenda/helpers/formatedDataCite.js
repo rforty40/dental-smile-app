@@ -12,3 +12,15 @@
 
 //   console.log(jsDate);
 // }
+
+export const formatedDataCite = (citas) => {
+  return citas.map((cita) => {
+    return {
+      start: new Date(
+        Date.parse(cita.fecha_cita + " " + cita.hora_inicio + ":00")
+      ),
+      end: new Date(Date.parse(cita.fecha_cita + " " + cita.hora_fin + ":00")),
+      ...cita,
+    };
+  });
+};

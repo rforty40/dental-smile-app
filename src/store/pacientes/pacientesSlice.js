@@ -8,6 +8,7 @@ export const pacientesSlice = createSlice({
     titleForm: "",
     pacienteActivo: {},
     pacientesList: [],
+    pacientesListBusq: [],
     errorRegMessage: { msg: "", error: "" },
     antecedentes: [[], []],
     antecedenteActivo: {},
@@ -31,6 +32,10 @@ export const pacientesSlice = createSlice({
 
     onLoadPacientesList: (state, { payload }) => {
       state.pacientesList = payload;
+    },
+
+    onLoadPacientesListBusq: (state, { payload }) => {
+      state.pacientesListBusq = payload;
     },
 
     onSavePaciente: (state, { payload }) => {
@@ -120,16 +125,19 @@ export const {
   changeTitleForm,
   onLoadPacActivo,
   onLoadPacientesList,
+  onLoadPacientesListBusq,
   onSavePaciente,
-  changeRegisterError,
-  clearErrorMessage,
   onUpdatePaciente,
   onDeletePaciente,
+  changeRegisterError,
+  clearErrorMessage,
+
+  //
   onLoadAntecedentes,
+  onLoadAntecActivo,
   onSaveAntecedente,
   onUpdateAntecedente,
   onDeleteAntecedente,
-  onLoadAntecActivo,
   changeRegisterErrorAnte,
   clearErrorMessageAnte,
 } = pacientesSlice.actions;

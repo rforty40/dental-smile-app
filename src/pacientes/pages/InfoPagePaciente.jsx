@@ -345,6 +345,7 @@ export const InfoPagePaciente = () => {
 
             {antecedentes[0].length > 0 ? (
               <CustomTable
+                bgColorTable="white"
                 TABLE_HEAD={TABLE_HEAD}
                 DATALIST={antecedentes[0]}
                 withToolbar={false}
@@ -356,7 +357,7 @@ export const InfoPagePaciente = () => {
                 // funcionDeleteVarious={deleteRegisterPaciente}
               />
             ) : (
-              <h4>No hay antecedentes personales</h4>
+              <h4>Sin antecedentes personales</h4>
             )}
           </Box>
         </div>
@@ -400,6 +401,7 @@ export const InfoPagePaciente = () => {
             </Box>
             {antecedentes[1].length > 0 ? (
               <CustomTable
+                bgColorTable="white"
                 TABLE_HEAD={TABLE_HEAD_2}
                 DATALIST={antecedentes[1]}
                 withToolbar={false}
@@ -412,7 +414,7 @@ export const InfoPagePaciente = () => {
               />
             ) : (
               <Box height="100px">
-                <h4>No hay antecedentes familiares</h4>
+                <h4>Sin antecedentes familiares</h4>
               </Box>
             )}
           </Box>

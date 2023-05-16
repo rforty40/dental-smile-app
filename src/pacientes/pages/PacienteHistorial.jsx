@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useAntecedenteStore, usePacienteStore, useUiStore } from "../../hooks";
-import { ContactPage, MedicalInformation } from "@mui/icons-material";
+import {
+  CalendarMonth,
+  ContactPage,
+  MedicalInformation,
+} from "@mui/icons-material";
 import { InfoPagePaciente } from "./InfoPagePaciente";
 import { HistorialPagePaciente } from "./HistorialPagePaciente";
 import { useParams } from "react-router-dom";
+import { ProxCitasPagePaciente } from "./ProxCitasPagePaciente";
 
 //
 //
@@ -80,6 +85,11 @@ export const PacienteHistorial = () => {
           />
           <Tab
             sx={{ color: "black" }}
+            icon={<CalendarMonth />}
+            label="PRÓXIMAS CITAS"
+          />
+          <Tab
+            sx={{ color: "black" }}
             icon={<MedicalInformation />}
             label="HISTORIAL"
           />
@@ -88,7 +98,8 @@ export const PacienteHistorial = () => {
 
       <Box height="100%" padding="20px">
         {hookTabs === 0 && <InfoPagePaciente />}
-        {hookTabs === 1 && <HistorialPagePaciente />}
+        {hookTabs === 1 && <ProxCitasPagePaciente />}
+        {hookTabs === 2 && <HistorialPagePaciente />}
       </Box>
     </div>
   );

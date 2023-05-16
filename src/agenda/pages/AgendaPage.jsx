@@ -7,11 +7,12 @@ import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 import "./react-big-calendar.css";
 import { getMessagesES, localizer } from "../../helpers";
-import { CalendarEvent } from "../components/";
-import { useUiStore } from "../../hooks";
-import { useEffect } from "react";
+import { AgendaModal, CalendarEvent } from "../components/";
+import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Topbar } from "../../ui";
+import { differenceInSeconds } from "date-fns";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -19,35 +20,91 @@ const DnDCalendar = withDragAndDrop(Calendar);
 //
 
 export const AgendaPage = () => {
-  // const { changePage } = useUiStore();
-  // console.log("CalendarPage");
-  // changePage();
-
+  //store
   const { changePage } = useUiStore();
 
+  const { startLoadPacientes, pacientesListBusq } = usePacienteStore();
+
+  const { startLoadCites, citas } = useAgendaStore();
+
+  //
+  //estados locales
+  const [openModalAgenda, setOpenModalAgenda] = useState(false);
+  const handleOpenModalAgenda = () => {
+    setOpenModalAgenda(true);
+  };
+
+  const [lastView, setLastView] = useState(
+    localStorage.getItem("lastView") || "week"
+  );
+
   useEffect(() => {
-    console.log("AgendaPage");
+    // console.log("AgendaPage");
     changePage();
+    startLoadCites();
+    startLoadPacientes();
   }, []);
 
   const today = new Date();
-  const events = [];
-  const eventStyleGetter = (event, start, end, isSelected) => {
-    // const isMyEvent =
-    //   user.uid === event.user._id || user.uid === event.user.uid;
 
+  const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
-      // backgroundColor: isMyEvent ? "#347CF7" : "#465660",
-      backgroundColor: "#347CF7",
-      borderRadius: "0px",
-      opacity: 0.8,
-      color: "white",
+      backgroundColor:
+        event.esta_citaAgen === "Pendiente" ? "#116482" : "#d32f2f",
     };
 
     return {
       style,
     };
   };
+
+  const onSelect = (event) => {
+    console.log({ click: event });
+  };
+
+  const onDoubleClick = (event) => {
+    console.log({ doubleClick: event });
+    handleOpenModalAgenda();
+  };
+
+  const clickSlot = (slotInfo) => {
+    //
+
+    const { start, end } = slotInfo;
+    console.log(slotInfo);
+    // setActiveEvent({
+    //   title: "",
+    //   notes: "",
+    //   start,
+    //   end,
+    //   bgColor: "#fafafa",
+    //   user: {
+    //     _id: "",
+    //     name: "",
+    //   },
+    // });
+
+    handleOpenModalAgenda();
+  };
+  const onViewChanged = (event) => {
+    localStorage.setItem("lastView", event);
+    setLastView(event);
+  };
+  const onEventDropResizable = async (data) => {
+    const { start, end } = data;
+
+    const difference = differenceInSeconds(end, start);
+
+    const eventoActivo = activeEvent.event;
+
+    if (isNaN(difference) || difference <= 0) {
+      Swal.fire("Fechas incorrectas", "Revisar las fechas ingresadas", "error");
+      return;
+    }
+
+    await startSavingEvent({ ...eventoActivo, start, end });
+  };
+
   return (
     <div
       style={{
@@ -61,25 +118,24 @@ export const AgendaPage = () => {
     >
       <Topbar />
       <Box
-        margin="20px"
+        margin="0px 20px 20px 20px"
         display="flex"
         justifyContent="end"
         className="box-shadow animate__animated animate__fadeIn"
       >
         <DnDCalendar
           className="animate__animated animate__fadeIn"
-          // popup
           selectable
           culture="es"
           localizer={localizer}
-          events={events}
-          // defaultView={lastView}
+          events={citas}
+          defaultView={lastView}
           startAccessor="start"
           endAccessor="end"
           style={{
             width: "100%",
-            height: "calc( 100vh - 150px )",
-            backgroundColor: "white",
+            height: "calc( 100vh - 100px )",
+            backgroundColor: "transparent",
             padding: "20px",
             borderRadius: "10px",
           }}
@@ -91,23 +147,29 @@ export const AgendaPage = () => {
           timeslots={4} // number of per section
           step={15} // number of minutes per timeslot
           min={
+            // start time 7:00am
             new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)
           }
-          // end time 5:00pm
+          // end time 7:00pm
           max={
             new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)
           }
           // onDoubleClickEvent={onDoubleClick}
-          // onSelectEvent={onSelect}
-          // onView={onViewChanged}
-          // onDragStart={onSelect}
-          // onEventDrop={onEventDropResizable}
-          // resizable
-          // onEventResize={onEventDropResizable}
-          // onSelectSlot={clickSlot}
-          // start time 8:00am
+          onSelectEvent={onSelect}
+          onView={onViewChanged}
+          onDragStart={onSelect}
+          onEventDrop={onEventDropResizable}
+          resizable
+          onEventResize={onEventDropResizable}
+          onSelectSlot={clickSlot}
+          resizableAccessor={() => lastView !== "month"}
+          tooltipAccessor={null}
+          dayLayoutAlgorithm={"no-overlap"}
+        />
 
-          // resizableAccessor={() => lastView !== "month"}
+        <AgendaModal
+          openModalAgenda={openModalAgenda}
+          setOpenModalAgenda={setOpenModalAgenda}
         />
       </Box>
     </div>
