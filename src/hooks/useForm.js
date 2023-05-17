@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 export const useForm = (initialForm = {}, formValidations = {}) => {
   //hook form
+
   const [formState, setFormState] = useState(initialForm);
   //hook validaciones
   const [formValidation, setFormValidation] = useState({});
@@ -11,6 +12,7 @@ export const useForm = (initialForm = {}, formValidations = {}) => {
     createValidators();
   }, [formState]);
 
+  //actualizar el hook  del formulario cada vez que la informacion inicial cambia
   useEffect(() => {
     setFormState(initialForm);
   }, [initialForm]);

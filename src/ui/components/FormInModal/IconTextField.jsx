@@ -48,8 +48,17 @@ export const IconTextField = ({
         "& .MuiFormLabel-root": {
           color: colorLabel,
         },
+        "& .MuiFormLabel-root.Mui-error": {
+          color: "none",
+        },
         "& .MuiFormLabel-root.Mui-focused": {
           color: colorHover,
+        },
+        "& .MuiFormLabel-root.Mui-focused.Mui-error": {
+          color: "error.main",
+        },
+        "& .MuiFormHelperText-root.Mui-error": {
+          color: "error.main",
         },
       }}
       {...props}

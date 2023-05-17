@@ -25,11 +25,12 @@ export const AgendaPage = () => {
 
   const { startLoadPacientes, pacientesListBusq } = usePacienteStore();
 
-  const { startLoadCites, citas } = useAgendaStore();
+  const { startLoadCites, citas, changeDataCite } = useAgendaStore();
 
   //
   //estados locales
   const [openModalAgenda, setOpenModalAgenda] = useState(false);
+
   const handleOpenModalAgenda = () => {
     setOpenModalAgenda(true);
   };
@@ -39,7 +40,6 @@ export const AgendaPage = () => {
   );
 
   useEffect(() => {
-    // console.log("AgendaPage");
     changePage();
     startLoadCites();
     startLoadPacientes();
@@ -64,25 +64,19 @@ export const AgendaPage = () => {
 
   const onDoubleClick = (event) => {
     console.log({ doubleClick: event });
-    handleOpenModalAgenda();
+    // handleOpenModalAgenda();
   };
 
+  //funcion se activa al seleccionar uno o varios slots
   const clickSlot = (slotInfo) => {
     //
-
     const { start, end } = slotInfo;
     console.log(slotInfo);
-    // setActiveEvent({
-    //   title: "",
-    //   notes: "",
-    //   start,
-    //   end,
-    //   bgColor: "#fafafa",
-    //   user: {
-    //     _id: "",
-    //     name: "",
-    //   },
-    // });
+
+    changeDataCite({
+      start,
+      end,
+    });
 
     handleOpenModalAgenda();
   };

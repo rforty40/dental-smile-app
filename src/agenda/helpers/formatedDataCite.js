@@ -24,3 +24,16 @@ export const formatedDataCite = (citas) => {
     };
   });
 };
+
+export const retornarFecha = (state, newValue) => {
+  return new Date(
+    Date.parse(
+      newValue
+        .toLocaleString("sv-SE", { hour12: false })
+        .split(" ")[0]
+        .replaceAll("-", "/") +
+        " " +
+        state.toLocaleString("sv-SE", { hour12: false }).split(" ")[1]
+    )
+  );
+};

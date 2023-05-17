@@ -113,12 +113,14 @@ export const formatearDataPacToTable = (dataFromBD) => {
 
 export const formatearDataPacToBusList = (dataFromBD) => {
   return dataFromBD.map((data) => {
-    return (
-      `${formatearNombre(data.priNom_paciente, data.segNom_paciente)}` +
-      ` ${formatearNombre(data.priApe_paciente, data.segApe_paciente)}` +
-      " - " +
-      data.ced_paciente
-    );
+    return {
+      label:
+        `${formatearNombre(data.priNom_paciente, data.segNom_paciente)}` +
+        ` ${formatearNombre(data.priApe_paciente, data.segApe_paciente)}` +
+        " - " +
+        data.ced_paciente,
+      id: data.id_paciente,
+    };
   });
 };
 

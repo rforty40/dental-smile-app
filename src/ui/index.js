@@ -8,4 +8,5 @@ export * from "./components/FormInModal/SelectedCustom";
 export * from "./components/FormInModal/RadioGroupCustom";
 export * from "./components/FormInModal/DeleteConfirm";
 
+export * from "./components/FormInModal/CustomAutocomplete";
 export * from "./components/CustomAlert";
