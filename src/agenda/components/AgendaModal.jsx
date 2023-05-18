@@ -1,67 +1,70 @@
 import {
   CancelOutlined,
+  CheckCircleOutline,
   CloseOutlined,
-  Description,
   PersonSearch,
   SaveOutlined,
   SegmentOutlined,
-  VerifiedUser,
 } from "@mui/icons-material";
 import {
-  Autocomplete,
   Dialog,
   DialogContent,
   DialogTitle,
   Grid,
   Icon,
   IconButton,
-  InputAdornment,
-  TextField,
+  Portal,
   Typography,
 } from "@mui/material";
 import {
   ButtonCustom,
+  CustomAlert,
   CustomAutocomplete,
+  CustomDatePicker,
+  CustomTimePicker,
   IconTextField,
-  SelectedCustom,
 } from "../../ui";
-import { FaIdCard, FaUser } from "react-icons/fa";
-import { useAgendaStore, useForm, usePacienteStore } from "../../hooks";
 
-import { DatePicker, TimePicker } from "@mui/x-date-pickers";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { es } from "date-fns/locale";
+import { useAgendaStore, usePacienteStore } from "../../hooks";
+
 import { useMemo, useState } from "react";
-import { formValidations } from "./validationCita";
+
 import { useEffect } from "react";
-import { parseISO } from "date-fns";
-import { retornarFecha } from "../helpers/formatedDataCite";
+
+import { extraerFecha, retornarFecha } from "../helpers/formatedDataCite";
 
 //
 //
 //
 
-export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
+export const AgendaModal = () => {
   //
-
-  //cerrarModal
-  const cerrarModal = () => {
-    setOpenModalAgenda(false);
-  };
 
   //lista de pacientes traida de la store
   const { pacientesListBusq } = usePacienteStore();
 
   //citaActiva
-  const { activeCita } = useAgendaStore();
+
+  const {
+    titleFormAgenda,
+    stateOpenFormAgenda,
+    changeStateFormAgenda,
+    activeCita,
+    changeDataCite,
+    startSavingCita,
+    startUpdatingCita,
+    errorRegCiteMessage,
+  } = useAgendaStore();
 
   //hook del formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
 
+  //hook txt btn
+  const [txtButton, setTxtButton] = useState("");
+
   //hook pacientes list
   const [statePacList, setStatePacList] = useState(0);
-
+  const [statePacValue, setStatePacValue] = useState(null);
   //hook date picker
   const [stateDatePicker, setStateDatePicker] = useState(new Date());
 
@@ -71,15 +74,80 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
   //hook time picker fin
   const [stateTimeFin, setStateTimeFin] = useState(new Date());
 
+  //hook errores en las fechas
+  const [errorDate, setErrorDate] = useState(null);
+  const [errorHourInit, setErrorHourInit] = useState(null);
+  const [errorHourFin, setErrorHourFin] = useState(null);
+
+  //hook inputTextField
+  const [stateMotivo, setStateMotivo] = useState("");
+
+  //cerrarModal
+  const cerrarModal = () => {
+    changeStateFormAgenda(false);
+    changeDataCite(null);
+  };
+
+  //control alert
+  const [msgAlert, setMsgAlert] = useState("");
+  const [stateSnackbar, setStateSnackbar] = useState(false);
+  const handleCloseSnackbar = () => {
+    setStateSnackbar(false);
+  };
+  const handleOpenSnackbar = () => {
+    setStateSnackbar(true);
+  };
+
+  //control alert error
+  const [stateSnackbarError, setStateSnackbarError] = useState(false);
+  const handleCloseSnackbarError = () => {
+    setStateSnackbarError(false);
+  };
+  const handleOpenSnackbarError = () => {
+    setStateSnackbarError(true);
+  };
+
   //extraer fecha, horaI, fechaF del activeCita
   useEffect(() => {
     if (activeCita !== null) {
       setStateDatePicker(activeCita.start);
-
       setStateTimeIni(activeCita.start);
       setStateTimeFin(activeCita.end);
+
+      if (activeCita.id_paciente !== undefined) {
+        console.log("editar");
+        setStatePacList(activeCita.id_paciente);
+
+        setStatePacValue(
+          pacientesListBusq.find(
+            (paciente) => paciente.id === activeCita.id_paciente
+          )
+        );
+        setErrorDate(null);
+        setErrorHourInit(null);
+        setErrorHourFin(null);
+        setStateMotivo(activeCita.moti_citaAgen);
+      } else {
+        console.log("register");
+        setStatePacList(0);
+        // setStateDefPac(null);
+        setStatePacValue(null);
+        setStateMotivo("");
+      }
     }
   }, [activeCita]);
+
+  useEffect(() => {
+    if (titleFormAgenda.includes("Editar")) {
+      setTxtButton("Actualizar");
+      setMsgAlert(
+        `Se actualizaron los datos de la cita de ${activeCita.Paciente} 🙂.`
+      );
+    } else {
+      setTxtButton("Registrar");
+      setMsgAlert(`Se agendó una nueva cita 🙂.`);
+    }
+  }, [titleFormAgenda]);
 
   //handler del cambio en la fecha
   const onChangeDatePicker = (newValue) => {
@@ -88,12 +156,7 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
     setStateTimeFin((state) => retornarFecha(state, newValue));
   };
 
-  //
-  //hook errores en las fechas
-  const [errorDate, setErrorDate] = useState(null);
-  const [errorHourInit, setErrorHourInit] = useState(null);
-  const [errorHourFin, setErrorHourFin] = useState(null);
-
+  //errores de fechas y horas
   const errorMsgDate = useMemo(() => {
     switch (errorDate) {
       case "maxDate": {
@@ -112,9 +175,19 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
   }, [errorDate]);
 
   const errorMsgHourInit = useMemo(() => {
-    if (errorHourInit === "disablePast" && errorDate === null)
+    if (
+      errorHourInit === "minTime" &&
+      errorDate === null &&
+      extraerFecha(stateDatePicker) === extraerFecha(new Date()) &&
+      new Date().getHours() > 7
+    )
       return "Esta hora ya pasó";
-    else {
+    else if (
+      (errorHourInit === "minTime" || errorHourInit === "maxTime") &&
+      errorDate === null
+    ) {
+      return "Esta hora esta fuera del rango del calendar";
+    } else {
       return "";
     }
   }, [errorHourInit, errorDate]);
@@ -128,136 +201,146 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
   }, [errorHourFin]);
 
   //
-  //hook inputTextField
-  const [stateMotivo, setStateMotivo] = useState("");
-
-  //custom hook useForm
-  const formDataCita = useMemo(() => {
-    return {
-      dataForm: {
-        /*
-      Cuando(pin):"Junio"
-      fecha_cita(pin):"2023/06/14"
-      hora_inicio(pin):"08:30"
-      hora_fin(pin):"10:30"
-      id_paciente(pin):2
-      Paciente(pin):"Marcos Antonio Lopes Palma"*/
-        fecha_cita: "",
-        hora_inicio: "",
-        hora_fin: "",
-        moti_citaAgen: "",
-        id_paciente: "",
-      },
-    };
-  }, []);
 
   //funcion enviar los datos
   const onSubmit = async (event) => {
     event.preventDefault();
     setFormSubmitted(true);
 
+    //validaciones
     if (statePacList === 0) return;
     if (errorDate !== null) return;
     if (errorHourInit !== null) return;
     if (errorHourFin !== null) return;
     if (stateMotivo.length === 0) return;
 
-    // formState.id_paciente = statePacList;
+    //enviando al custom hook
 
-    console.log("Envio los datos");
+    if (titleFormAgenda.includes("Editar")) {
+      console.log("Envio datos a actualizar");
 
-    // console.log("statePacList", statePacList);
-    // console.log("pilas ahi ", formState);
-
-    //startSavingPaciente(formState);
+      startUpdatingCita(activeCita.fecha_cita, activeCita.hora_inicio, {
+        statePacList,
+        stateDatePicker,
+        stateTimeIni,
+        stateTimeFin,
+        stateMotivo,
+      });
+    } else {
+      startSavingCita({
+        statePacList,
+        stateDatePicker,
+        stateTimeIni,
+        stateTimeFin,
+        stateMotivo,
+      });
+    }
   };
 
+  //manejador de errores todos los campos
+  useEffect(() => {
+    if (errorRegCiteMessage.msg === "Sin errores" && formSubmitted) {
+      cerrarModal();
+      handleOpenSnackbar();
+      setFormSubmitted(false);
+    }
+    if (errorRegCiteMessage.msg === "Hay errores" && formSubmitted) {
+      handleOpenSnackbarError();
+      setFormSubmitted(false);
+    }
+  }, [errorRegCiteMessage]);
+
+  //
   return (
-    <Dialog maxWidth="sm" open={openModalAgenda} onClose={cerrarModal}>
-      <DialogTitle
-        padding="16px 10px 16px  20px !important"
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            fontSize: "25px",
-            fontStyle: "italic",
-            textShadow: "0px 1px 1px rgba(0, 0, 0, 0.4)",
-          }}
+    <>
+      <Dialog maxWidth="sm" open={stateOpenFormAgenda} onClose={cerrarModal}>
+        <DialogTitle
+          padding="16px 10px 16px  20px !important"
+          display="flex"
+          flexDirection="row"
+          alignItems="center"
+          justifyContent="space-between"
         >
-          {/* {titleForm} */}
-          Registrar/Actualizar cita
-        </Typography>
-
-        <IconButton onClick={cerrarModal}>
-          <CloseOutlined style={{ fontSize: "25px", color: "#602a90" }} />
-        </IconButton>
-      </DialogTitle>
-
-      <DialogContent>
-        <form
-          onSubmit={onSubmit}
-          className="animate__animated animate__fadeIn animate__faster"
-        >
-          <Grid
-            container
+          <Typography
             sx={{
-              display: "grid",
-              paddingTop: "15px",
-              alignItems: "center",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gridTemplateRows: "repeat(4, max-content)",
-              gridTemplateAreas: `"paciente paciente paciente"
+              fontWeight: "bold",
+              fontSize: "25px",
+              fontStyle: "italic",
+              textShadow: "0px 1px 1px rgba(0, 0, 0, 0.4)",
+            }}
+          >
+            {titleFormAgenda}
+          </Typography>
+
+          <IconButton onClick={cerrarModal}>
+            <CloseOutlined style={{ fontSize: "25px", color: "#602a90" }} />
+          </IconButton>
+        </DialogTitle>
+
+        <DialogContent>
+          <form
+            onSubmit={onSubmit}
+            className="animate__animated animate__fadeIn animate__faster"
+          >
+            <Grid
+              container
+              sx={{
+                display: "grid",
+                paddingTop: "15px",
+                alignItems: "center",
+                gridTemplateColumns: "repeat(3, 1fr)",
+                gridTemplateRows: "repeat(4, max-content)",
+                gridTemplateAreas: `"paciente paciente paciente"
               "fecha horaIni horaFin"
               "motivo motivo motivo"
               "btnReg btnReg btnReg "
               `,
-              rowGap: "30px",
-              columnGap: "10px",
-            }}
-          >
-            <Grid item gridArea="paciente">
-              <CustomAutocomplete
-                fullWidth
-                disablePortal
-                options={pacientesListBusq}
-                onChange={(event, value) => {
-                  value !== null
-                    ? setStatePacList(value.id)
-                    : setStatePacList(0);
-                }}
-                propsTextField={{
-                  label: "Pacientes:",
-                  placeholder: "Seleccione un paciente",
-                  error: statePacList === 0 && formSubmitted,
-                  helperText:
-                    statePacList === 0
-                      ? "Debe seleccionar un paciente de la lista"
-                      : "",
-                }}
-                autoFocus
-                iconAutocomplete={<PersonSearch />}
-                heightList="190px"
-              />
-            </Grid>
+                rowGap: "30px",
+                columnGap: "10px",
+              }}
+            >
+              <Grid item gridArea="paciente">
+                <CustomAutocomplete
+                  fullWidth
+                  disablePortal
+                  options={pacientesListBusq}
+                  getOptionLabel={(option) => option.label}
+                  // isOptionEqualToValue={(option, value) => {
+                  //   return option.label;
+                  // }}
 
-            <Grid item gridArea="fecha">
-              <LocalizationProvider
-                adapterLocale={es}
-                dateAdapter={AdapterDateFns}
-              >
-                <DatePicker
+                  // defaultValue={stateDefPac}
+
+                  value={statePacValue}
+                  onChange={(event, newValue) => {
+                    setStatePacValue(newValue);
+                    newValue !== null
+                      ? setStatePacList(newValue.id)
+                      : setStatePacList(0);
+                  }}
+                  propsTextField={{
+                    label: "Pacientes:",
+                    placeholder: "Seleccione un paciente",
+                    error: statePacList === 0 && formSubmitted,
+                    helperText:
+                      statePacList === 0
+                        ? "Debe seleccionar un paciente de la lista"
+                        : "",
+                  }}
+                  autoFocus
+                  iconAutocomplete={<PersonSearch />}
+                  heightList="220px"
+                />
+              </Grid>
+
+              <Grid item gridArea="fecha">
+                <CustomDatePicker
                   label={"Fecha:"}
                   views={["month", "day"]}
                   disablePast
                   value={stateDatePicker}
                   onChange={onChangeDatePicker}
                   onError={(newError) => {
-                    //  console.log("Error en la fecha", newError);
                     setErrorDate(newError);
                   }}
                   slotProps={{
@@ -266,61 +349,45 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
                       error: errorMsgDate !== "" && formSubmitted,
                     },
                   }}
-                  sx={{
-                    boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
-                    ":hover": {
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-
-                    "& .Mui-focused.MuiInputBase-root ": {
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-                    "& .MuiFormLabel-root": {
-                      color: "primary.main",
-                    },
-                    "& .MuiFormLabel-root.Mui-focused": {
-                      color: "btnHoverInForm.main",
-                    },
-                    "& .MuiInputAdornment-root > .MuiButtonBase-root": {
-                      color: "primary.main",
-                    },
-
-                    "& .Mui-focused > .MuiInputAdornment-root > .MuiButtonBase-root":
-                      {
-                        color: "btnHoverInForm.main",
-                      },
-
-                    "& .MuiInputBase-input ": {
-                      color: "black",
-                    },
-                    "& .MuiFormHelperText-contained": {
-                      color: "btnHoverInForm.main",
-                    },
-
-                    "& .Mui-error ~ p": {
-                      color: "error.main",
-                    },
-                  }}
                 />
-              </LocalizationProvider>
-            </Grid>
+              </Grid>
 
-            <Grid item gridArea="horaIni">
-              <LocalizationProvider
-                adapterLocale={es}
-                dateAdapter={AdapterDateFns}
-              >
-                <TimePicker
-                  disablePast
+              <Grid item gridArea="horaIni">
+                <CustomTimePicker
+                  // disablePast
+                  minTime={
+                    extraerFecha(stateDatePicker) ===
+                      extraerFecha(new Date()) && new Date().getHours() > 7
+                      ? new Date(0, 0, 0, new Date().getHours())
+                      : new Date(0, 0, 0, 7)
+                  }
+                  maxTime={new Date(0, 0, 0, 20)}
+                  // shouldDisableTime={(value, view) =>
+                  //   extraerFecha(stateDatePicker) === extraerFecha(new Date()) &&
+                  //   view === "hours" &&
+                  //   value.hour < new Date().getHours()
+                  // }
+
+                  // shouldDisableTime={
+                  //   (value, view) =>
+                  // {
+                  // console.log(value);
+                  // console.log(view);
+                  // return
+                  // (
+                  // view === "hours" &&
+                  // value.getHours() > 12 &&
+                  // value.getHours() < 15
+                  // );
+                  // }
+                  // }
                   ampm={false}
                   label={"Hora Inicio:"}
                   value={stateTimeIni}
                   onChange={(newValue) => {
                     setStateTimeIni(newValue);
-                    // console.log(newValue);
                   }}
                   onError={(newError) => {
-                    // console.log("newError fechainit", newError);
                     setErrorHourInit(newError);
                   }}
                   slotProps={{
@@ -329,62 +396,20 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
                       error: errorMsgHourInit !== "" && formSubmitted,
                     },
                   }}
-                  sx={{
-                    boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
-                    ":hover": {
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-
-                    "& .Mui-focused.MuiInputBase-root ": {
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-                    "& .MuiFormLabel-root": {
-                      color: "primary.main",
-                    },
-                    "& .MuiFormLabel-root.Mui-focused": {
-                      color: "btnHoverInForm.main",
-                    },
-                    "& .MuiInputAdornment-root > .MuiButtonBase-root": {
-                      color: "primary.main",
-                    },
-
-                    "& .Mui-focused > .MuiInputAdornment-root > .MuiButtonBase-root":
-                      {
-                        color: "btnHoverInForm.main",
-                      },
-
-                    "& .MuiInputBase-input ": {
-                      color: "black",
-                    },
-                    "& .MuiFormHelperText-contained": {
-                      color: "btnHoverInForm.main",
-                    },
-
-                    "& .Mui-error ~ p": {
-                      color: "error.main",
-                    },
-                  }}
                 />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item gridArea="horaFin">
-              <LocalizationProvider
-                adapterLocale={es}
-                dateAdapter={AdapterDateFns}
-              >
-                <TimePicker
-                  // disablePast
+              </Grid>
 
+              <Grid item gridArea="horaFin">
+                <CustomTimePicker
                   minTime={new Date(5 * 60000 + stateTimeIni.getTime())}
+                  maxTime={new Date(0, 0, 0, 20)}
                   ampm={false}
                   label={"Hora Fin:"}
                   value={stateTimeFin}
                   onChange={(newValue) => {
-                    // console.log(newValue);
                     setStateTimeFin(newValue);
                   }}
                   onError={(newError) => {
-                    // console.log("newError fechainit", newError);
                     setErrorHourFin(newError);
                   }}
                   slotProps={{
@@ -393,108 +418,95 @@ export const AgendaModal = ({ openModalAgenda, setOpenModalAgenda }) => {
                       error: errorMsgHourFin !== "" && formSubmitted,
                     },
                   }}
-                  sx={{
-                    boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
-                    ":hover": {
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-
-                    "& .Mui-focused.MuiInputBase-root ": {
-                      boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-                    },
-                    "& .MuiFormLabel-root": {
-                      color: "primary.main",
-                    },
-                    "& .MuiFormLabel-root.Mui-focused": {
-                      color: "btnHoverInForm.main",
-                    },
-                    "& .MuiInputAdornment-root > .MuiButtonBase-root": {
-                      color: "primary.main",
-                    },
-
-                    "& .Mui-focused > .MuiInputAdornment-root > .MuiButtonBase-root":
-                      {
-                        color: "btnHoverInForm.main",
-                      },
-
-                    "& .MuiInputBase-input ": {
-                      color: "black",
-                    },
-                    "& .MuiFormHelperText-contained": {
-                      color: "btnHoverInForm.main",
-                    },
-
-                    "& .Mui-error ~ p": {
-                      color: "error.main",
-                    },
-                  }}
                 />
-              </LocalizationProvider>
-            </Grid>
-            <Grid item gridArea="motivo">
-              <IconTextField
-                fullWidth
-                label="Motivo de consulta:"
-                type="text"
-                multiline
-                name="moti_citaAgen"
-                value={stateMotivo}
-                onChange={({ target }) => {
-                  setStateMotivo(target.value);
-                }}
-                error={stateMotivo.length === 0 && formSubmitted}
-                helperText={
-                  stateMotivo.length === 0
-                    ? "Debe agregar un motivo de la cita"
-                    : ""
-                }
-                colorIcon="primary.main"
-                colorHover="btnHoverInForm.main"
-                colorTxt="black"
-                colorLabel="primary.main"
-                iconEnd={
-                  <Icon>
-                    <SegmentOutlined />
-                  </Icon>
-                }
-              />
-            </Grid>
+              </Grid>
 
-            <Grid
-              item
-              gridArea="btnReg"
-              display="flex"
-              flexDirection="row"
-              columnGap="10px"
-              rowGap="10px"
-              justifyContent="center"
-            >
-              <ButtonCustom
-                altura={"40px"}
-                colorf={"white"}
-                colorh={"btnHoverInForm.main"}
-                colort={"black"}
-                txt_b={"Cancelar"}
-                colorth={"white"}
-                propsXS={{ border: "1px solid black" }}
-                iconB={<CancelOutlined />}
-                onClick={cerrarModal}
-              />
+              <Grid item gridArea="motivo">
+                <IconTextField
+                  fullWidth
+                  label="Motivo de consulta:"
+                  type="text"
+                  multiline
+                  name="moti_citaAgen"
+                  value={stateMotivo}
+                  onChange={({ target }) => {
+                    setStateMotivo(target.value);
+                  }}
+                  error={stateMotivo.length === 0 && formSubmitted}
+                  helperText={
+                    stateMotivo.length === 0
+                      ? "Debe agregar un motivo de la cita"
+                      : ""
+                  }
+                  colorIcon="primary.main"
+                  colorHover="btnHoverInForm.main"
+                  colorTxt="black"
+                  colorLabel="primary.main"
+                  iconEnd={
+                    <Icon>
+                      <SegmentOutlined />
+                    </Icon>
+                  }
+                />
+              </Grid>
 
-              <ButtonCustom
-                tipoBtn="submit"
-                altura="40px"
-                colorf="primary.main"
-                colorh="btnHoverInForm.main"
-                colort="white"
-                txt_b="Registrar"
-                // {txtButton}
-                iconB={<SaveOutlined />}
-              />
+              <Grid
+                item
+                gridArea="btnReg"
+                display="flex"
+                flexDirection="row"
+                columnGap="10px"
+                rowGap="10px"
+                justifyContent="center"
+              >
+                <ButtonCustom
+                  altura={"40px"}
+                  colorf={"white"}
+                  colorh={"btnHoverInForm.main"}
+                  colort={"black"}
+                  txt_b={"Cancelar"}
+                  colorth={"white"}
+                  propsXS={{ border: "1px solid black" }}
+                  iconB={<CancelOutlined />}
+                  onClick={cerrarModal}
+                />
+
+                <ButtonCustom
+                  tipoBtn="submit"
+                  altura="40px"
+                  colorf="primary.main"
+                  colorh="btnHoverInForm.main"
+                  colort="white"
+                  txt_b={txtButton}
+                  iconB={<SaveOutlined />}
+                />
+              </Grid>
             </Grid>
-          </Grid>
-        </form>
-      </DialogContent>
-    </Dialog>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      <CustomAlert
+        stateSnackbar={stateSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        title={"Completado"}
+        message={msgAlert}
+        colorbg="blueSecondary.main"
+        colortxt="white"
+        iconAlert={<CheckCircleOutline sx={{ color: "white" }} />}
+      />
+
+      <Portal>
+        <CustomAlert
+          stateSnackbar={stateSnackbarError}
+          handleCloseSnackbar={handleCloseSnackbarError}
+          title={"Agendamiento no completado"}
+          message={errorRegCiteMessage.error}
+          colorbg="error.main"
+          colortxt="white"
+          iconAlert={<CancelOutlined sx={{ color: "white" }} />}
+        />
+      </Portal>
+    </>
   );
 };

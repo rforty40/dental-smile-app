@@ -134,6 +134,7 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
     setStateSnackbar(true);
   };
 
+  //control alert error
   const [stateSnackbarError, setStateSnackbarError] = useState(false);
   const handleCloseSnackbarError = () => {
     setStateSnackbarError(false);

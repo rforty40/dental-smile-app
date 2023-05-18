@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 
 import { Calendar } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
@@ -10,9 +10,8 @@ import { getMessagesES, localizer } from "../../helpers";
 import { AgendaModal, CalendarEvent } from "../components/";
 import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+
 import { Topbar } from "../../ui";
-import { differenceInSeconds } from "date-fns";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -23,16 +22,22 @@ export const AgendaPage = () => {
   //store
   const { changePage } = useUiStore();
 
-  const { startLoadPacientes, pacientesListBusq } = usePacienteStore();
+  const { startLoadPacientes } = usePacienteStore();
 
-  const { startLoadCites, citas, changeDataCite } = useAgendaStore();
+  const {
+    citasList,
+    changeStateFormAgenda,
+    changeTitleFormAgenda,
+    startLoadCites,
+    startUpdatingCita,
+    changeDataCite,
+  } = useAgendaStore();
 
   //
-  //estados locales
-  const [openModalAgenda, setOpenModalAgenda] = useState(false);
 
   const handleOpenModalAgenda = () => {
-    setOpenModalAgenda(true);
+    changeTitleFormAgenda("Agendar cita odontológica");
+    changeStateFormAgenda(true);
   };
 
   const [lastView, setLastView] = useState(
@@ -41,9 +46,12 @@ export const AgendaPage = () => {
 
   useEffect(() => {
     changePage();
-    startLoadCites();
+    // startLoadCites();
     startLoadPacientes();
   }, []);
+
+  //cada actualizacion se vuelven a renderizar el startLoadCites()
+  startLoadCites();
 
   const today = new Date();
 
@@ -58,20 +66,29 @@ export const AgendaPage = () => {
     };
   };
 
-  const onSelect = (event) => {
-    console.log({ click: event });
+  //eventos del calendario
+  const onViewChanged = (event) => {
+    localStorage.setItem("lastView", event);
+    setLastView(event);
   };
 
-  const onDoubleClick = (event) => {
-    console.log({ doubleClick: event });
-    // handleOpenModalAgenda();
+  const onSelect = (event) => {
+    console.log("onSelect");
+
+    changeDataCite(event);
+  };
+
+  const onSelectDrag = ({ event }) => {
+    console.log("onSelectedDrag");
+    changeDataCite(event);
   };
 
   //funcion se activa al seleccionar uno o varios slots
   const clickSlot = (slotInfo) => {
     //
+    console.log("clickSlot");
+
     const { start, end } = slotInfo;
-    console.log(slotInfo);
 
     changeDataCite({
       start,
@@ -80,23 +97,18 @@ export const AgendaPage = () => {
 
     handleOpenModalAgenda();
   };
-  const onViewChanged = (event) => {
-    localStorage.setItem("lastView", event);
-    setLastView(event);
-  };
-  const onEventDropResizable = async (data) => {
-    const { start, end } = data;
 
-    const difference = differenceInSeconds(end, start);
+  const onEventDropResizable = (data) => {
+    console.log("onEventDropResizable");
+    const { start, end, event } = data;
 
-    const eventoActivo = activeEvent.event;
-
-    if (isNaN(difference) || difference <= 0) {
-      Swal.fire("Fechas incorrectas", "Revisar las fechas ingresadas", "error");
-      return;
-    }
-
-    await startSavingEvent({ ...eventoActivo, start, end });
+    startUpdatingCita(event.fecha_cita, event.hora_inicio, {
+      statePacList: event.id_paciente,
+      stateDatePicker: start,
+      stateTimeIni: start,
+      stateTimeFin: end,
+      stateMotivo: event.moti_citaAgen,
+    });
   };
 
   return (
@@ -122,7 +134,7 @@ export const AgendaPage = () => {
           selectable
           culture="es"
           localizer={localizer}
-          events={citas}
+          events={citasList}
           defaultView={lastView}
           startAccessor="start"
           endAccessor="end"
@@ -138,20 +150,19 @@ export const AgendaPage = () => {
           components={{
             event: CalendarEvent,
           }}
-          timeslots={4} // number of per section
-          step={15} // number of minutes per timeslot
+          timeslots={1} // number of per section
+          step={30} // number of minutes per timeslot
           min={
             // start time 7:00am
             new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)
           }
-          // end time 7:00pm
+          // end time 8:00pm
           max={
             new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)
           }
-          // onDoubleClickEvent={onDoubleClick}
           onSelectEvent={onSelect}
           onView={onViewChanged}
-          onDragStart={onSelect}
+          onDragStart={onSelectDrag}
           onEventDrop={onEventDropResizable}
           resizable
           onEventResize={onEventDropResizable}
@@ -161,10 +172,7 @@ export const AgendaPage = () => {
           dayLayoutAlgorithm={"no-overlap"}
         />
 
-        <AgendaModal
-          openModalAgenda={openModalAgenda}
-          setOpenModalAgenda={setOpenModalAgenda}
-        />
+        <AgendaModal />
       </Box>
     </div>
   );

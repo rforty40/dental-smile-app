@@ -9,6 +9,8 @@ export const IconTextField = ({
   iconEnd,
   InputProps,
   propsXS,
+  font_we = "normal",
+  font_sty = "normal",
   ...props
 }) => {
   return (
@@ -19,6 +21,7 @@ export const IconTextField = ({
         ":hover": {
           boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
         },
+
         "& .MuiInputLabel-root.Mui-disabled ": {
           opacity: "0.3",
         },
@@ -40,7 +43,8 @@ export const IconTextField = ({
         "& .MuiInputBase-root ": {
           "& input": {
             // textAlign: "center",
-            // fontStyle: "bold",
+            fontStyle: font_sty,
+            fontWeight: font_we,
             color: colorTxt,
           },
         },

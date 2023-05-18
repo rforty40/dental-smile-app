@@ -37,3 +37,55 @@ export const retornarFecha = (state, newValue) => {
     )
   );
 };
+
+export const formatearDataCiteToBD = (dataCita) => {
+  return {
+    fecha_citaAgen: dataCita.stateDatePicker
+      .toLocaleString("sv-SE", { hour12: false })
+      .split(" ")[0]
+      .replaceAll("-", "/"),
+
+    horaIni_citaAgen: dataCita.stateTimeIni
+      .toLocaleString("sv-SE", { hour12: false })
+      .split(" ")[1]
+      .substring(0, 5),
+    horaFin_citaAgen: dataCita.stateTimeFin
+      .toLocaleString("sv-SE", { hour12: false })
+      .split(" ")[1]
+      .substring(0, 5),
+    id_paciente: dataCita.statePacList,
+    moti_citaAgen: dataCita.stateMotivo,
+    esta_citaAgen: "Pendiente",
+  };
+};
+
+export const comprobarErrorCite = (typeError) => {
+  let msgError = "";
+
+  if (
+    typeError.includes("Duplicate entry") &&
+    typeError.includes("citaagendada_tbl.PRIMARY")
+  ) {
+    msgError = "Ya existe una cita registrada en la misma hora de inicio.";
+  } else if (typeError.includes("Data too long for column")) {
+    msgError = "Se excedió el límite en el campo motivo de consulta";
+  } else {
+    msgError =
+      "Error: " +
+      typeError +
+      ". Para mas información contactese con el administrador";
+  }
+
+  return msgError;
+};
+
+export const extraerFecha = (fecha) => {
+  const fechaConvertida =
+    fecha.getFullYear() +
+    "/" +
+    String(fecha.getMonth() + 1).padStart(2, "0") +
+    "/" +
+    String(fecha.getDate()).padStart(2, "0");
+
+  return fechaConvertida;
+};

@@ -1,7 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
-import { onLoadCitas, onSetActiveCita } from "../store";
-import { getAllCites } from "../api/agenda.api";
-import { formatedDataCite } from "../agenda/helpers/formatedDataCite";
+import {
+  changeRegisterCiteError,
+  clearErrorCiteMessage,
+  onChangeOpenFormAgenda,
+  onChangeTitleFormAgenda,
+  onLoadCitas,
+  onSaveCita,
+  onSetActiveCita,
+  onUpdateCita,
+} from "../store";
+import { createCita, getAllCites, updateCita } from "../api/agenda.api";
+import {
+  comprobarErrorCite,
+  formatearDataCiteToBD,
+  formatedDataCite,
+} from "../agenda/helpers/formatedDataCite";
 
 //
 //
@@ -11,9 +24,20 @@ export const useAgendaStore = () => {
 
   const dispatch = useDispatch();
 
-  const { citas, activeCita, errorRegCiteMessage } = useSelector(
-    (state) => state.agenda
-  );
+  const {
+    stateOpenFormAgenda,
+    titleFormAgenda,
+    citasList,
+    activeCita,
+    errorRegCiteMessage,
+  } = useSelector((state) => state.agenda);
+
+  const changeStateFormAgenda = (flag) => {
+    dispatch(onChangeOpenFormAgenda(flag));
+  };
+  const changeTitleFormAgenda = (flag) => {
+    dispatch(onChangeTitleFormAgenda(flag));
+  };
 
   const changeDataCite = (dataCite) => {
     dispatch(onSetActiveCita(dataCite));
@@ -29,44 +53,65 @@ export const useAgendaStore = () => {
     }
   };
 
-  // const startSavingPaciente = async (dataPaciente) => {
-  //   dispatch(clearErrorMessage());
+  const startSavingCita = async (dataCite) => {
+    dispatch(clearErrorCiteMessage());
 
-  //   try {
-  //     if (dataPaciente.id) {
-  //       //actualizando
-  //       const { data } = await updatePaciente(
-  //         dataPaciente.id,
-  //         formatearDataPacToBD(dataPaciente)
-  //       );
+    try {
+      //registrando al backend
+      const { data } = await createCita(formatearDataCiteToBD(dataCite));
 
-  //       dispatch(onUpdatePaciente(formatearDataPacToTable([data])[0]));
-  //       dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
-  //     } else {
-  //       //registrando
-  //       const { data } = await createPaciente(
-  //         formatearDataPacToBD(dataPaciente)
-  //       );
+      //guardando y actualizando el store
+      console.log(data);
+      dispatch(onSaveCita(formatedDataCite([data])[0]));
+      dispatch(onSetActiveCita(formatedDataCite([data])[0]));
 
-  //       console.log(data);
-  //       dispatch(onSavePaciente(formatearDataPacToTable([data])[0]));
-  //       dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
-  //     }
+      //actualizar errores
+      dispatch(changeRegisterCiteError({ msg: "Sin errores", error: "" }));
 
-  //     dispatch(changeRegisterError({ msg: "Sin errores", error: "" }));
+      //
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(
+        changeRegisterCiteError({
+          msg: "Hay errores",
+          error: comprobarErrorCite(error.response.data.message),
+        })
+      );
+    }
+  };
 
-  //     //
-  //   } catch (error) {
-  //     console.log(error);
-  //     console.log(error.response.data.message);
-  //     dispatch(
-  //       changeRegisterError({
-  //         msg: "Hay errores",
-  //         error: comprobarError(error.response.data.message),
-  //       })
-  //     );
-  //   }
-  // };
+  const startUpdatingCita = async (fechaCite, horaIni, dataCite) => {
+    dispatch(clearErrorCiteMessage());
+
+    try {
+      //registrando al backend
+      const { data } = await updateCita(
+        fechaCite.replaceAll("/", "-"),
+        horaIni,
+        formatearDataCiteToBD(dataCite)
+      );
+
+      //guardando y actualizando el store
+      // console.log(data);
+      dispatch(onUpdateCita(formatedDataCite([data])[0]));
+      dispatch(onSetActiveCita(formatedDataCite([data])[0]));
+
+      //actualizar errores
+      dispatch(changeRegisterCiteError({ msg: "Sin errores", error: "" }));
+
+      //
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(
+        changeRegisterCiteError({
+          msg: "Hay errores",
+          error: comprobarErrorCite(error.response.data.message),
+        })
+      );
+    }
+  };
 
   // const startDeletingPaciente = async (id_paciente = []) => {
   //   try {
@@ -86,12 +131,18 @@ export const useAgendaStore = () => {
 
   return {
     //* Propiedades
-    citas,
+    citasList,
     activeCita,
     errorRegCiteMessage,
+    stateOpenFormAgenda,
+    titleFormAgenda,
 
     //* Métodos
+    changeStateFormAgenda,
+    changeTitleFormAgenda,
     changeDataCite,
     startLoadCites,
+    startSavingCita,
+    startUpdatingCita,
   };
 };
