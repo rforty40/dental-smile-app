@@ -11,6 +11,7 @@ import { styled } from "@mui/material/styles";
 
 import { useAgendaStore } from "../../hooks";
 import { ViewCita } from "./ViewCita";
+import { useNavigate } from "react-router-dom";
 
 const StyledTooltip = styled((props) => (
   <Tooltip classes={{ popper: props.className }} {...props} />
@@ -48,20 +49,23 @@ export const CalendarEvent = ({ event }) => {
   const handleTooltipOpen = () => {
     setOpen(!open);
   };
-
+  console.log(event);
   const {
     Cuando,
     fecha_cita,
     hora_inicio,
     hora_fin,
+    id_paciente,
     Paciente,
     moti_citaAgen,
     esta_citaAgen,
   } = event;
 
+  const navigate = useNavigate();
+
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
-      <div onClick={handleTooltipOpen}>
+      <div>
         <StyledTooltip
           title={<ViewCita closeCitaView={handleTooltipClose} />}
           arrow
@@ -74,20 +78,50 @@ export const CalendarEvent = ({ event }) => {
           TransitionComponent={Zoom}
         >
           <Box
-            // component="div"
-
-            display="flex"
-            flexDirection="row"
-            columnGap="40px"
-            padding="5px"
-            height="100%"
+            component="div"
+            onClick={handleTooltipOpen}
+            // display="flex"
+            // flexDirection="row"
+            // padding="5px"
+            // height="100vh"
+            // width="100%"
             sx={{
               borderRadius: "5px",
+              // backgroundColor: "orange",
             }}
           >
-            <Typography fontStyle="italic" color="white" fontWeight="bold">
+            <Typography
+              sx={{
+                ":hover": {
+                  color: "#01EBED",
+                  cursor: "pointer",
+                },
+              }}
+              fontStyle="italic"
+              color="white"
+              fontWeight="bold"
+            >
               {moti_citaAgen}
             </Typography>
+
+            <div
+              onClick={() => navigate(`/pacientes/${id_paciente}/historial`)}
+            >
+              <Typography
+                sx={{
+                  ":hover": {
+                    cursor: "pointer",
+                    color: "#01EBED",
+                  },
+                }}
+                fontStyle="italic"
+                color="black"
+                fontSize="15px"
+                fontWeight="bold"
+              >
+                {Paciente}
+              </Typography>
+            </div>
           </Box>
         </StyledTooltip>
       </div>

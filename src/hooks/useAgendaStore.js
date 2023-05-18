@@ -8,6 +8,7 @@ import {
   onSaveCita,
   onSetActiveCita,
   onUpdateCita,
+  onChangeOpenViewCite,
 } from "../store";
 import { createCita, getAllCites, updateCita } from "../api/agenda.api";
 import {
@@ -26,6 +27,7 @@ export const useAgendaStore = () => {
 
   const {
     stateOpenFormAgenda,
+    stateOpenCiteView,
     titleFormAgenda,
     citasList,
     activeCita,
@@ -34,6 +36,10 @@ export const useAgendaStore = () => {
 
   const changeStateFormAgenda = (flag) => {
     dispatch(onChangeOpenFormAgenda(flag));
+  };
+
+  const changeStateViewCite = (flag) => {
+    dispatch(onChangeOpenViewCite(flag));
   };
   const changeTitleFormAgenda = (flag) => {
     dispatch(onChangeTitleFormAgenda(flag));
@@ -140,6 +146,7 @@ export const useAgendaStore = () => {
     errorRegCiteMessage,
     stateOpenFormAgenda,
     titleFormAgenda,
+    stateOpenCiteView,
 
     //* Métodos
     changeStateFormAgenda,
@@ -148,5 +155,6 @@ export const useAgendaStore = () => {
     startLoadCites,
     startSavingCita,
     startUpdatingCita,
+    changeStateViewCite,
   };
 };

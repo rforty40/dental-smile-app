@@ -14,6 +14,7 @@ import {
 } from "@mui/icons-material";
 import { useAgendaStore } from "../../hooks";
 import { AgendaModal } from "./AgendaModal";
+import { useNavigate } from "react-router-dom";
 
 export const ViewCita = ({ closeCitaView }) => {
   //
@@ -21,11 +22,12 @@ export const ViewCita = ({ closeCitaView }) => {
     useAgendaStore();
 
   const openFormEditCite = () => {
-    closeCitaView(true);
+    closeCitaView();
     changeStateFormAgenda(true);
     changeTitleFormAgenda("Editar cita odontológica");
   };
-  console.log("aaa");
+
+  const navigate = useNavigate();
   return (
     <Box
       boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
@@ -83,7 +85,11 @@ export const ViewCita = ({ closeCitaView }) => {
             colorLabel="blueSecondary.main"
             font_we="bold"
             font_sty="italic"
-            InputProps={{ readOnly: true }}
+            InputProps={{
+              readOnly: true,
+              // onClick: () =>
+              //   navigate(`/pacientes/${activeCita.id_paciente}/historial`),
+            }}
             iconEnd={
               <Icon>
                 <PersonSearch />

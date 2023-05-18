@@ -48,6 +48,10 @@ button.rbc-input::-moz-focus-inner {
 .rbc-row-segment .rbc-event-content,
 .rbc-show-more {
   display: block;
+  /* display: flex; */
+  /* padding: 0px 5px; */
+  /* padding: 5px; */
+  /* word-wrap: break-word; */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -112,8 +116,14 @@ button.rbc-input::-moz-focus-inner {
 }
 .rbc-today {
   /* background-color: #eaf6ff; */
-
-  background-color: rgba(96, 42, 144, 0.4);
+  /* background-color: grey; */
+  background-color: rgba(96, 42, 144, 0.2);
+}
+.rbc-header.rbc-today > button {
+  /* background-color: #eaf6ff; */
+  /* background-color: grey; */
+  background-color: black;
+  color: #01ebed;
 }
 /* .rbc-today::before {
   content: "Hoy";
@@ -258,6 +268,21 @@ button.rbc-input::-moz-focus-inner {
   border: none;
 
   box-shadow: none;
+  /* margin: 0; */
+  /* padding: 2px 5px; */
+  background-color: #3174ad;
+  border-radius: 5px;
+  color: #fff;
+  /* cursor: pointer; */
+  width: 100%;
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* .rbc-event {
+  border: none;
+
+  box-shadow: none;
   margin: 0;
   padding: 2px 5px;
   background-color: #3174ad;
@@ -266,7 +291,7 @@ button.rbc-input::-moz-focus-inner {
   cursor: pointer;
   width: 100%;
   text-align: left;
-}
+} */
 .rbc-slot-selecting .rbc-event {
   cursor: inherit;
   pointer-events: none;
@@ -397,6 +422,11 @@ button.rbc-input::-moz-focus-inner {
 .rbc-date-cell.rbc-now {
   font-weight: bold;
 }
+
+.rbc-date-cell.rbc-now > .rbc-button-link {
+  background-color: black;
+  color: #01ebed;
+}
 .rbc-date-cell > a,
 .rbc-date-cell > a:active,
 .rbc-date-cell > a:visited {
@@ -511,6 +541,7 @@ button.rbc-input::-moz-focus-inner {
 .rbc-agenda-date-cell,
 .rbc-agenda-time-cell {
   white-space: nowrap;
+  font-weight: bold;
 }
 .rbc-agenda-event-cell {
   width: 100%;
@@ -568,7 +599,9 @@ button.rbc-input::-moz-focus-inner {
   left: 0;
   position: absolute;
   right: 0;
-  margin-right: 10px;
+  /* margin: 0px 10px 0px 5px; */
+  /* margin: 10px; */
+  /* margin-right: 10px; */
   top: 0;
 }
 .rbc-day-slot .rbc-events-container.rbc-is-rtl {

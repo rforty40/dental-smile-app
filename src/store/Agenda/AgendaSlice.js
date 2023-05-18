@@ -9,11 +9,17 @@ export const agendaSlice = createSlice({
     stateOpenFormAgenda: false,
     titleFormAgenda: "",
     errorRegCiteMessage: { msg: "", error: "" },
+
+    stateOpenCiteView: false,
   },
 
   reducers: {
     onChangeOpenFormAgenda: (state, { payload }) => {
       state.stateOpenFormAgenda = payload;
+    },
+
+    onChangeOpenViewCite: (state, { payload }) => {
+      state.stateOpenCiteView = payload;
     },
 
     onChangeTitleFormAgenda: (state, { payload }) => {
@@ -56,6 +62,7 @@ export const agendaSlice = createSlice({
 
 export const {
   onChangeOpenFormAgenda,
+  onChangeOpenViewCite,
   onChangeTitleFormAgenda,
   onSetActiveCita,
   onLoadCitas,

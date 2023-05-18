@@ -6,12 +6,14 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/addons/dragAndDrop/styles.css";
 
 import "./react-big-calendar.css";
-import { getMessagesES, localizer } from "../../helpers";
+
 import { AgendaModal, CalendarEvent } from "../components/";
 import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
 import { useEffect, useState } from "react";
 
 import { Topbar } from "../../ui";
+import { getMessagesES } from "../helpers/getMessages";
+import { localizer } from "../helpers/calendarLocalizer";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -130,6 +132,12 @@ export const AgendaPage = () => {
         <DnDCalendar
           className="animate__animated animate__fadeIn"
           selectable
+          views={{
+            month: true,
+            week: true,
+            day: true,
+            agenda: true,
+          }}
           culture="es"
           localizer={localizer}
           events={citasList}
