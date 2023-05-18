@@ -51,6 +51,7 @@ export const AgendaModal = () => {
     changeStateFormAgenda,
     activeCita,
     changeDataCite,
+    startLoadCites,
     startSavingCita,
     startUpdatingCita,
     errorRegCiteMessage,

@@ -78,6 +78,8 @@ export const useAgendaStore = () => {
           error: comprobarErrorCite(error.response.data.message),
         })
       );
+    } finally {
+      startLoadCites();
     }
   };
 
@@ -110,6 +112,8 @@ export const useAgendaStore = () => {
           error: comprobarErrorCite(error.response.data.message),
         })
       );
+    } finally {
+      startLoadCites();
     }
   };
 

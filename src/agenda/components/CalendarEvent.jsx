@@ -61,7 +61,7 @@ export const CalendarEvent = ({ event }) => {
 
   return (
     <ClickAwayListener onClickAway={handleTooltipClose}>
-      <div>
+      <div onClick={handleTooltipOpen}>
         <StyledTooltip
           title={<ViewCita closeCitaView={handleTooltipClose} />}
           arrow
@@ -74,8 +74,8 @@ export const CalendarEvent = ({ event }) => {
           TransitionComponent={Zoom}
         >
           <Box
-            component="div"
-            onClick={handleTooltipOpen}
+            // component="div"
+
             display="flex"
             flexDirection="row"
             columnGap="40px"

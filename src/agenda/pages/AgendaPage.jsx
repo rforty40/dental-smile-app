@@ -46,12 +46,9 @@ export const AgendaPage = () => {
 
   useEffect(() => {
     changePage();
-    // startLoadCites();
+    startLoadCites();
     startLoadPacientes();
   }, []);
-
-  //cada actualizacion se vuelven a renderizar el startLoadCites()
-  startLoadCites();
 
   const today = new Date();
 
@@ -109,6 +106,7 @@ export const AgendaPage = () => {
       stateTimeFin: end,
       stateMotivo: event.moti_citaAgen,
     });
+    // startLoadCites();
   };
 
   return (

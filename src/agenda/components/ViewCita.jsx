@@ -25,7 +25,7 @@ export const ViewCita = ({ closeCitaView }) => {
     changeStateFormAgenda(true);
     changeTitleFormAgenda("Editar cita odontológica");
   };
-  console.log(activeCita);
+  console.log("aaa");
   return (
     <Box
       boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
