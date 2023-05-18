@@ -297,7 +297,7 @@ button.rbc-input::-moz-focus-inner {
   pointer-events: none;
 }
 .rbc-event.rbc-selected {
-  background-color: #265985;
+  background-color: orange !important;
 }
 .rbc-event:focus {
   outline: 0px auto #3b99fc;
@@ -333,7 +333,10 @@ button.rbc-input::-moz-focus-inner {
   flex-direction: row;
 }
 .rbc-row-segment {
-  padding: 0 1px 1px 1px;
+  /* padding: 0 1px 1px 1px; */
+
+  padding: 2px;
+  /* margin: 10px; */
   border-radius: 5px;
 }
 .rbc-selected-cell {
@@ -835,10 +838,16 @@ button.rbc-input::-moz-focus-inner {
   z-index: 3;
   left: 0;
   right: 0;
-  height: 1px;
-  background-color: #74ad31;
+  height: 0px;
+  background-color: #01ebed;
   pointer-events: none;
 }
+/* .rbc-current-time-indicator::before {
+  content: "Hora Actual";
+  font-size: 14px;
+  font-style: italic;
+  font-weight: bold;
+} */
 
 /* * agreado por mi*/
 

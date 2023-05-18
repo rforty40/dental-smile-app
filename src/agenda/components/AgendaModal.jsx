@@ -51,7 +51,6 @@ export const AgendaModal = () => {
     changeStateFormAgenda,
     activeCita,
     changeDataCite,
-    startLoadCites,
     startSavingCita,
     startUpdatingCita,
     errorRegCiteMessage,
@@ -86,7 +85,7 @@ export const AgendaModal = () => {
   //cerrarModal
   const cerrarModal = () => {
     changeStateFormAgenda(false);
-    changeDataCite(null);
+    changeDataCite({});
   };
 
   //control alert
@@ -110,7 +109,7 @@ export const AgendaModal = () => {
 
   //extraer fecha, horaI, fechaF del activeCita
   useEffect(() => {
-    if (activeCita !== null) {
+    if (JSON.stringify(activeCita) !== "{}") {
       setStateDatePicker(activeCita.start);
       setStateTimeIni(activeCita.start);
       setStateTimeFin(activeCita.end);

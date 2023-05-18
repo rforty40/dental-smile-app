@@ -8,9 +8,14 @@ import {
   onSaveCita,
   onSetActiveCita,
   onUpdateCita,
-  onChangeOpenViewCite,
+  onDeleteCita,
 } from "../store";
-import { createCita, getAllCites, updateCita } from "../api/agenda.api";
+import {
+  createCita,
+  deleteCita,
+  getAllCites,
+  updateCita,
+} from "../api/agenda.api";
 import {
   comprobarErrorCite,
   formatearDataCiteToBD,
@@ -27,7 +32,7 @@ export const useAgendaStore = () => {
 
   const {
     stateOpenFormAgenda,
-    stateOpenCiteView,
+
     titleFormAgenda,
     citasList,
     activeCita,
@@ -38,9 +43,6 @@ export const useAgendaStore = () => {
     dispatch(onChangeOpenFormAgenda(flag));
   };
 
-  const changeStateViewCite = (flag) => {
-    dispatch(onChangeOpenViewCite(flag));
-  };
   const changeTitleFormAgenda = (flag) => {
     dispatch(onChangeTitleFormAgenda(flag));
   };
@@ -123,21 +125,18 @@ export const useAgendaStore = () => {
     }
   };
 
-  // const startDeletingPaciente = async (id_paciente = []) => {
-  //   try {
-  //     if (id_paciente.length === 0) {
-  //       await deletePaciente(pacienteActivo.id);
-  //     } else {
-  //       for (const i of id_paciente) {
-  //         await deletePaciente(i);
-  //       }
-  //     }
-  //     dispatch(onDeletePaciente(id_paciente));
-  //     // console.log(pacienteActivo.id);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const startDeletingCite = async () => {
+    try {
+      await deleteCita(
+        activeCita.fecha_cita.replaceAll("/", "-"),
+        activeCita.hora_inicio
+      );
+
+      dispatch(onDeleteCita());
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
 
   return {
     //* Propiedades
@@ -146,7 +145,6 @@ export const useAgendaStore = () => {
     errorRegCiteMessage,
     stateOpenFormAgenda,
     titleFormAgenda,
-    stateOpenCiteView,
 
     //* Métodos
     changeStateFormAgenda,
@@ -155,6 +153,6 @@ export const useAgendaStore = () => {
     startLoadCites,
     startSavingCita,
     startUpdatingCita,
-    changeStateViewCite,
+    startDeletingCite,
   };
 };

@@ -22,9 +22,9 @@ export const ViewCita = ({ closeCitaView }) => {
     useAgendaStore();
 
   const openFormEditCite = () => {
-    closeCitaView();
-    changeStateFormAgenda(true);
     changeTitleFormAgenda("Editar cita odontológica");
+    changeStateFormAgenda(true);
+    closeCitaView();
   };
 
   const navigate = useNavigate();

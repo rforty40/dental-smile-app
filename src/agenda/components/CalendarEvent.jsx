@@ -9,7 +9,6 @@ import {
 
 import { styled } from "@mui/material/styles";
 
-import { useAgendaStore } from "../../hooks";
 import { ViewCita } from "./ViewCita";
 import { useNavigate } from "react-router-dom";
 
@@ -44,12 +43,13 @@ export const CalendarEvent = ({ event }) => {
 
   const handleTooltipClose = () => {
     setOpen(false);
+    return;
   };
 
   const handleTooltipOpen = () => {
     setOpen(!open);
   };
-  console.log(event);
+
   const {
     Cuando,
     fecha_cita,
@@ -97,6 +97,7 @@ export const CalendarEvent = ({ event }) => {
                   cursor: "pointer",
                 },
               }}
+              fontSize="14px"
               fontStyle="italic"
               color="white"
               fontWeight="bold"
@@ -114,9 +115,9 @@ export const CalendarEvent = ({ event }) => {
                     color: "#01EBED",
                   },
                 }}
+                fontSize="13px"
                 fontStyle="italic"
                 color="black"
-                fontSize="15px"
                 fontWeight="bold"
               >
                 {Paciente}

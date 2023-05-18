@@ -67,13 +67,14 @@ export const AgendaPage = () => {
 
   //eventos del calendario
   const onViewChanged = (event) => {
+    console.log(event);
     localStorage.setItem("lastView", event);
     setLastView(event);
   };
 
-  const onSelect = (event) => {
+  const onSelect = (event, e) => {
     console.log("onSelect");
-
+    console.log(e);
     changeDataCite(event);
   };
 
@@ -108,7 +109,6 @@ export const AgendaPage = () => {
       stateTimeFin: end,
       stateMotivo: event.moti_citaAgen,
     });
-    // startLoadCites();
   };
 
   return (
@@ -116,7 +116,8 @@ export const AgendaPage = () => {
       style={{
         height: "100vh",
         width: "100%",
-        backgroundImage: " url(../../../public/assets/img/calendar_fondo.jpg)",
+        backgroundImage:
+          " url(../../../public/assets/img/calendar_fondo_mayo.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         objectPosition: "center",
@@ -130,8 +131,9 @@ export const AgendaPage = () => {
         className="box-shadow animate__animated animate__fadeIn"
       >
         <DnDCalendar
-          className="animate__animated animate__fadeIn"
-          selectable
+          // className="animate__animated animate__fadeIn"
+          // selectable
+          selectable="ignoreEvents"
           views={{
             month: true,
             week: true,
@@ -141,6 +143,7 @@ export const AgendaPage = () => {
           culture="es"
           localizer={localizer}
           events={citasList}
+          // defaultView="week"
           defaultView={lastView}
           startAccessor="start"
           endAccessor="end"
@@ -166,9 +169,11 @@ export const AgendaPage = () => {
           max={
             new Date(today.getFullYear(), today.getMonth(), today.getDate(), 20)
           }
-          onSelectEvent={onSelect}
           onView={onViewChanged}
+          onSelectEvent={onSelect}
+          // onKeyPressEvent={onSelect}
           onDragStart={onSelectDrag}
+          // onDragOver={onSelectDrag}
           onEventDrop={onEventDropResizable}
           resizable
           onEventResize={onEventDropResizable}

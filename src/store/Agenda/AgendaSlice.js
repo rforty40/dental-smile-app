@@ -5,21 +5,15 @@ export const agendaSlice = createSlice({
 
   initialState: {
     citasList: [],
-    activeCita: null,
+    activeCita: {},
     stateOpenFormAgenda: false,
     titleFormAgenda: "",
     errorRegCiteMessage: { msg: "", error: "" },
-
-    stateOpenCiteView: false,
   },
 
   reducers: {
     onChangeOpenFormAgenda: (state, { payload }) => {
       state.stateOpenFormAgenda = payload;
-    },
-
-    onChangeOpenViewCite: (state, { payload }) => {
-      state.stateOpenCiteView = payload;
     },
 
     onChangeTitleFormAgenda: (state, { payload }) => {
@@ -50,6 +44,14 @@ export const agendaSlice = createSlice({
       });
     },
 
+    onDeleteCita: (state) => {
+      state.citasList = state.citasList.filter(
+        (cita) =>
+          cita.fecha_cita !== state.activeCita.fecha_cita ||
+          cita.hora_inicio !== state.activeCita.hora_inicio
+      );
+    },
+
     changeRegisterCiteError: (state, { payload }) => {
       state.errorRegCiteMessage = payload;
     },
@@ -62,12 +64,12 @@ export const agendaSlice = createSlice({
 
 export const {
   onChangeOpenFormAgenda,
-  onChangeOpenViewCite,
   onChangeTitleFormAgenda,
   onSetActiveCita,
   onLoadCitas,
   onSaveCita,
   onUpdateCita,
+  onDeleteCita,
   changeRegisterCiteError,
   clearErrorCiteMessage,
 } = agendaSlice.actions;
