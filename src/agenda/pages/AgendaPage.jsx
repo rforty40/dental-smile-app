@@ -11,9 +11,10 @@ import { AgendaModal, CalendarEvent } from "../components/";
 import { useAgendaStore, usePacienteStore, useUiStore } from "../../hooks";
 import { useEffect, useState } from "react";
 
-import { Topbar } from "../../ui";
+import { CustomAlert, DeleteConfirm, Topbar } from "../../ui";
 import { getMessagesES } from "../helpers/getMessages";
 import { localizer } from "../helpers/calendarLocalizer";
+import { DeleteForever } from "@mui/icons-material";
 
 const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -28,11 +29,15 @@ export const AgendaPage = () => {
 
   const {
     citasList,
+    activeCita,
     changeStateFormAgenda,
     changeTitleFormAgenda,
     startLoadCites,
     startUpdatingCita,
     changeDataCite,
+    startDeletingCite,
+    stataOpenDeleteConf,
+    changeStateDeleteCofirm,
   } = useAgendaStore();
 
   //
@@ -72,9 +77,9 @@ export const AgendaPage = () => {
     setLastView(event);
   };
 
-  const onSelect = (event, e) => {
+  const onSelect = (event) => {
     console.log("onSelect");
-    console.log(e);
+
     changeDataCite(event);
   };
 
@@ -109,6 +114,21 @@ export const AgendaPage = () => {
       stateTimeFin: end,
       stateMotivo: event.moti_citaAgen,
     });
+  };
+
+  //control alert
+  const [stateSnackbar, setStateSnackbar] = useState(false);
+  const handleCloseSnackbar = () => {
+    setStateSnackbar(false);
+  };
+  const handleOpenSnackbar = () => {
+    setStateSnackbar(true);
+  };
+
+  //Confirm Dialog
+  const deleteRegisterCita = () => {
+    startDeletingCite();
+    handleOpenSnackbar();
   };
 
   return (
@@ -159,8 +179,8 @@ export const AgendaPage = () => {
           components={{
             event: CalendarEvent,
           }}
-          timeslots={1} // number of per section
-          step={30} // number of minutes per timeslot
+          timeslots={lastView === "week" ? 4 : 1} // number of per section
+          step={15} // number of minutes per timeslot
           min={
             // start time 7:00am
             new Date(today.getFullYear(), today.getMonth(), today.getDate(), 7)
@@ -179,12 +199,39 @@ export const AgendaPage = () => {
           onEventResize={onEventDropResizable}
           onSelectSlot={clickSlot}
           resizableAccessor={() => lastView !== "month"}
-          tooltipAccessor={null}
-          dayLayoutAlgorithm={"no-overlap"}
+          // tooltipAccessor={null}
+          // dayLayoutAlgorithm={"no-overlap"}
         />
 
         <AgendaModal />
       </Box>
+
+      <DeleteConfirm
+        stateOpen={stataOpenDeleteConf}
+        setStateOpen={changeStateDeleteCofirm}
+        message={
+          <>
+            ¿Está segura que desea eliminar la cita agendada de
+            <span style={{ color: "#9c27b0" }}>
+              {" "}
+              {JSON.stringify(activeCita) !== "{}" &&
+                activeCita.Paciente !== undefined &&
+                `${activeCita.Paciente}`}
+            </span>
+            ?
+          </>
+        }
+        funcionDelete={deleteRegisterCita}
+      />
+      <CustomAlert
+        stateSnackbar={stateSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        title={"Completado"}
+        message={"Cita eliminada"}
+        colorbg="blueSecondary.main"
+        colortxt="white"
+        iconAlert={<DeleteForever sx={{ color: "white" }} />}
+      />
     </div>
   );
 };

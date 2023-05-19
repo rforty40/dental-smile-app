@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Grid, Icon, Typography } from "@mui/material";
+import { Box, Grid, Icon, IconButton, Typography } from "@mui/material";
 import { ButtonCustom, IconTextField } from "../../ui";
 import {
   AccessTime,
@@ -18,8 +18,14 @@ import { useNavigate } from "react-router-dom";
 
 export const ViewCita = ({ closeCitaView }) => {
   //
-  const { changeStateFormAgenda, changeTitleFormAgenda, activeCita } =
-    useAgendaStore();
+  const {
+    changeStateFormAgenda,
+    changeTitleFormAgenda,
+    activeCita,
+    changeStateDeleteCofirm,
+  } = useAgendaStore();
+
+  const navigate = useNavigate();
 
   const openFormEditCite = () => {
     changeTitleFormAgenda("Editar cita odontológica");
@@ -27,7 +33,11 @@ export const ViewCita = ({ closeCitaView }) => {
     closeCitaView();
   };
 
-  const navigate = useNavigate();
+  const openFormDeleteCite = () => {
+    changeStateDeleteCofirm(true);
+    closeCitaView();
+  };
+
   return (
     <Box
       boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
@@ -73,7 +83,6 @@ export const ViewCita = ({ closeCitaView }) => {
 
         <Grid item gridArea="paciente">
           <IconTextField
-            autoFocus
             fullWidth
             label="Paciente:"
             type="text"
@@ -91,15 +100,23 @@ export const ViewCita = ({ closeCitaView }) => {
               //   navigate(`/pacientes/${activeCita.id_paciente}/historial`),
             }}
             iconEnd={
-              <Icon>
-                <PersonSearch />
-              </Icon>
+              <IconButton
+                onClick={() =>
+                  navigate(`/pacientes/${activeCita.id_paciente}/historial`)
+                }
+              >
+                <PersonSearch
+                  sx={{
+                    color: "#02ECEE",
+                    // ":hover": { color: "#02ECEE" },
+                  }}
+                />
+              </IconButton>
             }
           />
         </Grid>
         <Grid item gridArea="fecha">
           <IconTextField
-            autoFocus
             fullWidth
             label="Fecha:"
             type="text"
@@ -120,7 +137,6 @@ export const ViewCita = ({ closeCitaView }) => {
         </Grid>
         <Grid item gridArea="horaIni">
           <IconTextField
-            autoFocus
             fullWidth
             label="Hora Inicio:"
             type="text"
@@ -141,7 +157,6 @@ export const ViewCita = ({ closeCitaView }) => {
         </Grid>
         <Grid item gridArea="horaFin">
           <IconTextField
-            autoFocus
             fullWidth
             label="Hora Fin:"
             type="text"
@@ -162,7 +177,6 @@ export const ViewCita = ({ closeCitaView }) => {
         </Grid>
         <Grid item gridArea="motivo">
           <IconTextField
-            autoFocus
             fullWidth
             label="Motivo de consulta:"
             type="text"
@@ -199,7 +213,7 @@ export const ViewCita = ({ closeCitaView }) => {
             colorth="white"
             colort="black"
             txt_b="Eliminar"
-            // {txtButton}
+            onClick={openFormDeleteCite}
             iconB={<DeleteOutlined />}
           />
 

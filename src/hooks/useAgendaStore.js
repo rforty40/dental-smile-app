@@ -9,6 +9,7 @@ import {
   onSetActiveCita,
   onUpdateCita,
   onDeleteCita,
+  onChangeOpenDeleteConf,
 } from "../store";
 import {
   createCita,
@@ -37,10 +38,15 @@ export const useAgendaStore = () => {
     citasList,
     activeCita,
     errorRegCiteMessage,
+    stataOpenDeleteConf,
   } = useSelector((state) => state.agenda);
 
   const changeStateFormAgenda = (flag) => {
     dispatch(onChangeOpenFormAgenda(flag));
+  };
+
+  const changeStateDeleteCofirm = (flag) => {
+    dispatch(onChangeOpenDeleteConf(flag));
   };
 
   const changeTitleFormAgenda = (flag) => {
@@ -145,9 +151,11 @@ export const useAgendaStore = () => {
     errorRegCiteMessage,
     stateOpenFormAgenda,
     titleFormAgenda,
+    stataOpenDeleteConf,
 
     //* Métodos
     changeStateFormAgenda,
+    changeStateDeleteCofirm,
     changeTitleFormAgenda,
     changeDataCite,
     startLoadCites,

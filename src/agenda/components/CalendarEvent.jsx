@@ -105,24 +105,24 @@ export const CalendarEvent = ({ event }) => {
               {moti_citaAgen}
             </Typography>
 
-            <div
+            {/* <div
               onClick={() => navigate(`/pacientes/${id_paciente}/historial`)}
+            > */}
+            <Typography
+              // sx={{
+              //   ":hover": {
+              //     cursor: "pointer",
+              //     color: "#01EBED",
+              //   },
+              // }}
+              fontSize="13px"
+              fontStyle="italic"
+              color="black"
+              fontWeight="bold"
             >
-              <Typography
-                sx={{
-                  ":hover": {
-                    cursor: "pointer",
-                    color: "#01EBED",
-                  },
-                }}
-                fontSize="13px"
-                fontStyle="italic"
-                color="black"
-                fontWeight="bold"
-              >
-                {Paciente}
-              </Typography>
-            </div>
+              {Paciente}
+            </Typography>
+            {/* </div> */}
           </Box>
         </StyledTooltip>
       </div>

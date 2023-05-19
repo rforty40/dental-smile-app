@@ -39,6 +39,11 @@ export const IconTextField = ({
         "& .Mui-focused > .MuiInputAdornment-root > .material-icons": {
           color: colorHover,
         },
+
+        // "& .Mui-focused > .MuiInputAdornment-root > .MuiButtonBase-root": {
+        //   color: colorHover,
+        // },
+
         ...propsXS,
         "& .MuiInputBase-root ": {
           "& input": {
