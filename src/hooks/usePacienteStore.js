@@ -1,10 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  changeErrorLoadFutCitas,
   // changeFormPacOpen,
   changeRegisterError,
   changeTitleForm,
   clearErrorMessage,
   onDeletePaciente,
+  onLoadFuturasCitas,
   onLoadPacActivo,
   onLoadPacientesList,
   onLoadPacientesListBusq,
@@ -17,6 +19,7 @@ import {
   updatePaciente,
   deletePaciente,
   getPacienteById,
+  getFuturasCitas,
 } from "../api/pacientes.api";
 
 import {
@@ -41,6 +44,8 @@ export const usePacienteStore = () => {
     titleForm,
     pacienteActivo,
     errorRegMessage,
+    futurasCitasList,
+    errorLoadFutCitas,
   } = useSelector((state) => state.pacientes);
 
   const changeTitleFormReg = (title) => {
@@ -93,7 +98,7 @@ export const usePacienteStore = () => {
           formatearDataPacToBD(dataPaciente)
         );
 
-        console.log(data);
+        // console.log(data);
         dispatch(onSavePaciente(formatearDataPacToTable([data])[0]));
         dispatch(onLoadPacActivo(formatearDataPacToTable([data])[0]));
       }
@@ -129,6 +134,61 @@ export const usePacienteStore = () => {
     }
   };
 
+  const startLoadFuturasCitas = async (estadoCit, fechaIni, fechaFin) => {
+    try {
+      const { data } = await getFuturasCitas(
+        pacienteActivo.id,
+        estadoCit,
+        fechaIni,
+        fechaFin
+      );
+
+      let arrayCitesMonth = [
+        { enero: [] },
+        { febrero: [] },
+        { marzo: [] },
+        { abril: [] },
+        { mayo: [] },
+        { junio: [] },
+        { julio: [] },
+        { agosto: [] },
+        { septiembre: [] },
+        { octubre: [] },
+        { noviembre: [] },
+        { diciembre: [] },
+      ];
+
+      const arrMes = [
+        "enero",
+        "febrero",
+        "marzo",
+        "abril",
+        "mayo",
+        "junio",
+        "julio",
+        "agosto",
+        "septiembre",
+        "octubre",
+        "noviembre",
+        "diciembre",
+      ];
+
+      data.forEach((fecha) => {
+        const posMes = new Date(fecha.fecha_citaAgen).getMonth();
+        arrayCitesMonth[posMes][arrMes[posMes]].push(fecha);
+      });
+
+      dispatch(onLoadFuturasCitas(arrayCitesMonth));
+      dispatch(changeErrorLoadFutCitas(null));
+    } catch (error) {
+      console.log("Error cargando lista de futuras citas");
+      console.log(error.response.data.message);
+      // if (error.response.data.message.includes("No se encontraron citas")) {
+      dispatch(changeErrorLoadFutCitas(error.response.data.message));
+      // }
+    }
+  };
+
   return {
     //* Propiedades
     pacientesList,
@@ -137,6 +197,8 @@ export const usePacienteStore = () => {
     titleForm,
     pacienteActivo,
     errorRegMessage,
+    futurasCitasList,
+    errorLoadFutCitas,
 
     //* Métodos
     changeTitleFormReg,
@@ -145,5 +207,6 @@ export const usePacienteStore = () => {
     startLoadPaciente,
     startSavingPaciente,
     startDeletingPaciente,
+    startLoadFuturasCitas,
   };
 };

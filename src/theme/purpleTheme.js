@@ -47,6 +47,10 @@ export const purpleTheme = createTheme(
       blueSecondary: {
         main: "#116482",
       },
+
+      celesteNeon: {
+        main: "#02ECEE",
+      },
     },
   },
   esES

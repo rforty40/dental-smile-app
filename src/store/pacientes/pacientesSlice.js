@@ -4,7 +4,6 @@ export const pacientesSlice = createSlice({
   name: "pacientes",
 
   initialState: {
-    // isFormPacOpen: false,
     titleForm: "",
     pacienteActivo: {},
     pacientesList: [],
@@ -13,13 +12,11 @@ export const pacientesSlice = createSlice({
     antecedentes: [[], []],
     antecedenteActivo: {},
     errorRegAntecedente: { msg: "", error: "" },
+    futurasCitasList: null,
+    errorLoadFutCitas: null,
   },
 
   reducers: {
-    // changeFormPacOpen: (state, { payload }) => {
-    //   state.isFormPacOpen = payload;
-    // },
-
     changeTitleForm: (state, { payload }) => {
       state.titleForm = payload;
     },
@@ -117,6 +114,13 @@ export const pacientesSlice = createSlice({
     clearErrorMessageAnte: (state) => {
       state.errorRegAntecedente = { msg: "", error: "" };
     },
+
+    onLoadFuturasCitas: (state, { payload }) => {
+      state.futurasCitasList = payload;
+    },
+    changeErrorLoadFutCitas: (state, { payload }) => {
+      state.errorLoadFutCitas = payload;
+    },
   },
 });
 
@@ -140,4 +144,8 @@ export const {
   onDeleteAntecedente,
   changeRegisterErrorAnte,
   clearErrorMessageAnte,
+
+  //
+  onLoadFuturasCitas,
+  changeErrorLoadFutCitas,
 } = pacientesSlice.actions;

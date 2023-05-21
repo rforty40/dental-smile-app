@@ -1,0 +1,53 @@
+     <IconTextField
+                size="small"
+                label="Estado de las citas:"
+                type="text"
+                value={stateCita}
+                onClick={handleOpen}
+                colorIcon="primary.main"
+                colorHover="primary.main"
+                colorTxt="black"
+                colorLabel="primary.main"
+                font_we="bold"
+                font_sty="italic"
+                InputProps={{ readOnly: true }}
+                propsXS={{
+                  width: "150px",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "2px solid",
+                      borderColor: "primary.main",
+                    },
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "#602A90 !important ",
+                  },
+                }}
+                iconEnd={
+                  <Icon>
+                    <ArrowDropDown />
+                  </Icon>
+                }
+              />{" "}
+              <Menu
+                keepMounted
+                anchorEl={open}
+                open={Boolean(open)}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                transformOrigin={{ vertical: "top", horizontal: "right" }}
+              >
+                {SORT_BY_OPTIONS.map((option) => (
+                  <MenuItem
+                    key={option.value}
+                    selected={option.value === "newest"}
+                    onClick={() => {
+                      setStateCita(option.label);
+                      handleClose();
+                    }}
+                    sx={{ typography: "body2" }}
+                  >
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Menu>

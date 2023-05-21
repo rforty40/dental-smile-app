@@ -18,9 +18,9 @@ export const IconTextField = ({
       variant="outlined"
       sx={{
         boxShadow: "1px 1.5px 1.5px rgba(0, 0, 0, 0.5)",
-        ":hover": {
-          boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
-        },
+        // ":hover": {
+        //   boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)",
+        // },
 
         "& .MuiInputLabel-root.Mui-disabled ": {
           opacity: "0.3",
@@ -44,10 +44,14 @@ export const IconTextField = ({
         //   color: colorHover,
         // },
 
-        ...propsXS,
         "& .MuiInputBase-root ": {
           "& input": {
             // textAlign: "center",
+            fontStyle: font_sty,
+            fontWeight: font_we,
+            color: colorTxt,
+          },
+          "& textarea": {
             fontStyle: font_sty,
             fontWeight: font_we,
             color: colorTxt,
@@ -69,6 +73,7 @@ export const IconTextField = ({
         "& .MuiFormHelperText-root.Mui-error": {
           color: "error.main",
         },
+        ...propsXS,
       }}
       {...props}
       //

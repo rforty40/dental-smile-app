@@ -31,3 +31,10 @@ export const updateAntecedente = async (idAnt, antecedente) =>
 
 export const deleteAntecedente = async (idAnt) =>
   await dentalSmileApi.delete(`/paciente/deleteAntecedente/${idAnt}`);
+
+//
+//futuras citas
+export const getFuturasCitas = async (idPac, estadoCit, fechaIni, fechaFin) =>
+  await dentalSmileApi.get(
+    `/pacientes/${idPac}/citas/${estadoCit}/${fechaIni}/${fechaFin}`
+  );

@@ -126,7 +126,7 @@ export const InfoPagePaciente = () => {
   };
 
   return (
-    <>
+    <Box height="100%" padding="20px">
       <Box
         width="100%"
         display="flex"
@@ -469,6 +469,6 @@ export const InfoPagePaciente = () => {
         colortxt="white"
         iconAlert={<DeleteForever sx={{ color: "white" }} />}
       />
-    </>
+    </Box>
   );
 };

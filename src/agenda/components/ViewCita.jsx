@@ -178,6 +178,7 @@ export const ViewCita = ({ closeCitaView }) => {
         <Grid item gridArea="motivo">
           <IconTextField
             fullWidth
+            multiline
             label="Motivo de consulta:"
             type="text"
             value={activeCita.moti_citaAgen}

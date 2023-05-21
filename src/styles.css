@@ -63,3 +63,65 @@ body,
 /*
 /* Tres valores: flex-grow | flex-shrink | flex-basis */
 /* flex: 2 2 10%; */
+/* .ant-picker-range:hover {
+  background-color: #f5f7fa !important;
+}
+.ant-picker-range.ant-picker-focused {
+  background-color: #f5f7fa !important;
+}
+.ant-picker-range > .ant-picker-suffix {
+  color: #9c27b0 !important;
+}
+.ant-picker-range > .ant-picker-clear {
+  color: #9c27b0 !important;
+}
+.ant-picker-range > .ant-picker-range-separator > span {
+  color: #9c27b0 !important;
+}
+
+.ant-picker-range > .ant-picker-active-bar {
+  background-color: #116482 !important;
+} */
+
+.ant-picker-range {
+  background-color: transparent !important;
+}
+.ant-picker-range:hover {
+  background-color: transparent !important;
+}
+.ant-picker-range.ant-picker-focused {
+  background-color: transparent !important;
+}
+.ant-picker-range > .ant-picker-suffix {
+  color: #9c27b0 !important;
+}
+.ant-picker-range > .ant-picker-clear {
+  color: #9c27b0 !important;
+}
+.ant-picker-range > .ant-picker-range-separator > span {
+  color: #9c27b0 !important;
+}
+
+.ant-picker-range > .ant-picker-active-bar {
+  background-color: #116482 !important;
+}
+
+.ant-picker-range > .ant-picker-input > input {
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.ant-picker-range > .ant-picker-input > input::placeholder {
+  color: black;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.headerFutCitasSticky {
+  border-top: 2px solid black;
+  /* border-bottom: 2px solid black; */
+  box-shadow: 5px 20px 7px rgba(0, 0, 0, 0.5);
+  background-color: #f5f7fa;
+  /* background-color: #cecfcf; */
+}
