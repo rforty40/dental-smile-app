@@ -10,6 +10,7 @@ export const agendaSlice = createSlice({
     titleFormAgenda: "",
     errorRegCiteMessage: { msg: "", error: "" },
     stataOpenDeleteConf: false,
+    blockPaciente: false,
   },
 
   reducers: {
@@ -66,6 +67,10 @@ export const agendaSlice = createSlice({
     clearErrorCiteMessage: (state) => {
       state.errorRegCiteMessage = { msg: "", error: "" };
     },
+
+    onChangeBlockPaciente: (state, { payload }) => {
+      state.blockPaciente = payload;
+    },
   },
 });
 
@@ -80,4 +85,5 @@ export const {
   changeRegisterCiteError,
   clearErrorCiteMessage,
   onChangeOpenDeleteConf,
+  onChangeBlockPaciente,
 } = agendaSlice.actions;

@@ -10,6 +10,7 @@ import {
   onUpdateCita,
   onDeleteCita,
   onChangeOpenDeleteConf,
+  onChangeBlockPaciente,
 } from "../store";
 import {
   createCita,
@@ -39,6 +40,7 @@ export const useAgendaStore = () => {
     activeCita,
     errorRegCiteMessage,
     stataOpenDeleteConf,
+    blockPaciente,
   } = useSelector((state) => state.agenda);
 
   const changeStateFormAgenda = (flag) => {
@@ -51,6 +53,10 @@ export const useAgendaStore = () => {
 
   const changeTitleFormAgenda = (flag) => {
     dispatch(onChangeTitleFormAgenda(flag));
+  };
+
+  const changeBlockPaciente = (flag) => {
+    dispatch(onChangeBlockPaciente(flag));
   };
 
   const changeDataCite = (dataCite) => {
@@ -152,11 +158,13 @@ export const useAgendaStore = () => {
     stateOpenFormAgenda,
     titleFormAgenda,
     stataOpenDeleteConf,
+    blockPaciente,
 
     //* Métodos
     changeStateFormAgenda,
     changeStateDeleteCofirm,
     changeTitleFormAgenda,
+    changeBlockPaciente,
     changeDataCite,
     startLoadCites,
     startSavingCita,

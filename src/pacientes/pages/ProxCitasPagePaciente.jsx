@@ -5,17 +5,23 @@ import {
   Box,
   Typography,
 } from "@mui/material";
-import { ButtonCustom, CustomRangeDate, CustomSelect } from "../../ui";
+import {
+  ButtonCustom,
+  CustomAlert,
+  CustomRangeDate,
+  CustomSelect,
+  DeleteConfirm,
+} from "../../ui";
 
 import { MdPostAdd } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { extraerFecha } from "../../agenda/helpers/formatedDataCite";
 
-import { ExpandMore, SearchOutlined } from "@mui/icons-material";
+import { DeleteForever, ExpandMore, SearchOutlined } from "@mui/icons-material";
 
-import { usePacienteStore } from "../../hooks";
+import { useAgendaStore, usePacienteStore } from "../../hooks";
 import { ProxCiteItem } from "../components/ProxCiteItem";
-
+import { AgendaModal } from "../../agenda/components";
 //
 //
 //
@@ -24,9 +30,17 @@ export const ProxCitasPagePaciente = () => {
   const { futurasCitasList, startLoadFuturasCitas, errorLoadFutCitas } =
     usePacienteStore();
 
-  // useEffect(() => {
-  //   startLoadFuturasCitas("Pendiente", "_", "_");
-  // }, []);
+  const { pacienteActivo } = usePacienteStore();
+  const {
+    stateOpenFormAgenda,
+    changeStateFormAgenda,
+    changeTitleFormAgenda,
+    changeBlockPaciente,
+    changeDataCite,
+    startDeletingCite,
+    stataOpenDeleteConf,
+    changeStateDeleteCofirm,
+  } = useAgendaStore();
 
   //hooks
   //rangoDeFechas
@@ -57,37 +71,46 @@ export const ProxCitasPagePaciente = () => {
     );
   };
 
-  useEffect(() => {
-    funcSearch();
-  }, [stateCita, stateDatesRange]);
-
-  // const [colorHeader, setColorHeader] = useState(window.scrollY);
-  // window.addEventListener("scroll", function () {
-  //   const header = document.querySelector(".headerFutCitas");
-  //   header.classList.toggle("headerFutCitasSticky", window.scrollY > 0);
-  // });
-
-  // const [expanded, setExpanded] = useState(false);
-
-  // const handleChange = (panel) => (event, isExpanded) => {
-  //   console.log(isExpanded);
-  //   setExpanded(isExpanded ? panel : false);
-  // };
-
+  //estado de los expansion Panel
   const [arrayPanel, setArrayPanel] = useState({});
   const handlerPanel = (mes, isExpanded) => {
     setArrayPanel({ ...arrayPanel, [`${mes}`]: isExpanded });
   };
+
+  useEffect(() => {
+    funcSearch();
+  }, [stateCita, stateDatesRange, stateOpenFormAgenda, stataOpenDeleteConf]);
+
+  const handleOpenModalAgenda = () => {
+    changeTitleFormAgenda(
+      "Agendar cita odontológica para " + pacienteActivo.nombre
+    );
+    changeStateFormAgenda(true);
+    changeBlockPaciente(true);
+    changeDataCite({
+      start: new Date(),
+      end: new Date(0, 0, 0, new Date().getHours() + 2),
+    });
+  };
+
+  //control alert
+  const [stateSnackbar, setStateSnackbar] = useState(false);
+  const handleCloseSnackbar = () => {
+    setStateSnackbar(false);
+  };
+  const handleOpenSnackbar = () => {
+    setStateSnackbar(true);
+  };
+
+  //Confirm Dialog
+  const deleteRegisterCita = () => {
+    startDeletingCite();
+    handleOpenSnackbar();
+  };
+
   return (
-    <div style={{ height: "100vh" }}>
-      <div
-        className="headerFutCitas animate__animated animate__fadeInDown animate__faster"
-        // style={{
-        //   position: "sticky",
-        //   top: "72px",
-        //   zIndex: "10000",
-        // }}
-      >
+    <div>
+      <div className="headerFutCitas animate__animated animate__fadeInDown animate__faster">
         <Box
           width="100%"
           padding="30px"
@@ -159,8 +182,8 @@ export const ProxCitasPagePaciente = () => {
             txt_b_size="15px"
             fontW="bold"
             propsXS={{ boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)" }}
-            // onClick={openModalAnteceFaReg}
             iconB={<MdPostAdd />}
+            onClick={handleOpenModalAgenda}
           />
         </Box>
       </div>
@@ -174,30 +197,43 @@ export const ProxCitasPagePaciente = () => {
               {errorLoadFutCitas}
             </Typography>
           ) : (
-            futurasCitasList.map((citaFu, index) => {
+            futurasCitasList.map((citaFu) => {
               //longitud de los arreglos
 
               const longArrCite = citaFu[Object.keys(citaFu)[0]].length;
               if (longArrCite > 0) {
                 const titleMes = Object.keys(citaFu)[0];
                 return (
-                  // <Accordion
-                  //   expanded={expanded === `panel${index}`}
-                  //   onChange={handleChange(`panel${index}`)}
-                  // >
                   <Accordion
+                    key={titleMes}
                     expanded={arrayPanel[`${titleMes}`]}
                     onChange={(event, isExpanded) => {
                       handlerPanel(titleMes, isExpanded);
                     }}
                     sx={{
-                      backgroundColor: "rgba(255,255,255,0.6)",
+                      backgroundColor: "rgba(255,255,255,0.7)",
+                      marginBottom: "20px",
+                      boxShadow: "5px 7px 7px rgba(0, 0, 0, 0.5)",
                     }}
                   >
                     <AccordionSummary
                       expandIcon={<ExpandMore />}
                       aria-controls="panel1bh-content"
                       id="panel1bh-header"
+                      sx={{
+                        borderBottom: "3px solid",
+                        borderBottomColor:
+                          stateCita === "Pendientes"
+                            ? "blueSecondary.main"
+                            : "error.main",
+
+                        svg: {
+                          color:
+                            stateCita === "Pendientes"
+                              ? "blueSecondary.main"
+                              : "error.main",
+                        },
+                      }}
                     >
                       <Typography
                         fontStyle="italic"
@@ -213,9 +249,16 @@ export const ProxCitasPagePaciente = () => {
                         {titleMes.replace("_", " ")}
                       </Typography>
                     </AccordionSummary>
-                    <AccordionDetails>
+
+                    <AccordionDetails
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        padding: "30px 20px 60px 20px ",
+                      }}
+                    >
                       <Box
-                        width="90%"
+                        width="95%"
                         display="flex"
                         flexDirection="column"
                         rowGap="20px"
@@ -223,7 +266,7 @@ export const ProxCitasPagePaciente = () => {
                         {citaFu[Object.keys(citaFu)[0]].map((cita) => {
                           return (
                             <ProxCiteItem
-                              key={cita.fecha_citaAgen + cita.horaIni_citaAgen}
+                              key={cita.fecha_cita + cita.hora_inicio}
                               cita={cita}
                             />
                           );
@@ -239,6 +282,33 @@ export const ProxCitasPagePaciente = () => {
           ""
         )}
       </div>
+      <AgendaModal />
+
+      <DeleteConfirm
+        stateOpen={stataOpenDeleteConf}
+        setStateOpen={changeStateDeleteCofirm}
+        message={
+          <>
+            ¿Está segura que desea eliminar la cita agendada de
+            <span style={{ color: "#9c27b0" }}>
+              {" "}
+              {pacienteActivo.nombre !== undefined &&
+                `${pacienteActivo.nombre}`}
+            </span>
+            ?
+          </>
+        }
+        funcionDelete={deleteRegisterCita}
+      />
+      <CustomAlert
+        stateSnackbar={stateSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        title={"Completado"}
+        message={"Cita eliminada"}
+        colorbg="blueSecondary.main"
+        colortxt="white"
+        iconAlert={<DeleteForever sx={{ color: "white" }} />}
+      />
     </div>
   );
 };

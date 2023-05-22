@@ -126,7 +126,7 @@ export const InfoPagePaciente = () => {
   };
 
   return (
-    <Box height="100vh" padding="20px">
+    <Box padding="20px">
       <Box
         width="100%"
         display="flex"

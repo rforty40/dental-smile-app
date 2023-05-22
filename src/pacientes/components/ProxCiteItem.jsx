@@ -9,8 +9,32 @@ import {
   SegmentOutlined,
 } from "@mui/icons-material";
 import { extraerFecha } from "../../agenda/helpers/formatedDataCite";
+import { useAgendaStore, usePacienteStore } from "../../hooks";
 
 export const ProxCiteItem = ({ cita }) => {
+  const {
+    changeStateFormAgenda,
+    changeTitleFormAgenda,
+    changeBlockPaciente,
+    changeDataCite,
+    changeStateDeleteCofirm,
+  } = useAgendaStore();
+
+  const { pacienteActivo } = usePacienteStore();
+
+  const handleOpenFormEditCite = () => {
+    changeDataCite(cita);
+    changeTitleFormAgenda(
+      "Editar cita odontológica de " + pacienteActivo.nombre
+    );
+    changeStateFormAgenda(true);
+    changeBlockPaciente(true);
+  };
+
+  const handleOpenFormDeleteCite = () => {
+    changeDataCite(cita);
+    changeStateDeleteCofirm(true);
+  };
   return (
     <>
       {/* <Box width="90%"> */}
@@ -18,18 +42,22 @@ export const ProxCiteItem = ({ cita }) => {
         container
         display="grid"
         // flexDirection="row"
-        boxShadow="5px 7px 7px rgba(0, 0, 0, 0.5)"
+        // border="2px solid"
+        borderColor="primary.main"
+        boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
         sx={{
           //
           padding: "20px 0px",
           marginTop: "5px",
           borderRadius: "10px",
-          backgroundColor: "rgba(255,255,255,0.6)",
-          // backgroundColor: `${
-          //   cita.esta_citaAgen === "Pendiente"
-          //     ? "blueSecondary.main"
-          //     : "error.main"
-          // }`,
+          // backgroundColor: "rgba(255,255,255,0.6)",
+
+          // backgroundColor: "myBgColor.main",
+          backgroundColor: `${
+            cita.esta_citaAgen === "Pendiente"
+              ? "rgba(17, 100, 130, 0.1)"
+              : "rgba(211, 47, 47, 0.1)"
+          }`,
           // alignItems: "center",
           gridTemplateColumns: "10% 75% 15%",
           gridTemplateRows: "repeat(3, max-content)",
@@ -68,7 +96,7 @@ export const ProxCiteItem = ({ cita }) => {
               type="text"
               //   value={"2023/06/14"}
               // value={activeCita.fecha_cita}
-              value={extraerFecha(new Date(cita.fecha_citaAgen))}
+              value={cita.fecha_cita}
               colorIcon="primary.main"
               colorHover="primary.main"
               colorTxt="black"
@@ -99,7 +127,7 @@ export const ProxCiteItem = ({ cita }) => {
             <IconTextField
               label="Hora Inicio:"
               type="text"
-              value={cita.horaIni_citaAgen.substring(0, 5)}
+              value={cita.hora_inicio}
               // value={activeCita.hora_inicio}
               colorIcon="primary.main"
               colorHover="primary.main"
@@ -131,7 +159,7 @@ export const ProxCiteItem = ({ cita }) => {
             <IconTextField
               label="Hora Fin:"
               type="text"
-              value={cita.horaFin_citaAgen.substring(0, 5)}
+              value={cita.hora_fin}
               // value={activeCita.hora_inicio}
               colorIcon="primary.main"
               colorHover="primary.main"
@@ -208,7 +236,6 @@ export const ProxCiteItem = ({ cita }) => {
           justifyContent="center"
         >
           <ButtonCustom
-            // tipoBtn="submit"
             txt_b_size="13px"
             altura="35px"
             colorf="primary.main"
@@ -216,12 +243,11 @@ export const ProxCiteItem = ({ cita }) => {
             colorth="white"
             colort="white"
             txt_b="Eliminar"
-            // onClick={openFormDeleteCite}
+            onClick={handleOpenFormDeleteCite}
             iconB={<DeleteOutlined />}
           />
 
           <ButtonCustom
-            // tipoBtn="submit"
             txt_b_size="13px"
             altura="35px"
             colorf="primary.main"
@@ -229,12 +255,11 @@ export const ProxCiteItem = ({ cita }) => {
             colorth="white"
             colort="white"
             txt_b="Editar"
-            // onClick={openFormEditCite}
+            onClick={handleOpenFormEditCite}
             iconB={<EditOutlined />}
           />
 
           <ButtonCustom
-            // tipoBtn="submit"
             txt_b_size="13px"
             altura="35px"
             colorf="primary.main"

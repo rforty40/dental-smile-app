@@ -38,6 +38,7 @@ export const AgendaPage = () => {
     startDeletingCite,
     stataOpenDeleteConf,
     changeStateDeleteCofirm,
+    changeBlockPaciente,
   } = useAgendaStore();
 
   //
@@ -45,6 +46,7 @@ export const AgendaPage = () => {
   const handleOpenModalAgenda = () => {
     changeTitleFormAgenda("Agendar cita odontológica");
     changeStateFormAgenda(true);
+    changeBlockPaciente(false);
   };
 
   const [lastView, setLastView] = useState(
@@ -69,6 +71,16 @@ export const AgendaPage = () => {
       style,
     };
   };
+
+  const dayRangeHeaderFormat = ({ start, end }, culture, local) =>
+    local.format(start, "MMMM dd", culture) +
+    " – " +
+    // updated to use this localizer 'eq()' method
+    local.format(
+      end,
+      local.eq(start, end, "month") ? "dd yyyy" : "MMMM dd yyyy",
+      culture
+    );
 
   //eventos del calendario
   const onViewChanged = (event) => {
@@ -130,16 +142,6 @@ export const AgendaPage = () => {
     startDeletingCite();
     handleOpenSnackbar();
   };
-
-  const dayRangeHeaderFormat = ({ start, end }, culture, local) =>
-    local.format(start, "MMMM dd", culture) +
-    " – " +
-    // updated to use this localizer 'eq()' method
-    local.format(
-      end,
-      local.eq(start, end, "month") ? "dd yyyy" : "MMMM dd yyyy",
-      culture
-    );
 
   return (
     <div

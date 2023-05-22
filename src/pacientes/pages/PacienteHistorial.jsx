@@ -23,10 +23,14 @@ export const PacienteHistorial = () => {
 
   const { startLoadAntecedentes } = useAntecedenteStore();
 
-  const [hookTabs, setHookTabs] = useState(0);
+  console.log(localStorage.getItem("lastTabPaciente"));
+  const [hookTabs, setHookTabs] = useState(
+    parseInt(localStorage.getItem("lastTabPaciente")) || 0
+  );
 
   const handleChangeTabs = (event, newValue) => {
     setHookTabs(newValue);
+    localStorage.setItem("lastTabPaciente", newValue);
   };
 
   const { id_pac } = useParams();
@@ -41,6 +45,7 @@ export const PacienteHistorial = () => {
     <div
       style={{
         height: "100%",
+        minHeight: "100vh",
         width: "100%",
         backgroundImage:
           "linear-gradient(rgba(250,250,250, 0.2),rgba(250,250,250, 0.2)) , url(../../../public/assets/img/imgFondoPac.jpg)",

@@ -28,7 +28,10 @@ import {
   formatearDataPacToBusList,
   formatearDataPacToTable,
 } from "../pacientes/helpers";
-import { extractMesAnio } from "../agenda/helpers/formatedDataCite";
+import {
+  extractMesAnio,
+  formatedDataCite,
+} from "../agenda/helpers/formatedDataCite";
 
 //
 //
@@ -148,6 +151,7 @@ export const usePacienteStore = () => {
 
       const arrMesAnio = [];
 
+      // console.log(data);
       //primer bucle
       //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
       // se usa un array para controlar que no se repitan los meses
@@ -173,7 +177,9 @@ export const usePacienteStore = () => {
           mesTemporal = nameMesAnio;
         }
 
-        arrayCitesMonth[iterator][`${nameMesAnio}`].push(fecha);
+        arrayCitesMonth[iterator][`${nameMesAnio}`].push(
+          formatedDataCite([fecha])[0]
+        );
       });
 
       // console.log(arrayCitesMonth);

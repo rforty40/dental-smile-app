@@ -41,7 +41,7 @@ export const AgendaModal = () => {
   //
 
   //lista de pacientes traida de la store
-  const { pacientesListBusq, pacienteActivo } = usePacienteStore();
+  const { pacientesListBusq } = usePacienteStore();
 
   //citaActiva
 
@@ -54,7 +54,6 @@ export const AgendaModal = () => {
     startSavingCita,
     startUpdatingCita,
     errorRegCiteMessage,
-    blockPaciente,
   } = useAgendaStore();
 
   //hook del formulario
@@ -187,7 +186,7 @@ export const AgendaModal = () => {
       (errorHourInit === "minTime" || errorHourInit === "maxTime") &&
       errorDate === null
     ) {
-      return "Esta hora esta fuera del rango del horario";
+      return "Esta hora esta fuera del rango del calendar";
     } else {
       return "";
     }
@@ -196,8 +195,6 @@ export const AgendaModal = () => {
   const errorMsgHourFin = useMemo(() => {
     if (errorHourFin === "minTime") {
       return "La hora de fin mínima solo puede ser 5 minutos despues de la hora de inicio";
-    } else if (errorHourFin === "maxTime") {
-      return "Esta hora esta fuera del rango del horario";
     } else {
       return "";
     }
@@ -211,10 +208,7 @@ export const AgendaModal = () => {
     setFormSubmitted(true);
 
     //validaciones
-
-    if (!blockPaciente) {
-      if (statePacList === 0) return;
-    }
+    if (statePacList === 0) return;
     if (errorDate !== null) return;
     if (errorHourInit !== null) return;
     if (errorHourFin !== null) return;
@@ -226,7 +220,7 @@ export const AgendaModal = () => {
       console.log("Envio datos a actualizar");
 
       startUpdatingCita(activeCita.fecha_cita, activeCita.hora_inicio, {
-        statePacList: !blockPaciente ? statePacList : pacienteActivo.id,
+        statePacList,
         stateDatePicker,
         stateTimeIni,
         stateTimeFin,
@@ -234,7 +228,7 @@ export const AgendaModal = () => {
       });
     } else {
       startSavingCita({
-        statePacList: !blockPaciente ? statePacList : pacienteActivo.id,
+        statePacList,
         stateDatePicker,
         stateTimeIni,
         stateTimeFin,
@@ -296,13 +290,8 @@ export const AgendaModal = () => {
                 alignItems: "center",
                 gridTemplateColumns: "repeat(3, 1fr)",
                 gridTemplateRows: "repeat(4, max-content)",
-                gridTemplateAreas: !blockPaciente
-                  ? `"paciente paciente paciente"
+                gridTemplateAreas: `"paciente paciente paciente"
               "fecha horaIni horaFin"
-              "motivo motivo motivo"
-              "btnReg btnReg btnReg "
-              `
-                  : `"fecha horaIni horaFin"
               "motivo motivo motivo"
               "btnReg btnReg btnReg "
               `,
@@ -310,45 +299,44 @@ export const AgendaModal = () => {
                 columnGap: "10px",
               }}
             >
-              {!blockPaciente && (
-                <Grid item gridArea="paciente">
-                  <CustomAutocomplete
-                    fullWidth
-                    disablePortal
-                    options={pacientesListBusq}
-                    getOptionLabel={(option) => option.label}
-                    // isOptionEqualToValue={(option, value) => {
-                    //   return option.label;
-                    // }}
+              <Grid item gridArea="paciente">
+                <CustomAutocomplete
+                  fullWidth
+                  disablePortal
+                  options={pacientesListBusq}
+                  getOptionLabel={(option) => option.label}
+                  // isOptionEqualToValue={(option, value) => {
+                  //   return option.label;
+                  // }}
 
-                    // defaultValue={stateDefPac}
+                  // defaultValue={stateDefPac}
 
-                    value={statePacValue}
-                    onChange={(event, newValue) => {
-                      setStatePacValue(newValue);
-                      newValue !== null
-                        ? setStatePacList(newValue.id)
-                        : setStatePacList(0);
-                    }}
-                    propsTextField={{
-                      label: "Pacientes:",
-                      placeholder: "Seleccione un paciente",
-                      error: statePacList === 0 && formSubmitted,
-                      helperText:
-                        statePacList === 0
-                          ? "Debe seleccionar un paciente de la lista"
-                          : "",
-                    }}
-                    autoFocus
-                    iconAutocomplete={<PersonSearch />}
-                    heightList="220px"
-                  />
-                </Grid>
-              )}
+                  value={statePacValue}
+                  onChange={(event, newValue) => {
+                    setStatePacValue(newValue);
+                    newValue !== null
+                      ? setStatePacList(newValue.id)
+                      : setStatePacList(0);
+                  }}
+                  propsTextField={{
+                    label: "Pacientes:",
+                    placeholder: "Seleccione un paciente",
+                    error: statePacList === 0 && formSubmitted,
+                    helperText:
+                      statePacList === 0
+                        ? "Debe seleccionar un paciente de la lista"
+                        : "",
+                  }}
+                  autoFocus
+                  iconAutocomplete={<PersonSearch />}
+                  heightList="220px"
+                />
+              </Grid>
+
               <Grid item gridArea="fecha">
                 <CustomDatePicker
                   label={"Fecha:"}
-                  views={["year", "month", "day"]}
+                  views={["month", "day"]}
                   disablePast
                   value={stateDatePicker}
                   onChange={onChangeDatePicker}

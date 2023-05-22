@@ -107,8 +107,8 @@ const arrMes = [
 
 export const extractMesAnio = (fecha) => {
   return (
-    [arrMes[new Date(fecha.fecha_citaAgen).getMonth()]] +
+    [arrMes[new Date(fecha.fecha_cita).getMonth()]] +
     "_" +
-    new Date(fecha.fecha_citaAgen).getFullYear()
+    new Date(fecha.fecha_cita).getFullYear()
   );
 };

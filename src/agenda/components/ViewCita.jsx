@@ -23,6 +23,7 @@ export const ViewCita = ({ closeCitaView }) => {
     changeTitleFormAgenda,
     activeCita,
     changeStateDeleteCofirm,
+    changeBlockPaciente,
   } = useAgendaStore();
 
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ export const ViewCita = ({ closeCitaView }) => {
   const openFormEditCite = () => {
     changeTitleFormAgenda("Editar cita odontológica");
     changeStateFormAgenda(true);
+    changeBlockPaciente(false);
     closeCitaView();
   };
 
