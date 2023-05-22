@@ -27,10 +27,14 @@ import { AgendaModal } from "../../agenda/components";
 //
 export const ProxCitasPagePaciente = () => {
   //
-  const { futurasCitasList, startLoadFuturasCitas, errorLoadFutCitas } =
-    usePacienteStore();
 
-  const { pacienteActivo } = usePacienteStore();
+  const {
+    futurasCitasList,
+    startLoadFuturasCitas,
+    errorLoadFutCitas,
+    pacienteActivo,
+  } = usePacienteStore();
+
   const {
     stateOpenFormAgenda,
     changeStateFormAgenda,
@@ -79,7 +83,13 @@ export const ProxCitasPagePaciente = () => {
 
   useEffect(() => {
     funcSearch();
-  }, [stateCita, stateDatesRange, stateOpenFormAgenda, stataOpenDeleteConf]);
+  }, [
+    pacienteActivo,
+    stateCita,
+    stateDatesRange,
+    stateOpenFormAgenda,
+    stataOpenDeleteConf,
+  ]);
 
   const handleOpenModalAgenda = () => {
     changeTitleFormAgenda(
@@ -235,19 +245,41 @@ export const ProxCitasPagePaciente = () => {
                         },
                       }}
                     >
-                      <Typography
-                        fontStyle="italic"
-                        fontWeight="bold"
-                        textTransform="capitalize"
-                        fontSize="20px"
-                        color={
-                          stateCita === "Pendientes"
-                            ? "blueSecondary.main"
-                            : "error.main"
-                        }
+                      <Box
+                        sx={{
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          flexDirection: "row",
+                          marginRight: "15px",
+                        }}
                       >
-                        {titleMes.replace("_", " ")}
-                      </Typography>
+                        <Typography
+                          fontStyle="italic"
+                          fontWeight="bold"
+                          textTransform="capitalize"
+                          fontSize="20px"
+                          color={
+                            stateCita === "Pendientes"
+                              ? "blueSecondary.main"
+                              : "error.main"
+                          }
+                        >
+                          {titleMes.replace("_", " ")}
+                        </Typography>
+
+                        <Typography
+                          fontStyle="italic"
+                          fontWeight="bold"
+                          textTransform="capitalize"
+                          fontSize="20px"
+                          color={
+                            stateCita === "Pendientes"
+                              ? "blueSecondary.main"
+                              : "error.main"
+                          }
+                        >{`(${longArrCite})`}</Typography>
+                      </Box>
                     </AccordionSummary>
 
                     <AccordionDetails

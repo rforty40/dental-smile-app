@@ -46,9 +46,9 @@ export const DeleteConfirm = ({
       TransitionComponent={Transition}
       fullWidth
       keepMounted
-      sx={{
-        backdropFilter: "blur(0.7px)",
-      }}
+      // sx={{
+      //   backdropFilter: "blur(0.7px)",
+      // }}
     >
       <DialogTitle>
         <Typography

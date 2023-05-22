@@ -212,9 +212,9 @@ export const FormModalAntec = ({
         onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted
-        sx={{
-          backdropFilter: "blur(0.7px)",
-        }}
+        // sx={{
+        //   backdropFilter: "blur(0.7px)",
+        // }}
       >
         <DialogTitle
           display="flex"

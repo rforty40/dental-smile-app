@@ -4,6 +4,7 @@ import { ButtonCustom, IconTextField } from "../../ui";
 import {
   AccessTime,
   CancelOutlined,
+  CloseOutlined,
   DeleteOutlined,
   EditOutlined,
   Event,
@@ -63,8 +64,9 @@ export const ViewCita = ({ closeCitaView }) => {
           paddingTop: "5px",
           alignItems: "center",
           gridTemplateColumns: "repeat(6, 1fr)",
-          gridTemplateRows: "repeat(4, max-content)",
-          gridTemplateAreas: `"titulo titulo paciente paciente paciente paciente"
+          gridTemplateRows: "repeat(5, max-content)",
+
+          gridTemplateAreas: `". . . . . cerrar" "titulo titulo paciente paciente paciente paciente"
                 " fecha fecha horaIni  horaIni horaFin horaFin "
                 " motivo motivo motivo motivo motivo motivo"
                 " btnReg btnReg btnReg btnReg btnReg btnReg"`,
@@ -72,6 +74,22 @@ export const ViewCita = ({ closeCitaView }) => {
           columnGap: "10px",
         }}
       >
+        <Grid
+          sx={{ height: "0px " }}
+          item
+          gridArea="cerrar"
+          display="flex"
+          justifyContent="end"
+        >
+          <IconButton
+            onClick={() => {
+              closeCitaView();
+            }}
+          >
+            <CloseOutlined style={{ fontSize: "20px", color: "white" }} />
+          </IconButton>
+        </Grid>
+
         <Grid item gridArea="titulo" display="flex" justifyContent="start">
           <Typography
             fontSize="20px"
@@ -90,16 +108,25 @@ export const ViewCita = ({ closeCitaView }) => {
             type="text"
             // defaultValue={"Hello World"}
             value={activeCita.Paciente}
-            colorIcon="blueSecondary.main"
-            colorHover="#02ECEE"
             colorTxt="white"
-            colorLabel="blueSecondary.main"
             font_we="bold"
             font_sty="italic"
             InputProps={{
               readOnly: true,
-              // onClick: () =>
-              //   navigate(`/pacientes/${activeCita.id_paciente}/historial`),
+            }}
+            colorHover=""
+            colorLabel="#02ECEE"
+            propsXS={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                },
+              },
+              "&:hover fieldset": {
+                borderColor: "#602A90 !important ",
+              },
+              boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
             }}
             iconEnd={
               <IconButton
@@ -123,13 +150,25 @@ export const ViewCita = ({ closeCitaView }) => {
             label="Fecha:"
             type="text"
             value={activeCita.fecha_cita}
-            colorIcon="blueSecondary.main"
-            colorHover="#02ECEE"
             colorTxt="white"
-            colorLabel="blueSecondary.main"
             font_we="bold"
             font_sty="italic"
             InputProps={{ readOnly: true }}
+            colorIcon="blueSecondary.main"
+            colorHover=""
+            colorLabel="#02ECEE"
+            propsXS={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                },
+              },
+              "&:hover fieldset": {
+                borderColor: "#602A90 !important ",
+              },
+              boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+            }}
             iconEnd={
               <Icon>
                 <Event />
@@ -143,13 +182,25 @@ export const ViewCita = ({ closeCitaView }) => {
             label="Hora Inicio:"
             type="text"
             value={activeCita.hora_inicio}
-            colorIcon="blueSecondary.main"
-            colorHover="#02ECEE"
             colorTxt="white"
-            colorLabel="blueSecondary.main"
             font_we="bold"
             font_sty="italic"
             InputProps={{ readOnly: true }}
+            colorIcon="blueSecondary.main"
+            colorHover=""
+            colorLabel="#02ECEE"
+            propsXS={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                },
+              },
+              "&:hover fieldset": {
+                borderColor: "#602A90 !important ",
+              },
+              boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+            }}
             iconEnd={
               <Icon>
                 <AccessTime />
@@ -163,13 +214,25 @@ export const ViewCita = ({ closeCitaView }) => {
             label="Hora Fin:"
             type="text"
             value={activeCita.hora_fin}
-            colorIcon="blueSecondary.main"
-            colorHover="#02ECEE"
             colorTxt="white"
-            colorLabel="blueSecondary.main"
             font_we="bold"
             font_sty="italic"
             InputProps={{ readOnly: true }}
+            colorIcon="blueSecondary.main"
+            colorHover=""
+            colorLabel="#02ECEE"
+            propsXS={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                },
+              },
+              "&:hover fieldset": {
+                borderColor: "#602A90 !important ",
+              },
+              boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+            }}
             iconEnd={
               <Icon>
                 <AccessTime />
@@ -185,12 +248,24 @@ export const ViewCita = ({ closeCitaView }) => {
             type="text"
             value={activeCita.moti_citaAgen}
             colorIcon="blueSecondary.main"
-            colorHover="#02ECEE"
+            colorHover=""
+            colorLabel="#02ECEE"
             colorTxt="white"
-            colorLabel="blueSecondary.main"
             font_we="bold"
             font_sty="italic"
             InputProps={{ readOnly: true }}
+            propsXS={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  border: "2px solid",
+                  borderColor: "primary.main",
+                },
+              },
+              "&:hover fieldset": {
+                borderColor: "#602A90 !important ",
+              },
+              boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+            }}
             iconEnd={
               <Icon>
                 <SegmentOutlined />

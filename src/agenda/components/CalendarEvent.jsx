@@ -19,7 +19,7 @@ const StyledTooltip = styled((props) => (
     background-color: transparent;
     margin:0px;
     padding:0px;
-    color: black;
+    max-width: none;
 
   }
 
@@ -69,7 +69,7 @@ export const CalendarEvent = ({ event }) => {
         <StyledTooltip
           title={<ViewCita closeCitaView={handleTooltipClose} />}
           arrow
-          // placement="right"
+          // placement="bottom-start"
           onClose={handleTooltipClose}
           open={open}
           disableFocusListener

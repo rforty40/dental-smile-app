@@ -193,9 +193,9 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
         onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted
-        sx={{
-          backdropFilter: "blur(0.7px)",
-        }}
+        // sx={{
+        //   backdropFilter: "blur(0.7px)",
+        // }}
       >
         <DialogTitle
           padding="16px 10px 16px  20px !important"
