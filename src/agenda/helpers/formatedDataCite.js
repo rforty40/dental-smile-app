@@ -89,3 +89,26 @@ export const extraerFecha = (fecha) => {
 
   return fechaConvertida;
 };
+
+const arrMes = [
+  "enero",
+  "febrero",
+  "marzo",
+  "abril",
+  "mayo",
+  "junio",
+  "julio",
+  "agosto",
+  "septiembre",
+  "octubre",
+  "noviembre",
+  "diciembre",
+];
+
+export const extractMesAnio = (fecha) => {
+  return (
+    [arrMes[new Date(fecha.fecha_citaAgen).getMonth()]] +
+    "_" +
+    new Date(fecha.fecha_citaAgen).getFullYear()
+  );
+};

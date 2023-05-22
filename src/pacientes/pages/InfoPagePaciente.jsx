@@ -126,7 +126,7 @@ export const InfoPagePaciente = () => {
   };
 
   return (
-    <Box height="100%" padding="20px">
+    <Box height="100vh" padding="20px">
       <Box
         width="100%"
         display="flex"
@@ -413,9 +413,7 @@ export const InfoPagePaciente = () => {
                 // funcionDeleteVarious={deleteRegisterPaciente}
               />
             ) : (
-              <Box height="100px">
-                <h4>Sin antecedentes familiares</h4>
-              </Box>
+              <h4>Sin antecedentes familiares</h4>
             )}
           </Box>
         </div>

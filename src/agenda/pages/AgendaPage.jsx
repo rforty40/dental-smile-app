@@ -131,6 +131,16 @@ export const AgendaPage = () => {
     handleOpenSnackbar();
   };
 
+  const dayRangeHeaderFormat = ({ start, end }, culture, local) =>
+    local.format(start, "MMMM dd", culture) +
+    " – " +
+    // updated to use this localizer 'eq()' method
+    local.format(
+      end,
+      local.eq(start, end, "month") ? "dd yyyy" : "MMMM dd yyyy",
+      culture
+    );
+
   return (
     <div
       style={{
@@ -153,7 +163,8 @@ export const AgendaPage = () => {
         <DnDCalendar
           // className="animate__animated animate__fadeIn"
           // selectable
-          selectable="ignoreEvents"
+          selectable
+          formats={{ dayRangeHeaderFormat }}
           views={{
             month: true,
             week: true,

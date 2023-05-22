@@ -28,6 +28,7 @@ import {
   formatearDataPacToBusList,
   formatearDataPacToTable,
 } from "../pacientes/helpers";
+import { extractMesAnio } from "../agenda/helpers/formatedDataCite";
 
 //
 //
@@ -143,40 +144,39 @@ export const usePacienteStore = () => {
         fechaFin
       );
 
-      let arrayCitesMonth = [
-        { enero: [] },
-        { febrero: [] },
-        { marzo: [] },
-        { abril: [] },
-        { mayo: [] },
-        { junio: [] },
-        { julio: [] },
-        { agosto: [] },
-        { septiembre: [] },
-        { octubre: [] },
-        { noviembre: [] },
-        { diciembre: [] },
-      ];
+      let arrayCitesMonth = [];
 
-      const arrMes = [
-        "enero",
-        "febrero",
-        "marzo",
-        "abril",
-        "mayo",
-        "junio",
-        "julio",
-        "agosto",
-        "septiembre",
-        "octubre",
-        "noviembre",
-        "diciembre",
-      ];
+      const arrMesAnio = [];
 
+      //primer bucle
+      //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
+      // se usa un array para controlar que no se repitan los meses
       data.forEach((fecha) => {
-        const posMes = new Date(fecha.fecha_citaAgen).getMonth();
-        arrayCitesMonth[posMes][arrMes[posMes]].push(fecha);
+        const nameMesAnio = extractMesAnio(fecha);
+
+        if (!arrMesAnio.includes(nameMesAnio)) {
+          arrMesAnio.push(nameMesAnio);
+          arrayCitesMonth.push({ [nameMesAnio]: [] });
+        }
       });
+
+      let iterator = 0;
+      let mesTemporal = Object.keys(arrayCitesMonth[0])[0];
+
+      //2do bucle
+      //
+      data.forEach((fecha) => {
+        const nameMesAnio = extractMesAnio(fecha);
+
+        if (mesTemporal !== nameMesAnio) {
+          iterator++;
+          mesTemporal = nameMesAnio;
+        }
+
+        arrayCitesMonth[iterator][`${nameMesAnio}`].push(fecha);
+      });
+
+      // console.log(arrayCitesMonth);
 
       dispatch(onLoadFuturasCitas(arrayCitesMonth));
       dispatch(changeErrorLoadFutCitas(null));
