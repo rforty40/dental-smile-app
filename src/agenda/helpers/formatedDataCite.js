@@ -90,7 +90,7 @@ export const extraerFecha = (fecha) => {
   return fechaConvertida;
 };
 
-const arrMes = [
+export const arrMes = [
   "enero",
   "febrero",
   "marzo",
@@ -103,6 +103,7 @@ const arrMes = [
   "octubre",
   "noviembre",
   "diciembre",
+  " ", //12
 ];
 
 export const extractMesAnio = (fecha) => {
@@ -111,4 +112,22 @@ export const extractMesAnio = (fecha) => {
     "_" +
     new Date(fecha.fecha_cita).getFullYear()
   );
+};
+
+export const addZeroStr = (mes) => {
+  const mesString = mes.toString();
+  return mesString.length < 2 ? "0" + mesString : mesString;
+};
+
+/* Función que suma o resta días a una fecha, si el parámetro
+   días es negativo restará los días*/
+export const sumarDias = (fecha, dias) => {
+  fecha.setDate(fecha.getDate() + dias);
+  return fecha;
+};
+// argumento 2023-05-24 salida 2023-05-25
+export const addDayDateEnd = (fechaFin) => {
+  const NewFechaFin = sumarDias(new Date(fechaFin.replaceAll("-", "/")), 1);
+
+  return extraerFecha(NewFechaFin).replaceAll("/", "-");
 };

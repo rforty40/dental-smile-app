@@ -102,9 +102,7 @@ export const AgendaPage = () => {
 
   //funcion se activa al seleccionar uno o varios slots
   const clickSlot = (slotInfo) => {
-    //
-    console.log("clickSlot");
-
+    // console.log(slotInfo);
     const { start, end } = slotInfo;
 
     changeDataCite({
@@ -146,7 +144,8 @@ export const AgendaPage = () => {
   return (
     <div
       style={{
-        height: "100vh",
+        height: "100%",
+        minHeight: "100vh",
         width: "100%",
         backgroundImage:
           " url(../../../public/assets/img/calendar_fondo_mayo.jpg)",
@@ -212,6 +211,7 @@ export const AgendaPage = () => {
           onEventResize={onEventDropResizable}
           onSelectSlot={clickSlot}
           resizableAccessor={() => lastView !== "month"}
+
           // tooltipAccessor={null}
           // dayLayoutAlgorithm={"no-overlap"}
         />

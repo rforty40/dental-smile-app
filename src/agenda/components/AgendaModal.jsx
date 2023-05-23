@@ -317,12 +317,6 @@ export const AgendaModal = () => {
                     disablePortal
                     options={pacientesListBusq}
                     getOptionLabel={(option) => option.label}
-                    // isOptionEqualToValue={(option, value) => {
-                    //   return option.label;
-                    // }}
-
-                    // defaultValue={stateDefPac}
-
                     value={statePacValue}
                     onChange={(event, newValue) => {
                       setStatePacValue(newValue);
@@ -374,25 +368,6 @@ export const AgendaModal = () => {
                       : new Date(0, 0, 0, 7)
                   }
                   maxTime={new Date(0, 0, 0, 20)}
-                  // shouldDisableTime={(value, view) =>
-                  //   extraerFecha(stateDatePicker) === extraerFecha(new Date()) &&
-                  //   view === "hours" &&
-                  //   value.hour < new Date().getHours()
-                  // }
-
-                  // shouldDisableTime={
-                  //   (value, view) =>
-                  // {
-                  // console.log(value);
-                  // console.log(view);
-                  // return
-                  // (
-                  // view === "hours" &&
-                  // value.getHours() > 12 &&
-                  // value.getHours() < 15
-                  // );
-                  // }
-                  // }
                   ampm={false}
                   label={"Hora Inicio:"}
                   value={stateTimeIni}

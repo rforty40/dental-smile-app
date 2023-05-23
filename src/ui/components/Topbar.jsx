@@ -11,7 +11,7 @@ export const Topbar = () => {
     <Box
       display="flex"
       justifyContent="space-between"
-      p={3}
+      p="20px"
       alignItems="center"
     >
       <Box
@@ -53,9 +53,9 @@ export const Topbar = () => {
       </Typography>
 
       <Box display="flex" gap="20px">
-        <IconButton className="btn-menu" sx={{ color: "black" }}>
+        {/* <IconButton className="btn-menu" sx={{ color: "black" }}>
           <AdminPanelSettingsOutlined />
-        </IconButton>
+        </IconButton> */}
       </Box>
     </Box>
   );
