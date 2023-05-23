@@ -1,42 +1,14 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  ButtonGroup,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  Collapse,
-  IconButton,
-  Paper,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
+import { Box, ToggleButtonGroup } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useUiStore } from "../../hooks";
+import { useDashboardStore, useUiStore } from "../../hooks";
+import { CustomDatePicker, CustomRangeDate, Topbar } from "../../ui";
+
 import {
-  ButtonCustom,
-  CustomDatePicker,
-  CustomRangeDate,
-  Topbar,
-} from "../../ui";
-import {
-  ExpandMore,
-  Favorite,
-  MoreVert,
-  SearchOutlined,
-  Share,
-} from "@mui/icons-material";
-import {
-  addDayDateEnd,
   addZeroStr,
   arrMes,
   extraerFecha,
-  sumarDias,
 } from "../../agenda/helpers/formatedDataCite";
+
 import {
   CardDashboard,
   MenuListDashboard,
@@ -44,6 +16,8 @@ import {
 } from "../components";
 
 export const DashboardPage = () => {
+  //
+
   const { changePage } = useUiStore();
 
   useEffect(() => {
@@ -51,7 +25,19 @@ export const DashboardPage = () => {
     changePage();
   }, []);
 
-  const [stateToogleBtns, setStateToogleBtns] = useState("dia");
+  const {
+    listPacientesPanel,
+    listConsultasPanel,
+    listProcedimientosPanel,
+    totallistGastos,
+    totallistIngreso,
+    startLoadPanel,
+    startLoadGanancias,
+  } = useDashboardStore();
+
+  const [stateToogleBtns, setStateToogleBtns] = useState("sem_act");
+
+  const [typeConsulta, setTypeConsulta] = useState(false);
 
   const handleChangeToogleBtn = (event, newAlignment) => {
     setStateToogleBtns(newAlignment);
@@ -63,15 +49,18 @@ export const DashboardPage = () => {
     fechaFin: "_",
   });
   const setearFechas = (values) => {
-    values === null
-      ? setStateDatesRange({
-          fechaIni: "_",
-          fechaFin: "_",
-        })
-      : setStateDatesRange({
-          fechaIni: extraerFecha(values[0]["$d"]).replaceAll("/", "-"),
-          fechaFin: extraerFecha(values[1]["$d"]).replaceAll("/", "-"),
-        });
+    if (values === null) {
+      setStateDatesRange({
+        fechaIni: "_",
+        fechaFin: "_",
+      });
+    } else {
+      setTypeConsulta("range");
+      setStateDatesRange({
+        fechaIni: extraerFecha(values[0]["$d"]).replaceAll("/", "-"),
+        fechaFin: extraerFecha(values[1]["$d"]).replaceAll("/", "-"),
+      });
+    }
   };
 
   //hook date año
@@ -82,33 +71,82 @@ export const DashboardPage = () => {
   );
 
   const onChangeDatePickerYear = (newValue) => {
-    setStateDatePickerMonth(12);
+    setTypeConsulta("anio");
+    // setStateDatePickerMonth(12);
     setStateDatePickerYear(newValue);
   };
 
   const onChangeDatePickerMoth = (newValue) => {
+    setTypeConsulta("mes");
     setStateDatePickerMonth(newValue.getMonth());
   };
 
   useEffect(() => {
     console.log(stateToogleBtns);
+    if (stateToogleBtns) {
+      startLoadPanel(stateToogleBtns, "_", "_");
+      startLoadGanancias(stateToogleBtns, "_", "_");
+    }
+    //funcion de buscar
+  }, [stateToogleBtns]);
+
+  useEffect(() => {
     console.log(addZeroStr(stateDatePickerMonth + 1));
     console.log(stateDatePickerYear.getFullYear().toString());
 
-    console.log(stateDatesRange.fechaIni + "00:00:00");
-    console.log(stateDatesRange.fechaFin + "23:59:59");
+    console.log(stateDatesRange.fechaIni + " 00:00:00");
+    console.log(stateDatesRange.fechaFin + " 23:59:59");
 
-    //funcion de buscar
-  }, [
-    stateToogleBtns,
-    stateDatesRange,
-    stateDatePickerMonth,
-    stateDatePickerYear,
-  ]);
+    if (typeConsulta) {
+      switch (typeConsulta) {
+        case "anio":
+          console.log(typeConsulta);
+          startLoadPanel(
+            typeConsulta,
+            stateDatePickerYear.getFullYear().toString(),
+            "_"
+          );
+          startLoadGanancias(
+            typeConsulta,
+            stateDatePickerYear.getFullYear().toString(),
+            "_"
+          );
+          break;
+        case "mes":
+          console.log(typeConsulta);
+          startLoadPanel(
+            typeConsulta,
+            stateDatePickerYear.getFullYear().toString() +
+              addZeroStr(stateDatePickerMonth + 1),
+            "_"
+          );
+          startLoadGanancias(
+            typeConsulta,
+            stateDatePickerYear.getFullYear().toString() +
+              addZeroStr(stateDatePickerMonth + 1),
+            "_"
+          );
+          break;
+        case "range":
+          console.log(typeConsulta);
+          break;
 
-  //
-  //
-  //
+        default:
+          break;
+      }
+    }
+    setTypeConsulta(null);
+  }, [stateDatesRange, stateDatePickerMonth, stateDatePickerYear]);
+
+  useEffect(() => {
+    if (setTypeConsulta === null) {
+      stateDatePickerMonth(12);
+    }
+  }, [setTypeConsulta]);
+
+  const openPanelPacientes = () => {
+    console.log("Abriendo panel paciente");
+  };
 
   return (
     <div
@@ -156,10 +194,10 @@ export const DashboardPage = () => {
               },
             }}
           >
-            <MyButtonInGroup value="dia" text={"Día"} />
-            <MyButtonInGroup value="sem" text={"Semana"} />
-            <MyButtonInGroup value="mes" text={"Mes"} />
-            <MyButtonInGroup value="anio" text={"Año"} />
+            <MyButtonInGroup value="dia_act" text={"Día"} />
+            <MyButtonInGroup value="sem_act" text={"Semana"} />
+            <MyButtonInGroup value="mes_act" text={"Mes"} />
+            <MyButtonInGroup value="ani_act" text={"Año"} />
           </ToggleButtonGroup>
 
           {/* selector de fechas, año, rango de fecha */}
@@ -215,23 +253,24 @@ export const DashboardPage = () => {
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <CardDashboard
             iconName={"patient_bed3"}
-            resultado={"8"}
+            resultado={listPacientesPanel.length}
             label={"Pacientes"}
+            fncOnClick={openPanelPacientes}
           />
           <CardDashboard
             iconName={"calendar_molar"}
-            resultado={"10"}
+            resultado={listConsultasPanel.length}
             label={"Consultas"}
           />
           <CardDashboard
             iconName={"tool_dentist3"}
-            resultado={"14"}
+            resultado={listProcedimientosPanel.length}
             label={"Procedimientos"}
           />
           <CardDashboard
             iconName={"ganancias3"}
-            resultado={`$${230.45}`}
-            label={"Ganacias"}
+            resultado={`$${parseFloat(totallistIngreso - totallistGastos)}`}
+            label={"Ganancias"}
           />
         </Box>
       </Box>
@@ -240,8 +279,10 @@ export const DashboardPage = () => {
         className="animate__animated animate__fadeIn"
         margin="30px 30px 0px 30px"
         display="flex"
-        flexDirection="column"
+        // flexDirection="column"
+        flexWrap="wrap"
         rowGap="15px"
+        columnGap="15px"
         // sx={{ backgroundColor: "white" }}
       >
         <MenuListDashboard txtLabel={"Lista de procedimientos odontologicos"} />

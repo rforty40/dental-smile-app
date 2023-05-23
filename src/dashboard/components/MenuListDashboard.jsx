@@ -12,7 +12,7 @@ export const MenuListDashboard = ({ txtLabel, fncList }) => {
         backgroundColor: "rgba(255,255,255,0.7)",
         borderRadius: "5px",
         height: "100%",
-        width: "45%",
+        width: "35%",
         padding: "10px 10px 10px 25px",
 
         transition: "color 0.5s, background-color 1s",

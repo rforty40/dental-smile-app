@@ -152,7 +152,7 @@ export const usePacienteStore = () => {
       const arrMesAnio = [];
 
       // console.log(data);
-      //primer bucle
+      //1er bucle
       //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
       // se usa un array para controlar que no se repitan los meses
       data.forEach((fecha) => {
