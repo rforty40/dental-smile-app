@@ -1,7 +1,6 @@
 import { Box, Paper, Typography } from "@mui/material";
 
 export const CardDashboard = ({ iconName, resultado, label, fncOnClick }) => {
-  console.log(resultado);
   return (
     <Box
       component="div"

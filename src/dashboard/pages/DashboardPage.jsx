@@ -1,13 +1,10 @@
 import { Box, ToggleButtonGroup } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDashboardStore, useUiStore } from "../../hooks";
-import { CustomDatePicker, CustomRangeDate, Topbar } from "../../ui";
 
-import {
-  addZeroStr,
-  arrMes,
-  extraerFecha,
-} from "../../agenda/helpers/formatedDataCite";
+import { CustomDatePickerAntd, CustomRangeDate, Topbar } from "../../ui";
+
+import { addZeroStr, arrMes } from "../../agenda/helpers/formatedDataCite";
 
 import {
   CardDashboard,
@@ -15,13 +12,15 @@ import {
   MyButtonInGroup,
 } from "../components";
 
+/*************************************************************************************************** */
+
 export const DashboardPage = () => {
   //
 
   const { changePage } = useUiStore();
 
   useEffect(() => {
-    console.log("DashboardPage");
+    console.log("Dashboard Page");
     changePage();
   }, []);
 
@@ -35,117 +34,160 @@ export const DashboardPage = () => {
     startLoadGanancias,
   } = useDashboardStore();
 
+  //estado de consulta actual
   const [stateToogleBtns, setStateToogleBtns] = useState("sem_act");
 
-  const [typeConsulta, setTypeConsulta] = useState(false);
+  //rangoDeFechas
+  const [stateDatesRange, setStateDatesRange] = useState({
+    values: null,
+    fechaIni: "_",
+    fechaFin: "_",
+  });
 
+  //hook date año
+  const [statePickerYear, setStatePickerYear] = useState({
+    valueYear: null,
+    anioStr: "",
+  });
+
+  //hook date mes
+  const [statePickerMonth, setStatePickerMonth] = useState({
+    valueMonth: null,
+    mesStr: "",
+  });
+
+  /*****************************************CONSULTAS ACTUALES ********************************************************** */
   const handleChangeToogleBtn = (event, newAlignment) => {
     setStateToogleBtns(newAlignment);
   };
 
-  //rangoDeFechas
-  const [stateDatesRange, setStateDatesRange] = useState({
-    fechaIni: "_",
-    fechaFin: "_",
-  });
-  const setearFechas = (values) => {
-    if (values === null) {
-      setStateDatesRange({
-        fechaIni: "_",
-        fechaFin: "_",
-      });
-    } else {
-      setTypeConsulta("range");
-      setStateDatesRange({
-        fechaIni: extraerFecha(values[0]["$d"]).replaceAll("/", "-"),
-        fechaFin: extraerFecha(values[1]["$d"]).replaceAll("/", "-"),
-      });
-    }
-  };
-
-  //hook date año
-  const [stateDatePickerYear, setStateDatePickerYear] = useState(new Date());
-  //hook date mes
-  const [stateDatePickerMonth, setStateDatePickerMonth] = useState(
-    new Date().getMonth()
-  );
-
-  const onChangeDatePickerYear = (newValue) => {
-    setTypeConsulta("anio");
-    // setStateDatePickerMonth(12);
-    setStateDatePickerYear(newValue);
-  };
-
-  const onChangeDatePickerMoth = (newValue) => {
-    setTypeConsulta("mes");
-    setStateDatePickerMonth(newValue.getMonth());
-  };
-
   useEffect(() => {
-    console.log(stateToogleBtns);
     if (stateToogleBtns) {
+      //Limpiar los demas componentes
+      setStateDatesRange({ ...stateDatesRange, values: null });
+      setStatePickerYear({
+        valueYear: null,
+        anioStr: "",
+      });
+      setStatePickerMonth({
+        valueMonth: null,
+        mesStr: "",
+      });
+
+      //Consultas por dia, semana, mes, ano actual
       startLoadPanel(stateToogleBtns, "_", "_");
       startLoadGanancias(stateToogleBtns, "_", "_");
     }
-    //funcion de buscar
   }, [stateToogleBtns]);
 
-  useEffect(() => {
-    console.log(addZeroStr(stateDatePickerMonth + 1));
-    console.log(stateDatePickerYear.getFullYear().toString());
+  /*******************************************RANGO DE FECHA ******************************************************** */
 
-    console.log(stateDatesRange.fechaIni + " 00:00:00");
-    console.log(stateDatesRange.fechaFin + " 23:59:59");
+  const onChangeRangeDates = (values, rangeString) => {
+    //Limpiar los demas componentes
+    setStateToogleBtns(null);
+    setStatePickerYear({
+      valueYear: null,
+      anioStr: "",
+    });
+    setStatePickerMonth({
+      valueMonth: null,
+      mesStr: "",
+    });
 
-    if (typeConsulta) {
-      switch (typeConsulta) {
-        case "anio":
-          console.log(typeConsulta);
-          startLoadPanel(
-            typeConsulta,
-            stateDatePickerYear.getFullYear().toString(),
-            "_"
-          );
-          startLoadGanancias(
-            typeConsulta,
-            stateDatePickerYear.getFullYear().toString(),
-            "_"
-          );
-          break;
-        case "mes":
-          console.log(typeConsulta);
-          startLoadPanel(
-            typeConsulta,
-            stateDatePickerYear.getFullYear().toString() +
-              addZeroStr(stateDatePickerMonth + 1),
-            "_"
-          );
-          startLoadGanancias(
-            typeConsulta,
-            stateDatePickerYear.getFullYear().toString() +
-              addZeroStr(stateDatePickerMonth + 1),
-            "_"
-          );
-          break;
-        case "range":
-          console.log(typeConsulta);
-          break;
+    //cambiar el rango de fecha
+    setStateDatesRange({
+      values,
+      fechaIni: rangeString[0],
+      fechaFin: rangeString[1],
+    });
 
-        default:
-          break;
-      }
+    if (!values) {
+      setStateToogleBtns("sem_act");
     }
-    setTypeConsulta(null);
-  }, [stateDatesRange, stateDatePickerMonth, stateDatePickerYear]);
+  };
 
   useEffect(() => {
-    if (setTypeConsulta === null) {
-      stateDatePickerMonth(12);
+    if (stateDatesRange.values !== null) {
+      startLoadPanel(
+        "range",
+        stateDatesRange.fechaIni + " 00:00:00",
+        stateDatesRange.fechaFin + " 23:59:59"
+      );
+      startLoadGanancias(
+        "range",
+        stateDatesRange.fechaIni + " 00:00:00",
+        stateDatesRange.fechaFin + " 23:59:59"
+      );
     }
-  }, [setTypeConsulta]);
+  }, [stateDatesRange]);
 
-  const openPanelPacientes = () => {
-    console.log("Abriendo panel paciente");
+  /*******************************************  AÑO  ******************************************************** */
+
+  const onChangeYear = (date, dateString) => {
+    //Limpiar los demas componentes
+    setStateToogleBtns(null);
+    setStateDatesRange({ ...stateDatesRange, values: null });
+    setStatePickerMonth({
+      valueMonth: null,
+      mesStr: "",
+    });
+
+    //cambiar el año
+    setStatePickerYear({
+      valueYear: date,
+      anioStr: dateString,
+    });
+
+    if (!date) {
+      setStateToogleBtns("sem_act");
+    }
+  };
+
+  useEffect(() => {
+    if (statePickerYear.valueYear !== null) {
+      startLoadPanel("anio", statePickerYear.anioStr, "_");
+      startLoadGanancias("anio", statePickerYear.anioStr, "_");
+    }
+  }, [statePickerYear]);
+
+  /*******************************************  MES  ******************************************************** */
+
+  const onChangeMonth = (date, dateString) => {
+    //Limpiar los demas componentes
+    setStateToogleBtns(null);
+    setStateDatesRange({ ...stateDatesRange, values: null });
+    setStatePickerYear({
+      valueYear: null,
+      anioStr: "",
+    });
+
+    //cambiar el mes
+    setStatePickerMonth({
+      valueMonth: date,
+      mesStr: dateString,
+    });
+
+    if (!date) {
+      setStateToogleBtns("sem_act");
+    }
+  };
+
+  useEffect(() => {
+    if (statePickerMonth.valueMonth !== null) {
+      const mesAnio =
+        statePickerMonth.mesStr.split(" ")[1] +
+        addZeroStr(arrMes.indexOf(statePickerMonth.mesStr.split(" ")[0]) + 1);
+
+      startLoadPanel("mes", mesAnio, "_");
+      startLoadGanancias("mes", mesAnio, "_");
+    }
+  }, [statePickerMonth]);
+
+  /*************************************************************************************************** */
+  /*************************************************************************************************** */
+
+  const customFormat = (value) => {
+    return arrMes[value["$d"].getMonth()] + " " + value["$d"].getFullYear();
   };
 
   return (
@@ -202,50 +244,28 @@ export const DashboardPage = () => {
 
           {/* selector de fechas, año, rango de fecha */}
           <Box display="flex" flexDirection="row" columnGap="5px">
-            <CustomDatePicker
-              label={"Mes"}
-              views={["month"]}
-              altura={"41px"}
-              propsXS={{
-                height: "41px",
-                margin: "2px",
-                width: "150px",
-              }}
-              // value={stateDatePicker}
-              onChange={onChangeDatePickerMoth}
-              slotProps={{
-                textField: {
-                  onKeyDown: (e) => {
-                    e.preventDefault();
-                  },
-                  inputProps: {
-                    value: arrMes[parseInt(stateDatePickerMonth)],
-                  },
-                },
-              }}
+            {/* selector de mes */}
+            <CustomDatePickerAntd
+              value={statePickerMonth.valueMonth}
+              onChange={onChangeMonth}
+              format={customFormat}
+              picker="month"
+              sxProps={{ width: "175px" }}
             />
 
-            <CustomDatePicker
-              label={"Año"}
-              views={["year"]}
-              altura={"41px"}
-              propsXS={{
-                height: "41px",
-                margin: "2px",
-                width: "100px",
-              }}
-              value={stateDatePickerYear}
-              onChange={onChangeDatePickerYear}
-              slotProps={{
-                textField: {
-                  onKeyDown: (e) => {
-                    e.preventDefault();
-                  },
-                },
-              }}
+            {/* selector año */}
+            <CustomDatePickerAntd
+              value={statePickerYear.valueYear}
+              onChange={onChangeYear}
+              picker="year"
+              sxProps={{ width: "130px" }}
             />
 
-            <CustomRangeDate onChange={setearFechas} />
+            {/* selector de rango de fechas */}
+            <CustomRangeDate
+              value={stateDatesRange.values}
+              onChange={onChangeRangeDates}
+            />
           </Box>
         </Box>
 
@@ -255,7 +275,6 @@ export const DashboardPage = () => {
             iconName={"patient_bed3"}
             resultado={listPacientesPanel.length}
             label={"Pacientes"}
-            fncOnClick={openPanelPacientes}
           />
           <CardDashboard
             iconName={"calendar_molar"}
@@ -285,14 +304,27 @@ export const DashboardPage = () => {
         columnGap="15px"
         // sx={{ backgroundColor: "white" }}
       >
-        <MenuListDashboard txtLabel={"Lista de procedimientos odontologicos"} />
+        <MenuListDashboard
+          txtLabel={"Lista de procedimientos odontologicos"}
+          route={"listaprocedimientosodon"}
+        />
         <MenuListDashboard
           txtLabel={"Lista de tipos de consulta odontologicas"}
+          route={"listatiposconsodon"}
         />
-        <MenuListDashboard txtLabel={"Lista de tipos de tratamientos"} />
-        <MenuListDashboard txtLabel={"Lista de tipos de pagos"} />
-        <MenuListDashboard txtLabel={"Lista de ingresos"} />
-        <MenuListDashboard txtLabel={"Lista de gastos"} />
+        <MenuListDashboard
+          txtLabel={"Lista de tipos de tratamientos"}
+          route={"listatipostratam"}
+        />
+        <MenuListDashboard
+          txtLabel={"Lista de tipos de pagos"}
+          route={"listatipospagos"}
+        />
+        <MenuListDashboard
+          txtLabel={"Lista de ingresos"}
+          route={"listaingresos"}
+        />
+        <MenuListDashboard txtLabel={"Lista de gastos"} route={"listagastos"} />
       </Box>
     </div>
   );

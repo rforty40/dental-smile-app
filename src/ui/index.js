@@ -12,5 +12,6 @@ export * from "./components/FormInModal/CustomAutocomplete";
 export * from "./components/FormInModal/CustomDatePicker";
 export * from "./components/FormInModal/CustomTimePicker";
 export * from "./components/FormInModal/CustomRangeDate";
+export * from "./components/FormInModal/CustomDatePickerAntd";
 export * from "./components/FormInModal/CustomSelect";
 export * from "./components/CustomAlert";

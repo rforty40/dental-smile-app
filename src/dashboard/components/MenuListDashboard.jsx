@@ -1,9 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { Link, Typography } from "@mui/material";
 
-export const MenuListDashboard = ({ txtLabel, fncList }) => {
+export const MenuListDashboard = ({ txtLabel, fncList, route }) => {
   return (
-    <Box
-      component="div"
+    <Link
+      component={RouterLink}
+      to={`${route}`}
       onClick={fncList}
       sx={{
         display: "flex",
@@ -14,22 +16,18 @@ export const MenuListDashboard = ({ txtLabel, fncList }) => {
         height: "100%",
         width: "35%",
         padding: "10px 10px 10px 25px",
-
-        transition: "color 0.5s, background-color 1s",
-
+        textDecoration: "none",
+        transition: "color 0.5s, background-color 0.5s",
         ":hover": {
           backgroundColor: "primary.main",
-          color: "white",
-          //   marginRight: "calc(100% - 40%)",
-
-          //   transition: "margin-right 1s, color 0.5s, background-color 1s",
-          transition: "color 0.5s, background-color 1s",
+          color: "white !important",
+          transition: "color 0.5s, background-color 0.5s",
         },
       }}
     >
       <Typography variant="h5" fontStyle="italic">
         {txtLabel}
       </Typography>
-    </Box>
+    </Link>
   );
 };

@@ -36,7 +36,7 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataPacientes);
+      //console.log(dataPacientes);
       dispatch(onLoadListPacPanel(dataPacientes));
     } catch (error) {
       if (error.response.data.message.includes("pacientes")) {
@@ -52,7 +52,7 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataConsultas);
+      //console.log(dataConsultas);
       dispatch(onLoadListConsPanel(dataConsultas));
     } catch (error) {
       if (error.response.data.message.includes("consultas")) {
@@ -68,7 +68,7 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataProcedimientos);
+      //console.log(dataProcedimientos);
       dispatch(onLoadListProcedPanel(dataProcedimientos));
     } catch (error) {
       if (error.response.data.message.includes("procedimientos")) {
@@ -86,10 +86,10 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataIngresos);
+      //console.log(dataIngresos);
       dispatch(onLoadListIngresoPanel(dataIngresos));
     } catch (error) {
-      console.log(error.response.data.message);
+      //console.log(error.response.data.message);
       if (error.response.data.message.includes("ingresos")) {
         dispatch(onLoadListIngresoPanel([]));
       }
@@ -103,14 +103,14 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(totalIngresos);
+      //console.log(totalIngresos);
       let valorIngreso = 0;
       if (Object.values(totalIngresos[0])[0] !== null) {
         valorIngreso = parseFloat(Object.values(totalIngresos[0])[0]);
       }
       dispatch(onLoadListTotalIngreso(valorIngreso));
     } catch (error) {
-      console.log(error.response.data.message);
+      //console.log(error.response.data.message);
     }
 
     //gastos
@@ -121,10 +121,10 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataGastos);
+      //console.log(dataGastos);
       dispatch(onLoadListGastosPanel(dataGastos));
     } catch (error) {
-      console.log(error.response.data.message);
+      //console.log(error.response.data.message);
       if (error.response.data.message.includes("gastos")) {
         dispatch(onLoadListGastosPanel([]));
       }
@@ -138,15 +138,15 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(totalGastos);
+      //console.log(totalGastos);
       let valorGasto = 0;
       if (Object.values(totalGastos[0])[0] !== null) {
         valorGasto = parseFloat(Object.values(totalGastos[0])[0]);
       }
-      console.log(valorGasto);
+      //console.log(valorGasto);
       dispatch(onLoadListTotalGastos(valorGasto));
     } catch (error) {
-      console.log(error.response.data.message);
+      //console.log(error.response.data.message);
     }
   };
 

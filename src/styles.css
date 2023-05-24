@@ -83,18 +83,23 @@ body,
   background-color: #116482 !important;
 } */
 
+.ant-picker,
 .ant-picker-range {
   background-color: transparent !important;
 }
+.ant-picker,
 .ant-picker-range:hover {
   background-color: transparent !important;
 }
+.ant-picker.ant-picker-focused,
 .ant-picker-range.ant-picker-focused {
   background-color: transparent !important;
 }
+.ant-picker > .ant-picker-input > .ant-picker-suffix,
 .ant-picker-range > .ant-picker-suffix {
   color: #9c27b0 !important;
 }
+.ant-picker > .ant-picker-input > .ant-picker-clear,
 .ant-picker-range > .ant-picker-clear {
   color: #9c27b0 !important;
 }
@@ -105,11 +110,13 @@ body,
 .ant-picker-range > .ant-picker-active-bar {
   background-color: #116482 !important;
 }
-
+.ant-picker > .ant-picker-input > input,
 .ant-picker-range > .ant-picker-input > input {
   color: black;
   font-weight: bold;
   font-style: italic;
+  cursor: pointer;
+  text-transform: capitalize;
 }
 
 .ant-picker-range > .ant-picker-input > input::placeholder {
@@ -118,10 +125,14 @@ body,
   font-style: italic;
 }
 
-.headerFutCitasSticky {
+.ant-picker > .ant-picker-input > input::placeholder {
+  color: black;
+}
+
+/* .headerFutCitasSticky {
   border-top: 2px solid black;
-  /* border-bottom: 2px solid black; */
+  
   box-shadow: 5px 20px 7px rgba(0, 0, 0, 0.5);
   background-color: #f5f7fa;
-  /* background-color: #cecfcf; */
-}
+
+} */
