@@ -19,39 +19,37 @@ const TABLE_HEAD = [
   { id: "email", label: "Email", alignLeft: true },
   { id: "responsable", label: "Responsable", alignLeft: true },
   { id: "fecha", label: "Fecha", alignLeft: true },
+  // { id: "fecha_upd", label: "Actualización", alignLeft: true },
 ];
 
 export const PacientesPanel = () => {
   //control form
   const [stateModalPac, setStateModalPac] = useState(false);
-  const { messagePanelPac } = useDashboardStore();
   const {
-    pacientesList,
-    pacienteActivo,
+    messagePanelPac,
+    listPacientesPanel,
+    parametrosBusqueda,
+    startLoadPanel,
+  } = useDashboardStore();
 
-    startLoadPacientes,
-    startDeletingPaciente,
-    changeTitleFormReg,
-  } = usePacienteStore();
+  const { pacienteActivo, startDeletingPaciente, changeTitleFormReg } =
+    usePacienteStore();
 
-  useEffect(() => {
-    startLoadPacientes();
-  }, []);
-
-  // const dataPacFormated = formatearDataPacToTable(pacientesList);
-
-  //funcion abrir modal registrar
-  const openModalPaciente = () => {
-    changeTitleFormReg("Registro de paciente");
-    // changeModalFormReg(true);
-    setStateModalPac(true);
+  const actualizarListaPac = () => {
+    startLoadPanel(
+      parametrosBusqueda.tipo,
+      parametrosBusqueda.param_fechaIni,
+      parametrosBusqueda.fechaFin
+    );
   };
+
   //funcion abrir modal editar
   const openModalPacienteEdit = () => {
     changeTitleFormReg("Editar datos del paciente");
-    // changeModalFormReg(true);
     setStateModalPac(true);
   };
+
+  //
   //controlDialog
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
@@ -59,6 +57,7 @@ export const PacientesPanel = () => {
     setOpenDialogDelete(true);
   };
 
+  //
   //control alert
   const [stateSnackbar, setStateSnackbar] = useState(false);
   const handleCloseSnackbar = () => {
@@ -81,25 +80,11 @@ export const PacientesPanel = () => {
     handleOpenSnackbar();
   };
 
-  const BtnToolbarTable = ({ bgHeaderColor }) => {
-    return (
-      <ButtonCustom
-        altura={"40px"}
-        colorf={bgHeaderColor === "primary.main" ? "white" : "primary.main"}
-        colorh={
-          bgHeaderColor === "primary.main"
-            ? "btnHoverInForm.main"
-            : "secondary.main"
-        }
-        colort={bgHeaderColor === "primary.main" ? "black" : "white"}
-        txt_b={"Registrar Paciente"}
-        colorth="white"
-        fontW="bold"
-        iconB={<PersonAddAlt />}
-        onClick={openModalPaciente}
-      />
-    );
-  };
+  //con cada cierre y apertura de los modales se actualiza la lista,
+  // cuando se eliminan varios se setea a null el pacienteActivo
+  useEffect(() => {
+    actualizarListaPac();
+  }, [stateModalPac, openDialogDelete, pacienteActivo]);
 
   return (
     <div
@@ -107,10 +92,10 @@ export const PacientesPanel = () => {
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-        // backgroundImage:
-        //   "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
-        // backgroundRepeat: "no-repeat",
-        // backgroundAttachment: "fixed",
+        backgroundImage:
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
       }}
     >
       {/* <Topbar /> */}
@@ -125,12 +110,11 @@ export const PacientesPanel = () => {
       >
         <CustomTable
           TABLE_HEAD={TABLE_HEAD}
-          DATALIST={pacientesList}
+          DATALIST={listPacientesPanel}
           withToolbar
           withBoxSearch
-          withButton
+          withButton={false}
           iconosEnFila={false}
-          btnToolbarTable={BtnToolbarTable}
           columnaABuscarPri="fecha"
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}

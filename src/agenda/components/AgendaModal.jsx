@@ -195,7 +195,7 @@ export const AgendaModal = () => {
 
   const errorMsgHourFin = useMemo(() => {
     if (errorHourFin === "minTime") {
-      return "La hora de fin mínima solo puede ser 5 minutos despues de la hora de inicio";
+      return "La hora de fin mínima solo puede ser 15 minutos despues de la hora de inicio";
     } else if (errorHourFin === "maxTime") {
       return "Esta hora esta fuera del rango del horario";
     } else {
@@ -388,7 +388,7 @@ export const AgendaModal = () => {
 
               <Grid item gridArea="horaFin">
                 <CustomTimePicker
-                  minTime={new Date(5 * 60000 + stateTimeIni.getTime())}
+                  minTime={new Date(15 * 60000 + stateTimeIni.getTime())}
                   maxTime={new Date(0, 0, 0, 20)}
                   ampm={false}
                   label={"Hora Fin:"}

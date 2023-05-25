@@ -63,6 +63,7 @@ export const usePacienteStore = () => {
   const startLoadPacientes = async () => {
     try {
       const { data } = await getAllPaciente();
+      console.log(data);
       dispatch(onLoadPacientesList(formatearDataPacToTable(data)));
 
       dispatch(onLoadPacientesListBusq(formatearDataPacToBusList(data)));

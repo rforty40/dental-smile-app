@@ -21,6 +21,8 @@ export const dashboardSlice = createSlice({
     messagePanelIngre: "",
     messagePanelGastos: "",
     messagePanelGananc: "",
+
+    parametrosBusqueda: {},
   },
 
   reducers: {
@@ -66,6 +68,10 @@ export const dashboardSlice = createSlice({
     onChangeMsgPanelGanan: (state, { payload }) => {
       state.messagePanelGananc = payload;
     },
+
+    onChangeParametroBusqueda: (state, { payload }) => {
+      state.parametrosBusqueda = payload;
+    },
   },
 });
 
@@ -85,4 +91,7 @@ export const {
   onChangeMsgPanelIngre,
   onChangeMsgPanelGastos,
   onChangeMsgPanelGanan,
+
+  //
+  onChangeParametroBusqueda,
 } = dashboardSlice.actions;

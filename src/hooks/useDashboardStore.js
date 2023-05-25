@@ -14,14 +14,11 @@ import {
   onLoadListProcedPanel,
   onLoadListTotalGastos,
   onLoadListTotalIngreso,
+  onChangeParametroBusqueda,
 } from "../store";
-import {
-  DiaActualFormated,
-  arrMes,
-  extraerFecha,
-} from "../agenda/helpers/formatedDataCite";
 
-import { endOfWeek, startOfWeek } from "date-fns";
+import { switchDataDashboard } from "../dashboard/helpers";
+import { formatearDataPacToTable } from "../pacientes/helpers";
 
 export const useDashboardStore = () => {
   const dispatch = useDispatch();
@@ -44,55 +41,21 @@ export const useDashboardStore = () => {
     messagePanelIngre,
     messagePanelGastos,
     messagePanelGananc,
+
+    //parametros
+    parametrosBusqueda,
   } = useSelector((state) => state.dashboard);
 
   const startLoadPanel = async (tipo, param_fechaIni, fechaFin) => {
     //
-
-    let parametroBusq = "";
-
-    switch (tipo) {
-      case "dia_act":
-        let dia = DiaActualFormated(new Date());
-        parametroBusq = dia.charAt(0).toUpperCase() + dia.slice(1);
-        break;
-
-      case "sem_act":
-        parametroBusq = `${extraerFecha(
-          startOfWeek(new Date(), { weekStartsOn: 1 })
-        )} - ${extraerFecha(endOfWeek(new Date(), { weekStartsOn: 1 }))}`;
-        break;
-
-      case "mes_act":
-        let mesAct = `${arrMes[new Date().getMonth()]}`;
-        parametroBusq = `${
-          mesAct.charAt(0).toUpperCase() + mesAct.slice(1)
-        } ${new Date().getFullYear()}`;
-        break;
-
-      case "ani_act":
-        parametroBusq = `${new Date().getFullYear()}`;
-        break;
-
-      case "mes":
-        let mes = arrMes[parseInt(param_fechaIni.slice(4, 6)) - 1];
-        parametroBusq = `${
-          mes.charAt(0).toUpperCase() + mes.slice(1)
-        } ${param_fechaIni.slice(0, 4)} `;
-        break;
-
-      case "anio":
-        parametroBusq = `${param_fechaIni}`;
-        break;
-
-      case "range":
-        parametroBusq = `desde: ${param_fechaIni.split(" ")[0]} hasta: ${
-          fechaFin.split(" ")[0]
-        }`;
-        break;
-      default:
-        break;
-    }
+    dispatch(
+      onChangeParametroBusqueda({
+        tipo,
+        param_fechaIni,
+        fechaFin,
+      })
+    );
+    const parametroBusq = switchDataDashboard(tipo, param_fechaIni, fechaFin);
 
     //Pacientes
     try {
@@ -102,49 +65,16 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      //console.log(dataPacientes);
-      dispatch(onLoadListPacPanel(dataPacientes));
-
-      let msgPanelPac = "";
-      switch (tipo) {
-        case "dia_act":
-          msgPanelPac = `Nuevos pacientes ingresados en este día `;
-          break;
-
-        case "sem_act":
-          msgPanelPac = `Nuevos pacientes ingresados en esta semana `;
-          break;
-
-        case "mes_act":
-          msgPanelPac = `Nuevos pacientes ingresados este mes de `;
-          break;
-
-        case "ani_act":
-          msgPanelPac = `Nuevos pacientes ingresados este año `;
-          break;
-
-        case "mes":
-          msgPanelPac = `Pacientes ingresados en `;
-          break;
-
-        case "anio":
-          msgPanelPac = `Pacientes ingresados en el año `;
-          break;
-
-        case "range":
-          msgPanelPac = `Pacientes ingresados `;
-          break;
-        default:
-          break;
-      }
+      console.log(dataPacientes);
+      dispatch(onLoadListPacPanel(formatearDataPacToTable(dataPacientes)));
 
       // console.log(msgPanelPac + parametroBusq);
-      dispatch(onChangeMsgPanelPac(msgPanelPac + parametroBusq));
+      dispatch(onChangeMsgPanelPac("Pacientes registrados " + parametroBusq));
     } catch (error) {
       if (error.response.data.message.includes("pacientes")) {
         dispatch(onLoadListPacPanel([]));
         dispatch(
-          onChangeMsgPanelPac("No se registraron pacientes," + parametroBusq)
+          onChangeMsgPanelPac("No se registraron pacientes " + parametroBusq)
         );
       }
     }
@@ -160,44 +90,16 @@ export const useDashboardStore = () => {
       //console.log(dataConsultas);
       dispatch(onLoadListConsPanel(dataConsultas));
 
-      let msgPanelCons = "";
-      switch (tipo) {
-        case "dia_act":
-          msgPanelCons = `Consultas atendidas en este día `;
-          break;
-
-        case "sem_act":
-          msgPanelCons = `Consultas atendidas en esta semana `;
-          break;
-
-        case "mes_act":
-          msgPanelCons = `Consultas atendidas este mes de `;
-          break;
-
-        case "ani_act":
-          msgPanelCons = `Consultas atendidas este año `;
-          break;
-
-        case "mes":
-          msgPanelCons = `Consultas atendidas en `;
-          break;
-
-        case "anio":
-          msgPanelCons = `Consultas atendidas en el año `;
-          break;
-
-        case "range":
-          msgPanelCons = `Consultas atendidas `;
-          break;
-        default:
-          break;
-      }
-
       // console.log(msgPanelCons + parametroBusq);
-      dispatch(onChangeMsgPanelCons(msgPanelCons + parametroBusq));
+      dispatch(onChangeMsgPanelCons("Consultas atendidas " + parametroBusq));
     } catch (error) {
       if (error.response.data.message.includes("consultas")) {
         dispatch(onLoadListConsPanel([]));
+        dispatch(
+          onChangeMsgPanelCons(
+            "No existen consultas atendidas " + parametroBusq
+          )
+        );
       }
     }
 
@@ -211,45 +113,19 @@ export const useDashboardStore = () => {
       );
       //console.log(dataProcedimientos);
       dispatch(onLoadListProcedPanel(dataProcedimientos));
-
-      let msgPanelProced = "";
-      switch (tipo) {
-        case "dia_act":
-          msgPanelProced = `Procedimientos realizados en este día `;
-          break;
-
-        case "sem_act":
-          msgPanelProced = `Procedimientos realizados en esta semana `;
-          break;
-
-        case "mes_act":
-          msgPanelProced = `Procedimientos realizados este mes de `;
-          break;
-
-        case "ani_act":
-          msgPanelProced = `Procedimientos realizados este año `;
-          break;
-
-        case "mes":
-          msgPanelProced = `Procedimientos realizados en `;
-          break;
-
-        case "anio":
-          msgPanelProced = `Procedimientos realizados en el año `;
-          break;
-
-        case "range":
-          msgPanelProced = `Procedimientos realizados `;
-          break;
-        default:
-          break;
-      }
-
       // console.log(msgPanelProced + parametroBusq);
-      dispatch(onChangeMsgPanelProced(msgPanelProced + parametroBusq));
+
+      dispatch(
+        onChangeMsgPanelProced(`Procedimientos realizados ` + parametroBusq)
+      );
     } catch (error) {
       if (error.response.data.message.includes("procedimientos")) {
         dispatch(onLoadListProcedPanel([]));
+        dispatch(
+          onChangeMsgPanelProced(
+            "No se existen procedimientos " + parametroBusq
+          )
+        );
       }
     }
   };
@@ -258,50 +134,15 @@ export const useDashboardStore = () => {
   /***************************************************************************** */
 
   const startLoadGanancias = async (tipo, param_fechaIni, fechaFin) => {
-    let parametroBusq = "";
+    dispatch(
+      onChangeParametroBusqueda({
+        tipo,
+        param_fechaIni,
+        fechaFin,
+      })
+    );
 
-    switch (tipo) {
-      case "dia_act":
-        let dia = DiaActualFormated(new Date());
-        parametroBusq = dia.charAt(0).toUpperCase() + dia.slice(1);
-        break;
-
-      case "sem_act":
-        parametroBusq = `${extraerFecha(
-          startOfWeek(new Date(), { weekStartsOn: 1 })
-        )} - ${extraerFecha(endOfWeek(new Date(), { weekStartsOn: 1 }))}`;
-        break;
-
-      case "mes_act":
-        let mesAct = `${arrMes[new Date().getMonth()]}`;
-        parametroBusq = `${
-          mesAct.charAt(0).toUpperCase() + mesAct.slice(1)
-        } ${new Date().getFullYear()}`;
-        break;
-
-      case "ani_act":
-        parametroBusq = `${new Date().getFullYear()}`;
-        break;
-
-      case "mes":
-        let mes = arrMes[parseInt(param_fechaIni.slice(4, 6)) - 1];
-        parametroBusq = `${
-          mes.charAt(0).toUpperCase() + mes.slice(1)
-        } ${param_fechaIni.slice(0, 4)} `;
-        break;
-
-      case "anio":
-        parametroBusq = `${param_fechaIni}`;
-        break;
-
-      case "range":
-        parametroBusq = `desde: ${param_fechaIni.split(" ")[0]} hasta: ${
-          fechaFin.split(" ")[0]
-        }`;
-        break;
-      default:
-        break;
-    }
+    const parametroBusq = switchDataDashboard(tipo, param_fechaIni, fechaFin);
 
     //ingresos
     try {
@@ -314,45 +155,15 @@ export const useDashboardStore = () => {
       //console.log(dataIngresos);
       dispatch(onLoadListIngresoPanel(dataIngresos));
 
-      let msgPanelIngre = "";
-      switch (tipo) {
-        case "dia_act":
-          msgPanelIngre = `Ingresos en este día `;
-          break;
-
-        case "sem_act":
-          msgPanelIngre = `Ingresos en esta semana `;
-          break;
-
-        case "mes_act":
-          msgPanelIngre = `Ingresos este mes de `;
-          break;
-
-        case "ani_act":
-          msgPanelIngre = `Ingresos este año `;
-          break;
-
-        case "mes":
-          msgPanelIngre = `Ingresos en `;
-          break;
-
-        case "anio":
-          msgPanelIngre = `Ingresos en el año `;
-          break;
-
-        case "range":
-          msgPanelIngre = `Ingresos `;
-          break;
-        default:
-          break;
-      }
-
       // console.log(msgPanelIngre + parametroBusq);
-      dispatch(onChangeMsgPanelIngre(msgPanelIngre + parametroBusq));
+      dispatch(onChangeMsgPanelIngre("Ingresos " + parametroBusq));
     } catch (error) {
       //console.log(error.response.data.message);
       if (error.response.data.message.includes("ingresos")) {
         dispatch(onLoadListIngresoPanel([]));
+        dispatch(
+          onChangeMsgPanelIngre("No se registran ingresos " + parametroBusq)
+        );
       }
     }
 
@@ -385,45 +196,15 @@ export const useDashboardStore = () => {
       //console.log(dataGastos);
       dispatch(onLoadListGastosPanel(dataGastos));
 
-      let msgPanelGastos = "";
-      switch (tipo) {
-        case "dia_act":
-          msgPanelGastos = `Gastos en este día `;
-          break;
-
-        case "sem_act":
-          msgPanelGastos = `Gastos en esta semana `;
-          break;
-
-        case "mes_act":
-          msgPanelGastos = `Gastos este mes de `;
-          break;
-
-        case "ani_act":
-          msgPanelGastos = `Gastos este año `;
-          break;
-
-        case "mes":
-          msgPanelGastos = `Gastos en `;
-          break;
-
-        case "anio":
-          msgPanelGastos = `Gastos en el año `;
-          break;
-
-        case "range":
-          msgPanelGastos = `Gastos `;
-          break;
-        default:
-          break;
-      }
-
       // console.log(msgPanelGastos + parametroBusq);
-      dispatch(onChangeMsgPanelGastos(msgPanelGastos + parametroBusq));
+      dispatch(onChangeMsgPanelGastos("Gastos " + parametroBusq));
     } catch (error) {
       //console.log(error.response.data.message);
       if (error.response.data.message.includes("gastos")) {
         dispatch(onLoadListGastosPanel([]));
+        dispatch(
+          onChangeMsgPanelGastos("No se registran gastos " + parametroBusq)
+        );
       }
     }
 
@@ -450,26 +231,6 @@ export const useDashboardStore = () => {
   //
   //
 
-  // const changeMsgPanelPac = (msg) => {
-  //   dispatch(onChangeMsgPanelPac(msg));
-  // };
-  // const changeMsgPanelCons = (msg) => {
-  //   dispatch(onChangeMsgPanelCons(msg));
-  // };
-  // const changeMsgPanelProced = (msg) => {
-  //   dispatch(onChangeMsgPanelProced(msg));
-  // };
-  // const changeMsgPanelIngre = (msg) => {
-  //   dispatch(onChangeMsgPanelIngre(msg));
-  // };
-  // const changeMsgPanelGastos = (msg) => {
-  //   dispatch(onChangeMsgPanelGastos(msg));
-  // };
-  // const changeMsgPanelGanan = (msg) => {
-  //   dispatch(onChangeMsgPanelGanan(msg));
-  // };
-  //
-  //
   return {
     // * Propiedades
     listPacientesPanel,
@@ -485,15 +246,9 @@ export const useDashboardStore = () => {
     messagePanelIngre,
     messagePanelGastos,
     messagePanelGananc,
-
+    parametrosBusqueda,
     // * Métodos
     startLoadPanel,
     startLoadGanancias,
-    // changeMsgPanelPac,
-    // changeMsgPanelCons,
-    // changeMsgPanelProced,
-    // changeMsgPanelIngre,
-    // changeMsgPanelGastos,
-    // changeMsgPanelGanan,
   };
 };
