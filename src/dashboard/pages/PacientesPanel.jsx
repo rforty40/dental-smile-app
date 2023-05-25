@@ -1,23 +1,14 @@
+import { DeleteForever, PersonAddAlt } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-import { Box } from "@mui/material";
 import {
   ButtonCustom,
   CustomAlert,
   CustomTable,
   DeleteConfirm,
-  Topbar,
 } from "../../ui";
-
-import { usePacienteStore, useUiStore } from "../../hooks";
-
-import { FormModalPac } from "../components";
-import { formatearDataPacToTable } from "../helpers";
-import {
-  CheckCircleOutline,
-  DeleteForever,
-  PersonAddAlt,
-} from "@mui/icons-material";
-import { format } from "date-fns";
+import { Box, Typography } from "@mui/material";
+import { FormModalPac } from "../../pacientes/components/FormModalPac";
+import { useDashboardStore, usePacienteStore } from "../../hooks";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -30,24 +21,18 @@ const TABLE_HEAD = [
   { id: "fecha", label: "Fecha", alignLeft: true },
 ];
 
-export const PacientesPage = () => {
+export const PacientesPanel = () => {
   //control form
   const [stateModalPac, setStateModalPac] = useState(false);
-
-  const { changePage } = useUiStore();
+  const { messagePanelPac } = useDashboardStore();
   const {
     pacientesList,
     pacienteActivo,
-    changeModalFormReg,
+
     startLoadPacientes,
     startDeletingPaciente,
     changeTitleFormReg,
   } = usePacienteStore();
-
-  useEffect(() => {
-    console.log("PacientePage");
-    changePage();
-  }, []);
 
   useEffect(() => {
     startLoadPacientes();
@@ -122,15 +107,18 @@ export const PacientesPage = () => {
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-        backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
+        // backgroundImage:
+        //   "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
+        // backgroundRepeat: "no-repeat",
+        // backgroundAttachment: "fixed",
       }}
     >
-      <Topbar />
+      {/* <Topbar /> */}
+      <Box padding="30px">
+        <Typography variant="h5">{messagePanelPac}</Typography>
+      </Box>
       <Box
-        margin="-10px 20px 0 20px"
+        margin="0px 20px 0 20px"
         display="flex"
         justifyContent="end"
         className="box-shadow animate__animated animate__fadeIn"

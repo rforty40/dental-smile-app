@@ -5,3 +5,7 @@ export * from "./ListaTiposTratam";
 export * from "./ListaTiposPagos";
 export * from "./ListaIngresos";
 export * from "./ListaGastos";
+export * from "./PacientesPanel";
+export * from "./ConsultasAtendidas";
+export * from "./ProcedRealizados";
+export * from "./Ganancias";

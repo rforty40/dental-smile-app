@@ -1,12 +1,11 @@
 import { Link as RouterLink } from "react-router-dom";
 import { Link, Typography } from "@mui/material";
 
-export const MenuListDashboard = ({ txtLabel, fncList, route }) => {
+export const MenuListDashboard = ({ txtLabel, route }) => {
   return (
     <Link
       component={RouterLink}
       to={`${route}`}
-      onClick={fncList}
       sx={{
         display: "flex",
         flexWrap: "wrap",

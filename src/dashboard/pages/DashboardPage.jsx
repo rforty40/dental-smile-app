@@ -200,7 +200,6 @@ export const DashboardPage = () => {
           "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)), url(../../../public/assets/img/fondo_administracion3.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
-        objectPosition: "center",
       }}
     >
       <div style={{ backgroundColor: "#f5f7fa" }}>
@@ -246,6 +245,7 @@ export const DashboardPage = () => {
           <Box display="flex" flexDirection="row" columnGap="5px">
             {/* selector de mes */}
             <CustomDatePickerAntd
+              placeholder="Mes/Año"
               value={statePickerMonth.valueMonth}
               onChange={onChangeMonth}
               format={customFormat}
@@ -255,6 +255,7 @@ export const DashboardPage = () => {
 
             {/* selector año */}
             <CustomDatePickerAntd
+              placeholder="Año"
               value={statePickerYear.valueYear}
               onChange={onChangeYear}
               picker="year"
@@ -275,21 +276,25 @@ export const DashboardPage = () => {
             iconName={"patient_bed3"}
             resultado={listPacientesPanel.length}
             label={"Pacientes"}
+            route={"pacientes_data"}
           />
           <CardDashboard
             iconName={"calendar_molar"}
             resultado={listConsultasPanel.length}
             label={"Consultas"}
+            route={"consultas_atendidas"}
           />
           <CardDashboard
             iconName={"tool_dentist3"}
             resultado={listProcedimientosPanel.length}
             label={"Procedimientos"}
+            route={"procedimientos_realizados"}
           />
           <CardDashboard
             iconName={"ganancias3"}
             resultado={`$${parseFloat(totallistIngreso - totallistGastos)}`}
             label={"Ganancias"}
+            route={"ganancias_data"}
           />
         </Box>
       </Box>

@@ -131,3 +131,20 @@ export const addDayDateEnd = (fechaFin) => {
 
   return extraerFecha(NewFechaFin).replaceAll("/", "-");
 };
+
+export const DiaActualFormated = (today) => {
+  let options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  // options.timeZone = "UTC";
+  // options.timeZoneName = "short";
+
+  return today.toLocaleString("es-ES", options);
+
+  /*
+    Resultado: Monday, January 27, 2020, UTC
+*/
+};

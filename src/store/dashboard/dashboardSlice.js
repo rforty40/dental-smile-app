@@ -14,6 +14,13 @@ export const dashboardSlice = createSlice({
     listIngresoPanel: [],
     totallistGastos: null,
     totallistIngreso: null,
+
+    messagePanelPac: "",
+    messagePanelCons: "",
+    messagePanelProced: "",
+    messagePanelIngre: "",
+    messagePanelGastos: "",
+    messagePanelGananc: "",
   },
 
   reducers: {
@@ -39,6 +46,26 @@ export const dashboardSlice = createSlice({
     onLoadListTotalIngreso: (state, { payload }) => {
       state.totallistIngreso = payload;
     },
+
+    //
+    onChangeMsgPanelPac: (state, { payload }) => {
+      state.messagePanelPac = payload;
+    },
+    onChangeMsgPanelCons: (state, { payload }) => {
+      state.messagePanelCons = payload;
+    },
+    onChangeMsgPanelProced: (state, { payload }) => {
+      state.messagePanelProced = payload;
+    },
+    onChangeMsgPanelIngre: (state, { payload }) => {
+      state.messagePanelIngre = payload;
+    },
+    onChangeMsgPanelGastos: (state, { payload }) => {
+      state.messagePanelGastos = payload;
+    },
+    onChangeMsgPanelGanan: (state, { payload }) => {
+      state.messagePanelGananc = payload;
+    },
   },
 });
 
@@ -50,4 +77,12 @@ export const {
   onLoadListIngresoPanel,
   onLoadListTotalGastos,
   onLoadListTotalIngreso,
+
+  //
+  onChangeMsgPanelPac,
+  onChangeMsgPanelCons,
+  onChangeMsgPanelProced,
+  onChangeMsgPanelIngre,
+  onChangeMsgPanelGastos,
+  onChangeMsgPanelGanan,
 } = dashboardSlice.actions;

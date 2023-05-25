@@ -1,11 +1,19 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Link, Paper, Typography } from "@mui/material";
 
-export const CardDashboard = ({ iconName, resultado, label, fncOnClick }) => {
+export const CardDashboard = ({
+  iconName,
+  resultado,
+  label,
+
+  route,
+}) => {
   return (
-    <Box
-      component="div"
-      onClick={fncOnClick}
+    <Link
+      component={RouterLink}
+      to={`${route}`}
       sx={{
+        textDecoration: "none",
         display: "flex",
         flexWrap: "wrap",
         cursor: "pointer",
@@ -42,6 +50,6 @@ export const CardDashboard = ({ iconName, resultado, label, fncOnClick }) => {
           <Typography variant="h6">{label}</Typography>
         </Box>
       </Paper>
-    </Box>
+    </Link>
   );
 };

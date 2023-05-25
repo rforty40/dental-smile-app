@@ -1,12 +1,16 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import {
+  ConsultasAtendidas,
   DashboardPage,
+  Ganancias,
   ListaGastos,
   ListaIngresos,
   ListaProcedOdon,
   ListaTiposConsOdon,
   ListaTiposPagos,
   ListaTiposTratam,
+  PacientesPanel,
+  ProcedRealizados,
 } from "../pages";
 
 export const DashboardRoutes = () => {
@@ -19,7 +23,12 @@ export const DashboardRoutes = () => {
       <Route path="/listatipospagos" element={<ListaTiposPagos />} />
       <Route path="/listaingresos" element={<ListaIngresos />} />
       <Route path="/listagastos" element={<ListaGastos />} />
-      {/* <Route path="/*" element={<Navigate to="/" />} /> */}
+
+      {/* panel */}
+      <Route path="/pacientes_data" element={<PacientesPanel />} />
+      <Route path="/consultas_atendidas" element={<ConsultasAtendidas />} />
+      <Route path="/procedimientos_realizados" element={<ProcedRealizados />} />
+      <Route path="/ganancias_data" element={<Ganancias />} />
     </Routes>
   );
 };
