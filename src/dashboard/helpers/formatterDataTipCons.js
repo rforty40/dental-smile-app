@@ -1,35 +1,27 @@
-export const formatearDataTipPagoToTable = (dataFromBD) => {
+export const formatearDataTipConsToTable = (dataFromBD) => {
   return dataFromBD.map((data) => {
     return {
-      id_proced: data.id_proced,
-      id_tipoConsul: data.id_tipoConsul,
-      id: data.id_tipPago,
+      id: data.id_tipoConsul,
       //
-      tipo_de_pago: data.desc_tipPago,
+      tipo_de_consulta: data.tipo_tipoConsul,
       precio: parseFloat(data.prec_tipPago),
     };
   });
 };
 
-export const formatearDataTipPagoToBD = (dataTipPago) => {
+export const formatearDataTipConsToBD = (dataTipCons) => {
   return {
-    id_tipoConsul:
-      dataTipPago.id_tipoConsul !== undefined
-        ? dataTipPago.id_tipoConsul
-        : null,
-    id_proced:
-      dataTipPago.id_proced !== undefined ? dataTipPago.id_proced : null,
-    desc_tipPago: dataTipPago.tipo_de_pago,
-    prec_tipPago: dataTipPago.precio,
+    tipo_tipoConsul: dataTipCons.tipo_de_consulta,
+    prec_tipPago: dataTipCons.precio,
   };
 };
 
 const columnEquivalent = {
-  desc_tipPago: "Tipo de pago",
+  tipo_tipoConsul: "Tipo de consulta",
   prec_tipPago: "Precio",
 };
 
-export const comprobarErrorTipPago = (typeError) => {
+export const comprobarErrorTipCons = (typeError) => {
   let msgError = "";
   if (
     typeError.includes("Data too long for column") ||

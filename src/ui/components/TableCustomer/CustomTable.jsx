@@ -22,7 +22,7 @@ import { DataListHead } from "./DataListHead";
 import { DataListToolbar } from "./DataListToolbar";
 import { Link as RouterLink } from "react-router-dom";
 import { CustomPopover } from "./CustomPopover";
-import { useDataStore, usePacienteStore, useUiStore } from "../../../hooks";
+import { useDataStore, usePacienteStore } from "../../../hooks";
 
 //
 //
@@ -92,7 +92,7 @@ function applySortFilter(array, comparator, query, columnaABuscar) {
   if (query) {
     const datosBuscados = filter(array, (_user) => {
       const txt_celda = _user[columnaABuscar];
-
+      console.log(txt_celda);
       //si txt_celda existe
       if (txt_celda) {
         //si el tipo de celda es un numero

@@ -28,9 +28,9 @@ export const useTipPagoStore = () => {
   );
 
   //funciones
-  const startLoadTipPagoList = async (tipoPago, id) => {
+  const startLoadTipPagoList = async (tipoPago) => {
     try {
-      const { data } = await getTipoDePago(tipoPago, id);
+      const { data } = await getTipoDePago(tipoPago);
       // console.log(data);
       dispatch(onLoadTipoPagosList(formatearDataTipPagoToTable(data)));
       dispatch(clearErrorTipPagoMsg());

@@ -6,3 +6,4 @@ export * from "./useAntecedenteStore";
 export * from "./useAgendaStore";
 export * from "./useDashboardStore";
 export * from "./useTipPagoStore";
+export * from "./useTipConsStore";

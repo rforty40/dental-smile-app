@@ -99,7 +99,7 @@ export const ListaTiposPagos = () => {
       default:
         break;
     }
-    startLoadTipPagoList(tipoConsulta, "_");
+    startLoadTipPagoList(tipoConsulta);
   }, [stateTipo]);
 
   //efecto secundario pasar la info del registro de la tabla

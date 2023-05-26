@@ -22,9 +22,9 @@ import {
 } from "@mui/icons-material";
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
 
-import { useForm, useTipPagoStore } from "../../hooks";
+import { useForm, useTipConsStore, useTipPagoStore } from "../../hooks";
 
-import { formValidationsTipPago } from "./validationsFormDashboard";
+import { formValidationsTipCons } from "./validationsFormDashboard";
 import { useEffect } from "react";
 
 //
@@ -39,15 +39,15 @@ const Transition = forwardRef(function Transition(props, ref) {
   );
 });
 
-export const FormTipPago = ({
+export const FormTipCons = ({
   openModalForm = false,
   setOpenModalForm,
   title,
 }) => {
   //
   //customs hook store
-  const { tipoPagoActivo, startSavingTipPago, errorMsgRegTipoPago } =
-    useTipPagoStore();
+  const { tipoConsActivo, startSavingTipCons, errorMsgRegTipoCons } =
+    useTipConsStore();
 
   //hooks
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -58,32 +58,32 @@ export const FormTipPago = ({
 
   const formDataPac = useMemo(() => {
     if (title.toUpperCase().includes("EDITAR")) {
-      setMsgAlert(`Se actualizaron los datos del tipo de pago 🙂.`);
+      setMsgAlert(`Se actualizaron los datos del tipo de consulta 🙂.`);
       setTxtButton("Actualizar");
       return {
         dataForm: {
-          ...tipoPagoActivo,
+          ...tipoConsActivo,
         },
-        formValidationsTipPago,
+        formValidationsTipCons,
       };
     } else {
-      setMsgAlert(`Tipo de pago registrado con éxito 🙂.`);
+      setMsgAlert(`Tipo de consulta registrado con éxito 🙂.`);
       setTxtButton("Registrar");
 
       return {
         dataForm: {
-          tipo_de_pago: "",
+          tipo_de_consulta: "",
           precio: "",
         },
-        formValidationsTipPago,
+        formValidationsTipCons,
       };
     }
-  }, [title, tipoPagoActivo]);
+  }, [title, tipoConsActivo]);
 
   //custom hook form
   const { formState, formValidation, onInputChange, isFormValid } = useForm(
     formDataPac.dataForm,
-    formDataPac.formValidationsTipPago
+    formDataPac.formValidationsTipCons
   );
 
   const cerrarModal = () => {
@@ -112,30 +112,30 @@ export const FormTipPago = ({
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    // console.log(formState);
-    startSavingTipPago(formState);
+    console.log(formState);
+    startSavingTipCons(formState);
   };
 
   //efecto secundario para comprobar errores en el registro y actualizacion
   useEffect(() => {
-    if (errorMsgRegTipoPago.msg === "Sin errores" && formSubmitted) {
+    if (errorMsgRegTipoCons.msg === "Sin errores" && formSubmitted) {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
 
       if (!title.toUpperCase().includes("EDITAR")) {
         formDataPac.dataForm = {
-          tipo_de_pago: "",
+          tipo_de_consulta: "",
           precio: "",
         };
       }
     }
 
-    if (errorMsgRegTipoPago.msg === "Hay errores" && formSubmitted) {
+    if (errorMsgRegTipoCons.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();
       setFormSubmitted(false);
     }
-  }, [errorMsgRegTipoPago]);
+  }, [errorMsgRegTipoCons]);
 
   //
   return (
@@ -191,14 +191,14 @@ export const FormTipPago = ({
             >
               <IconTextField
                 fullWidth
-                label="Tipo de pago:"
+                label="Tipo de consulta:"
                 type="text"
                 multiline
-                name="tipo_de_pago"
-                value={formState.tipo_de_pago}
+                name="tipo_de_consulta"
+                value={formState.tipo_de_consulta}
                 onChange={onInputChange}
-                error={!!formValidation.tipo_de_pagoValid && formSubmitted}
-                helperText={formValidation.tipo_de_pagoValid}
+                error={!!formValidation.tipo_de_consultaValid && formSubmitted}
+                helperText={formValidation.tipo_de_consultaValid}
                 colorIcon="black"
                 colorHover="celesteNeon.main"
                 colorTxt="white"
@@ -331,7 +331,7 @@ export const FormTipPago = ({
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
           title={"Registro no completado"}
-          message={errorMsgRegTipoPago.error}
+          message={errorMsgRegTipoCons.error}
           colorbg="error.main"
           colortxt="white"
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}

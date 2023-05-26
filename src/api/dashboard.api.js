@@ -15,8 +15,9 @@ export const getGananciasData = async (
     `/administracion/ganancias/${tipGan}/${tipo}/${param_fechaIni}/${fechaFin}`
   );
 
-export const getTipoDePago = async (tipPago, id) =>
-  await dentalSmileApi.get(`/administracion/tiposPago/${tipPago}/${id}`);
+//tipo de pagos
+export const getTipoDePago = async (tipPago) =>
+  await dentalSmileApi.get(`/administracion/tiposPago/${tipPago}/_`);
 
 export const createTipoPago = async (pago) =>
   await dentalSmileApi.post("/administracion/tiposPago/create", pago);
@@ -26,6 +27,22 @@ export const updateTipoPago = async (id_tpago, pago) =>
     `/administracion/tiposPago/update/${id_tpago}`,
     pago
   );
-
 export const deleteTipoPago = async (id_tpago) =>
   await dentalSmileApi.delete(`/administracion/tiposPago/delete/${id_tpago}`);
+
+//tipos de consulta
+export const getTipoDeCons = async () =>
+  await dentalSmileApi.get(`/administracion/tiposConsulta/todos/_`);
+
+export const createTipoCons = async (tipCons) =>
+  await dentalSmileApi.post("/administracion/tiposConsulta/create", tipCons);
+
+export const updateTipoCons = async (id_tcons, tipCons) =>
+  await dentalSmileApi.put(
+    `/administracion/tiposConsulta/update/${id_tcons}`,
+    tipCons
+  );
+export const deleteTipoCons = async (id_tcons) =>
+  await dentalSmileApi.delete(
+    `/administracion/tiposConsulta/delete/${id_tcons}`
+  );
