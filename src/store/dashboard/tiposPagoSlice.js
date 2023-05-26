@@ -32,7 +32,7 @@ export const tiposPagoSlice = createSlice({
     },
 
     onDeleteTipoPago: (state, { payload }) => {
-      if (state.tipoPagoActivo && payload.length === 0) {
+      if (payload.length === 0) {
         state.tipoPagosList = state.tipoPagosList.filter(
           (tipPago) => tipPago.id !== state.tipoPagoActivo.id
         );

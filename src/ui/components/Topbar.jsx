@@ -22,10 +22,10 @@ export const Topbar = () => {
       >
         <img
           type="img/svg"
-          alt="profile-user"
-          width="32px"
-          height="32px"
-          src={`../../../public/assets/premolarIcon.svg`}
+          alt="logo_molar"
+          width="45px"
+          height="45px"
+          src={`../../../public/assets/icons/newLogoMolar.svg`}
           style={{ borderRadius: "20%" }}
         />
         <Typography

@@ -121,10 +121,10 @@ export const Sidebar = () => {
               >
                 <img
                   type="img/svg"
-                  alt="profile-user"
-                  width="80px"
-                  height="80px"
-                  src={`../../../public/assets/premolarIcon.svg`}
+                  alt="logo_molar"
+                  width="90px"
+                  height="90px"
+                  src={`../../../public/assets/icons/newLogoMolar.svg`}
                   style={{ borderRadius: "20%" }}
                 />
               </Box>

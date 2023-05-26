@@ -26,6 +26,7 @@ export const DeleteConfirm = ({
   funcionDelete,
   stateOpen,
   setStateOpen,
+  bgColor = "white",
 }) => {
   //
 
@@ -46,9 +47,11 @@ export const DeleteConfirm = ({
       TransitionComponent={Transition}
       fullWidth
       keepMounted
-      // sx={{
-      //   backdropFilter: "blur(0.7px)",
-      // }}
+      sx={{
+        "& .MuiPaper-root": {
+          backgroundColor: bgColor,
+        },
+      }}
     >
       <DialogTitle>
         <Typography

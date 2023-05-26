@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { useTipPagoStore } from "../../hooks/useTipPagoStore";
 import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
-import { ButtonCustom, CustomSelect, CustomTable } from "../../ui";
+import {
+  ButtonCustom,
+  CustomAlert,
+  CustomSelect,
+  CustomTable,
+  DeleteConfirm,
+} from "../../ui";
 import { MdPostAdd } from "react-icons/md";
 import { useDataStore } from "../../hooks";
 import { FormTipPago } from "../components";
+import { DeleteForever } from "@mui/icons-material";
 
 const TABLE_HEAD = [
   { id: "tipo_de_pago", label: "Tipo de pago", alignLeft: true },
@@ -16,14 +23,22 @@ const TABLE_HEAD = [
 
 export const ListaTiposPagos = () => {
   //customs hooks store
-  const { tipoPagosList, startLoadTipPagoList, changeDataTipPago } =
-    useTipPagoStore();
+  const {
+    tipoPagoActivo,
+    tipoPagosList,
+    errorMsgRegTipoPago,
+    startLoadTipPagoList,
+    changeDataTipPago,
+    startDeletingTipPago,
+  } = useTipPagoStore();
+
   const { dataActiva } = useDataStore();
 
   //hooks
   const [stateTipo, setStateTipo] = useState("Todos");
   const [stateModalTipPago, setStateModalTipPago] = useState(false);
   const [titleFormTiPago, setTitleFormTiPago] = useState("");
+  const [msgAlertDel, setMsgAlertDel] = useState("");
 
   //control de modal registrar y editar
   const openModalTipPagoReg = () => {
@@ -34,6 +49,34 @@ export const ListaTiposPagos = () => {
   const openModalTipPagoEdit = () => {
     setTitleFormTiPago("Editar tipo de pago");
     setStateModalTipPago(true);
+  };
+
+  //controlDialog Confirm Delete
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
+
+  const handleOpenDialogDel = () => {
+    setOpenDialogDelete(true);
+  };
+
+  //control alert de eliminacion
+  const [stateSnackbar, setStateSnackbar] = useState(false);
+  const handleCloseSnackbar = () => {
+    setStateSnackbar(false);
+  };
+  const handleOpenSnackbar = () => {
+    setStateSnackbar(true);
+  };
+
+  //funcion eliminar uno o varias tipos de pagos
+  const deleteRegisterTipPago = (selected = []) => {
+    startDeletingTipPago(selected);
+
+    if (selected.length <= 1) {
+      setMsgAlertDel("Tipo de pago fue eliminado.");
+    } else {
+      setMsgAlertDel("Los tipos de pago fueron eliminados exitosamente.");
+    }
+    handleOpenSnackbar();
   };
 
   //efectos secundarios
@@ -59,6 +102,8 @@ export const ListaTiposPagos = () => {
     startLoadTipPagoList(tipoConsulta, "_");
   }, [stateTipo]);
 
+  //efecto secundario pasar la info del registro de la tabla
+  //al tipo de pago activo
   useEffect(() => {
     changeDataTipPago(dataActiva);
   }, [dataActiva]);
@@ -71,13 +116,13 @@ export const ListaTiposPagos = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondo_administracion1.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/fondo_administracion1.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}
     >
       <Box
-        className="box-shadow animate__animated animate__fadeIn"
+        className="box-shadow animate__animated animate__fadeInUp animate__faster"
         // margin="30px"
         padding="20px"
         display="flex"
@@ -128,7 +173,7 @@ export const ListaTiposPagos = () => {
         </Box>
       </Box>
       <Box
-        className="box-shadow animate__animated animate__fadeIn"
+        className="box-shadow animate__animated animate__fadeInUp animate__faster"
         margin="30px 30px 0px 30px"
         padding="10px"
         borderRadius="5px"
@@ -139,28 +184,56 @@ export const ListaTiposPagos = () => {
         alignItems="center"
         sx={{ backgroundColor: "rgba(255,255,255,0.8)" }}
       >
-        <CustomTable
-          TABLE_HEAD={TABLE_HEAD}
-          DATALIST={tipoPagosList}
-          withToolbar
-          withBoxSearch
-          withButton={false}
-          iconosEnFila={false}
-          columnaABuscarPri="tipo_de_pago"
-          searchWhat={"Buscar tipo de pago ..."}
-          txt_header={"Tipos de pago"}
-          // bgHeaderColor={"transparent"}
-          bgColorPagination="white"
-          dataOmitida={3}
-          openModalEdit={openModalTipPagoEdit}
-          // funcionBtnTblDelete={handleOpenDialogDel}
-          // funcionDeleteVarious={deleteRegisterPaciente}
-        />
+        {errorMsgRegTipoPago.msg !== "No se encontraron tipos de pago" ? (
+          <CustomTable
+            TABLE_HEAD={TABLE_HEAD}
+            DATALIST={tipoPagosList}
+            withToolbar
+            withBoxSearch
+            withButton={false}
+            iconosEnFila={false}
+            columnaABuscarPri="tipo_de_pago"
+            searchWhat={"Buscar tipo de pago ..."}
+            txt_header={"Tipos de pago"}
+            bgColorPagination="white"
+            dataOmitida={3}
+            openModalEdit={openModalTipPagoEdit}
+            funcionBtnTblDelete={handleOpenDialogDel}
+            funcionDeleteVarious={deleteRegisterTipPago}
+          />
+        ) : (
+          <h3>{errorMsgRegTipoPago.msg}</h3>
+        )}
       </Box>
       <FormTipPago
         openModalForm={stateModalTipPago}
         setOpenModalForm={setStateModalTipPago}
         title={titleFormTiPago}
+      />
+
+      <DeleteConfirm
+        stateOpen={openDialogDelete}
+        setStateOpen={setOpenDialogDelete}
+        message={
+          <>
+            <span style={{ color: "black" }}>
+              {" "}
+              ¿Está segura que desea eliminar
+              {tipoPagoActivo !== null && ` ${tipoPagoActivo.tipo_de_pago} ?`}
+            </span>
+          </>
+        }
+        funcionDelete={deleteRegisterTipPago}
+      />
+
+      <CustomAlert
+        stateSnackbar={stateSnackbar}
+        handleCloseSnackbar={handleCloseSnackbar}
+        title={"Completado"}
+        message={msgAlertDel}
+        colorbg="blueSecondary.main"
+        colortxt="white"
+        iconAlert={<DeleteForever sx={{ color: "white" }} />}
       />
     </div>
   );

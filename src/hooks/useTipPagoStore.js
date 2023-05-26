@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   createTipoPago,
+  deleteTipoPago,
   getTipoDePago,
   updateTipoPago,
 } from "../api/dashboard.api";
 import {
   clearErrorTipPagoMsg,
   onChangeRegErrTipPago,
+  onDeleteTipoPago,
   onLoadTipoPagosList,
   onSaveTipoPago,
   onSetActiveTipoPago,
@@ -29,10 +31,15 @@ export const useTipPagoStore = () => {
   const startLoadTipPagoList = async (tipoPago, id) => {
     try {
       const { data } = await getTipoDePago(tipoPago, id);
-      console.log(data);
+      // console.log(data);
       dispatch(onLoadTipoPagosList(formatearDataTipPagoToTable(data)));
+      dispatch(clearErrorTipPagoMsg());
     } catch (error) {
       console.log(error.response.data.message);
+
+      dispatch(
+        onChangeRegErrTipPago({ msg: error.response.data.message, error: "" })
+      );
     }
   };
 
@@ -75,6 +82,21 @@ export const useTipPagoStore = () => {
     }
   };
 
+  const startDeletingTipPago = async (arrIdTipPago = []) => {
+    try {
+      if (arrIdTipPago.length === 0) {
+        await deleteTipoPago(tipoPagoActivo.id);
+      } else {
+        for (const i of arrIdTipPago) {
+          await deleteTipoPago(i);
+        }
+      }
+      dispatch(onDeleteTipoPago(arrIdTipPago));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return {
     //* Propiedades
     tipoPagosList,
@@ -84,5 +106,6 @@ export const useTipPagoStore = () => {
     startLoadTipPagoList,
     changeDataTipPago,
     startSavingTipPago,
+    startDeletingTipPago,
   };
 };

@@ -35,7 +35,7 @@ import { useEffect } from "react";
 //
 const Transition = forwardRef(function Transition(props, ref) {
   return (
-    <Slide direction="left" mountOnEnter unmountOnExit ref={ref} {...props} />
+    <Slide direction="up" mountOnEnter unmountOnExit ref={ref} {...props} />
   );
 });
 
@@ -147,6 +147,11 @@ export const FormTipPago = ({
         onClose={cerrarModal}
         TransitionComponent={Transition}
         keepMounted
+        sx={{
+          "& .MuiPaper-root": {
+            backgroundColor: "colorIconMolar.main",
+          },
+        }}
       >
         <DialogTitle
           display="flex"
@@ -161,14 +166,15 @@ export const FormTipPago = ({
               fontWeight: "bold",
               fontSize: "25px",
               fontStyle: "italic",
-              textShadow: "0px 1px 1px rgba(0, 0, 0, 0.4)",
+              textShadow: "2px 2px 2px rgba(0, 0, 0, 0.4)",
+              color: "white",
             }}
           >
             {title}
           </Typography>
 
           <IconButton onClick={cerrarModal}>
-            <CloseOutlined style={{ fontSize: "25px", color: "#602a90" }} />
+            <CloseOutlined style={{ fontSize: "25px", color: "white" }} />
           </IconButton>
         </DialogTitle>
 
@@ -193,36 +199,83 @@ export const FormTipPago = ({
                 onChange={onInputChange}
                 error={!!formValidation.tipo_de_pagoValid && formSubmitted}
                 helperText={formValidation.tipo_de_pagoValid}
-                colorIcon="primary.main"
-                colorHover="btnHoverInForm.main"
-                colorTxt="black"
-                colorLabel="primary.main"
+                colorIcon="black"
+                colorHover="celesteNeon.main"
+                colorTxt="white"
+                colorLabel="black"
+                fontWlbl="bold"
+                colorErr="celesteNeon.main"
                 iconEnd={
                   <Icon>
                     <Payments />
                   </Icon>
                 }
+                propsXS={{
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      border: "2px solid",
+                      borderColor: "black",
+                    },
+                  },
+                  "& .MuiOutlinedInput-root.Mui-focused": {
+                    "& fieldset": {
+                      border: "2px solid",
+                      borderColor: "white",
+                    },
+                  },
+                  "& .MuiOutlinedInput-root.Mui-error": {
+                    "& fieldset": {
+                      border: "2px solid",
+                      borderColor: "black",
+                    },
+                  },
+
+                  boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+                }}
               />
               <div style={{ display: "flex", justifyContent: "right" }}>
                 <IconTextField
                   label="Precio:"
                   type="number"
-                  prefix="$"
                   name="precio"
                   value={formState.precio}
                   onChange={onInputChange}
                   error={!!formValidation.precioValid && formSubmitted}
                   helperText={formValidation.precioValid}
-                  colorIcon="primary.main"
-                  colorHover="btnHoverInForm.main"
-                  colorTxt="black"
-                  colorLabel="primary.main"
+                  colorIcon="black"
+                  colorHover="celesteNeon.main"
+                  colorTxt="white"
+                  colorLabel="black"
+                  fontWlbl="bold"
+                  colorErr="celesteNeon.main"
                   iconEnd={
                     <Icon>
                       <AttachMoney />
                     </Icon>
                   }
-                  propsXS={{ width: "25%" }}
+                  propsXS={{
+                    width: "25%",
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        border: "2px solid",
+                        borderColor: "black",
+                      },
+                    },
+                    "& .MuiOutlinedInput-root.Mui-error": {
+                      "& fieldset": {
+                        border: "2px solid",
+                        borderColor: "black",
+                      },
+                    },
+                    "& .MuiOutlinedInput-root.Mui-focused": {
+                      "& fieldset": {
+                        border: "2px solid",
+                        borderColor: "white",
+                      },
+                    },
+
+                    boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+                  }}
                 />
               </div>
 
@@ -231,28 +284,32 @@ export const FormTipPago = ({
                 flexDirection="row"
                 paddingTop="10px"
                 columnGap="15px"
-                justifyContent="end"
+                justifyContent="center"
               >
                 <ButtonCustom
-                  altura={"40px"}
-                  colorf={"white"}
-                  colorh={"btnHoverInForm.main"}
-                  colort={"black"}
-                  txt_b={"Cancelar"}
-                  colorth={"white"}
-                  propsXS={{ border: "1px solid black" }}
+                  altura="40px"
+                  colorf="white"
+                  colorh="black"
+                  colort="black"
+                  colorth="celesteNeon.main"
+                  fontW="bold"
+                  txt_b="Cancelar"
                   iconB={<CancelOutlined />}
+                  propsXS={{ border: "2px solid black" }}
                   onClick={cerrarModal}
                 />
 
                 <ButtonCustom
                   tipoBtn="submit"
                   altura="40px"
-                  colorf="primary.main"
-                  colorh="btnHoverInForm.main"
-                  colort="white"
+                  colorf="white"
+                  colorh="black"
+                  colort="black"
+                  colorth="celesteNeon.main"
+                  fontW="bold"
                   txt_b={txtButton}
                   iconB={<SaveOutlined />}
+                  propsXS={{ border: "2px solid black" }}
                 />
               </Box>
             </Box>

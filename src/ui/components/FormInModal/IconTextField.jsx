@@ -11,6 +11,8 @@ export const IconTextField = ({
   propsXS,
   font_we = "normal",
   font_sty = "normal",
+  fontWlbl = "normal",
+  colorErr = "error.main",
   ...props
 }) => {
   return (
@@ -60,6 +62,7 @@ export const IconTextField = ({
 
         "& .MuiFormLabel-root": {
           color: colorLabel,
+          fontWeight: fontWlbl,
         },
         "& .MuiFormLabel-root.Mui-error": {
           color: "none",
@@ -68,10 +71,10 @@ export const IconTextField = ({
           color: colorHover,
         },
         "& .MuiFormLabel-root.Mui-focused.Mui-error": {
-          color: "error.main",
+          color: colorErr,
         },
         "& .MuiFormHelperText-root.Mui-error": {
-          color: "error.main",
+          color: colorErr,
         },
         ...propsXS,
       }}

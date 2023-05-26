@@ -135,11 +135,7 @@ export const InfoPagePaciente = () => {
         rowGap="30px"
       >
         {/**datos personales */}
-        <div
-          className="animate__animated animate__fadeInRight animate__faster   
-        
-        "
-        >
+        <div className="animate__animated animate__fadeInRight animate__faster">
           <Box
             width="100%"
             display="flex"
