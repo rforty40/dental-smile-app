@@ -20,7 +20,7 @@ export const formatearDataTipPagoToBD = (dataTipPago) => {
     id_proced:
       dataTipPago.id_proced !== undefined ? dataTipPago.id_proced : null,
     desc_tipPago: dataTipPago.tipo_de_pago,
-    prec_tipPago: dataTipPago.precio,
+    prec_tipPago: parseFloat(dataTipPago.precio),
   };
 };
 

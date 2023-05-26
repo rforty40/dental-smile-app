@@ -62,7 +62,11 @@ export const FormTipPago = ({
       setTxtButton("Actualizar");
       return {
         dataForm: {
-          ...tipoPagoActivo,
+          id_proced: tipoPagoActivo.id_proced,
+          id_tipoConsul: tipoPagoActivo.id_tipoConsul,
+          id: tipoPagoActivo.id,
+          tipo_de_pago: tipoPagoActivo.tipo_de_pago,
+          precio: tipoPagoActivo.precio.toString(),
         },
         formValidationsTipPago,
       };

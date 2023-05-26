@@ -62,7 +62,9 @@ export const FormTipCons = ({
       setTxtButton("Actualizar");
       return {
         dataForm: {
-          ...tipoConsActivo,
+          id: tipoConsActivo.id,
+          tipo_de_consulta: tipoConsActivo.tipo_de_consulta,
+          precio: tipoConsActivo.precio.toString(),
         },
         formValidationsTipCons,
       };

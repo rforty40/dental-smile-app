@@ -12,7 +12,7 @@ export const formatearDataTipConsToTable = (dataFromBD) => {
 export const formatearDataTipConsToBD = (dataTipCons) => {
   return {
     tipo_tipoConsul: dataTipCons.tipo_de_consulta,
-    prec_tipPago: dataTipCons.precio,
+    prec_tipPago: parseFloat(dataTipCons.precio),
   };
 };
 
