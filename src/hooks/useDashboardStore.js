@@ -65,7 +65,7 @@ export const useDashboardStore = () => {
         param_fechaIni,
         fechaFin
       );
-      console.log(dataPacientes);
+      // console.log(dataPacientes);
       dispatch(onLoadListPacPanel(formatearDataPacToTable(dataPacientes)));
 
       // console.log(msgPanelPac + parametroBusq);

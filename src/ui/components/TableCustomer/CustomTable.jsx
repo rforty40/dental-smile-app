@@ -153,6 +153,8 @@ export const CustomTable = ({
   bgHeaderColor,
   funcionDeleteVarious,
   bgColorTable = "transparent",
+  bgColorPagination = "transparent",
+  routePaciente,
 }) => {
   //
   //hooks
@@ -273,8 +275,7 @@ export const CustomTable = ({
   const handleChangeRowsPerPage = (event) => {
     //console.log(event.target.value);
     setPage(0);
-    const aver = parseInt(event.target.value, 10);
-    //console.log(aver);
+
     setRowsPerPage(parseInt(event.target.value, 10));
   };
 
@@ -328,8 +329,6 @@ export const CustomTable = ({
         sx={{
           bgcolor: bgColorTable,
           width: "100%",
-          padding: "20px",
-          borderRadius: "10px",
         }}
         //sx={{ padding: 10 }}
       >
@@ -369,6 +368,7 @@ export const CustomTable = ({
             />
 
             {/* Cuerpo de Tabla */}
+            {/* {console.log(filteredUsers.length)} */}
 
             <TableBody>
               {filteredUsers
@@ -397,12 +397,9 @@ export const CustomTable = ({
                         "&.Mui-selected": {
                           backgroundColor: "#E0DAEB !important",
                         },
-
-                        // ":hover": {
-                        //   backgroundColor: "orange !important",
-                        // },
                       }}
-                      key={row[keys[0]]}
+                      // key={row[keys[0]]}
+                      key={row["id"]}
                       tabIndex={-1}
                       role="checkbox"
                       selected={selectedUser}
@@ -422,6 +419,8 @@ export const CustomTable = ({
                         }
                       }}
                     >
+                      {/* {console.log(row[keys[0]])}
+                      {console.log(row["id"])} */}
                       {/* celda checkbox */}
                       {withToolbar && (
                         <TableCell
@@ -449,12 +448,13 @@ export const CustomTable = ({
                                 border: "3px solid",
                                 borderColor: "colorTable.main",
                               }}
-                              key={`${row[keys[0]]}${index}`}
+                              // key={`${row[keys[0]]}${index}`}
+                              key={`${row["id"]}${index}`}
                               align="left"
                             >
                               <Link
                                 component={RouterLink}
-                                to={`${row.id}/historial`}
+                                to={routePaciente(row.id)}
                                 style={{ textDecoration: "none" }}
                               >
                                 <Typography
@@ -482,7 +482,9 @@ export const CustomTable = ({
                                 fontSize: "14px",
                                 fontWeight: "bold",
                               }}
-                              key={`${row[keys[0]]}${index}`}
+                              // key={`${row[keys[0]]}${index}`}
+
+                              key={`${row["id"]}${index}`}
                               align="left"
                             >
                               {row[key]}
@@ -577,6 +579,7 @@ export const CustomTable = ({
         </TableContainer>
 
         <TablePagination
+          sx={{ backgroundColor: bgColorPagination, fontWeight: "bold" }}
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={dataTotal}

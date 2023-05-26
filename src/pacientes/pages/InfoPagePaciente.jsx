@@ -350,7 +350,6 @@ export const InfoPagePaciente = () => {
                 DATALIST={antecedentes[0]}
                 withToolbar={false}
                 iconosEnFila
-                bgHeaderColor={"white"}
                 dataOmitida={3}
                 openModalEdit={openModalAnteceEdit}
                 funcionBtnTblDelete={handleOpenAntecedDel}
@@ -399,6 +398,7 @@ export const InfoPagePaciente = () => {
                 iconB={<MdPostAdd />}
               />
             </Box>
+
             {antecedentes[1].length > 0 ? (
               <CustomTable
                 bgColorTable="white"
@@ -406,7 +406,6 @@ export const InfoPagePaciente = () => {
                 DATALIST={antecedentes[1]}
                 withToolbar={false}
                 iconosEnFila
-                bgHeaderColor={"white"}
                 dataOmitida={2}
                 openModalEdit={openModalAnteceFaEdit}
                 funcionBtnTblDelete={handleOpenAntecedDel}

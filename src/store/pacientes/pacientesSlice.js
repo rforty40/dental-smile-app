@@ -4,13 +4,18 @@ export const pacientesSlice = createSlice({
   name: "pacientes",
 
   initialState: {
+    //Paciente
     titleForm: "",
     pacienteActivo: {},
     pacientesList: [],
     pacientesListBusq: [],
     errorRegMessage: { msg: "", error: "" },
+
+    //antecedentes
     antecedentes: [[], []],
     antecedenteActivo: {},
+
+    //futuras citas
     errorRegAntecedente: { msg: "", error: "" },
     futurasCitasList: null,
     errorLoadFutCitas: null,
@@ -54,20 +59,19 @@ export const pacientesSlice = createSlice({
         state.pacientesList = state.pacientesList.filter(
           (paciente) => paciente.id !== state.pacienteActivo.id
         );
-        state.pacienteActivo = null;
       } else {
         state.pacientesList = state.pacientesList.filter(
           (paciente) => !payload.includes(paciente.id)
         );
-        state.pacienteActivo = null;
       }
+      state.pacienteActivo = null;
     },
 
     changeRegisterError: (state, { payload }) => {
       state.errorRegMessage = payload;
     },
 
-    clearErrorMessage: (state) => {
+    clearErrorMessagePac: (state) => {
       state.errorRegMessage = { msg: "", error: "" };
     },
 
@@ -125,7 +129,6 @@ export const pacientesSlice = createSlice({
 });
 
 export const {
-  // changeFormPacOpen,
   changeTitleForm,
   onLoadPacActivo,
   onLoadPacientesList,
@@ -134,7 +137,7 @@ export const {
   onUpdatePaciente,
   onDeletePaciente,
   changeRegisterError,
-  clearErrorMessage,
+  clearErrorMessagePac,
 
   //
   onLoadAntecedentes,

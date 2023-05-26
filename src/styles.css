@@ -20,7 +20,7 @@ body,
 .app,
 #root {
   min-height: 100vh;
-  background-color: #f5f7fa;
+  background-color: transparent;
 }
 .sidebar {
   min-height: 100vh;

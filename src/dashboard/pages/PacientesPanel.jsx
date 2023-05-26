@@ -93,7 +93,7 @@ export const PacientesPanel = () => {
         minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoConsultorioShine.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}
@@ -104,6 +104,8 @@ export const PacientesPanel = () => {
       </Box>
       <Box
         margin="0px 20px 0 20px"
+        padding="15px"
+        borderRadius="10px"
         display="flex"
         justifyContent="end"
         className="box-shadow animate__animated animate__fadeIn"
@@ -123,6 +125,7 @@ export const PacientesPanel = () => {
           openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterPaciente}
+          routePaciente={(rowId) => `/pacientes/${rowId}/historial`}
         />
 
         <FormModalPac

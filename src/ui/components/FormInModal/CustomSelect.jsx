@@ -8,7 +8,7 @@ export const CustomSelect = ({
   ...props
 }) => {
   return (
-    <>
+    <div>
       {lblText !== "" && (
         <Typography fontSize="12px" fontWeight="bold" color="primary.main">
           {lblText}
@@ -51,6 +51,6 @@ export const CustomSelect = ({
           </MenuItem>
         ))}
       </Select>
-    </>
+    </div>
   );
 };

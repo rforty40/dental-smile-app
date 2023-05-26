@@ -11,13 +11,8 @@ import {
 import { usePacienteStore, useUiStore } from "../../hooks";
 
 import { FormModalPac } from "../components";
-import { formatearDataPacToTable } from "../helpers";
-import {
-  CheckCircleOutline,
-  DeleteForever,
-  PersonAddAlt,
-} from "@mui/icons-material";
-import { format } from "date-fns";
+
+import { DeleteForever, PersonAddAlt } from "@mui/icons-material";
 
 const TABLE_HEAD = [
   { id: "nombre", label: "Nombre", alignLeft: true },
@@ -123,16 +118,18 @@ export const PacientesPage = () => {
         minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoCepillo.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoConsultorioShine.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}
     >
       <Topbar />
       <Box
-        margin="-10px 20px 0 20px"
+        margin="0px 20px"
         display="flex"
         justifyContent="end"
+        padding="15px"
+        borderRadius="10px"
         className="box-shadow animate__animated animate__fadeIn"
       >
         <CustomTable
@@ -143,7 +140,8 @@ export const PacientesPage = () => {
           withButton
           iconosEnFila={false}
           btnToolbarTable={BtnToolbarTable}
-          columnaABuscarPri="fecha"
+          // columnaABuscarPri="fecha"
+          columnaABuscarPri="nombre"
           searchWhat={"Buscar pacientes ..."}
           txt_header={"Lista de pacientes"}
           // bgHeaderColor={""}
@@ -151,6 +149,7 @@ export const PacientesPage = () => {
           openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterPaciente}
+          routePaciente={(rowId) => `${rowId}/historial`}
         />
 
         <FormModalPac

@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   changeErrorLoadFutCitas,
-  // changeFormPacOpen,
   changeRegisterError,
   changeTitleForm,
-  clearErrorMessage,
+  clearErrorMessagePac,
   onDeletePaciente,
   onLoadFuturasCitas,
   onLoadPacActivo,
@@ -63,7 +62,7 @@ export const usePacienteStore = () => {
   const startLoadPacientes = async () => {
     try {
       const { data } = await getAllPaciente();
-      console.log(data);
+      // console.log(data);
       dispatch(onLoadPacientesList(formatearDataPacToTable(data)));
 
       dispatch(onLoadPacientesListBusq(formatearDataPacToBusList(data)));
@@ -85,7 +84,7 @@ export const usePacienteStore = () => {
   };
 
   const startSavingPaciente = async (dataPaciente) => {
-    dispatch(clearErrorMessage());
+    dispatch(clearErrorMessagePac());
 
     try {
       if (dataPaciente.id) {
