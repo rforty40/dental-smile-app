@@ -92,14 +92,14 @@ export const ListaTiposConsOdon = () => {
     return (
       <ButtonCustom
         altura={"42px"}
-        colorf={"primary.light"}
+        colorf={"myBgColor.main"}
         colorh={"black"}
-        colort={"white"}
+        colort={"black"}
         colorth={"celesteNeon.main"}
         txt_b={"Agregar tipo de consulta"}
         flexDir="row"
         txt_b_size="17px"
-        // fontW="bold"
+        fontW="bold"
         propsXS={{ boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)" }}
         iconB={<MdPostAdd />}
         onClick={openModalTipConsReg}
@@ -130,7 +130,7 @@ export const ListaTiposConsOdon = () => {
         sx={{ backgroundColor: "rgba(255,255,255,0.7)" }}
       >
         <Typography variant="h5" fontStyle="italic" fontWeight="bold">
-          Lista de tipos de consultas odontologicas
+          Lista de tipos de consultas odontológica
         </Typography>
       </Box>
       <Box
@@ -154,7 +154,7 @@ export const ListaTiposConsOdon = () => {
           iconosEnFila={false}
           columnaABuscarPri="tipo_de_consulta"
           searchWhat={"Buscar tipo de consulta ..."}
-          txt_header={"Tipos de consultas odontologicas"}
+          txt_header={"Tipos de consulta odontológica"}
           openModalEdit={openModalTipConsEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterTipCons}

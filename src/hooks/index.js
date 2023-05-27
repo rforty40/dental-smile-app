@@ -7,3 +7,4 @@ export * from "./useAgendaStore";
 export * from "./useDashboardStore";
 export * from "./useTipPagoStore";
 export * from "./useTipConsStore";
+export * from "./useTipTratamStore";

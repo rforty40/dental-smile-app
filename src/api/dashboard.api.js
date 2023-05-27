@@ -46,3 +46,25 @@ export const deleteTipoCons = async (id_tcons) =>
   await dentalSmileApi.delete(
     `/administracion/tiposConsulta/delete/${id_tcons}`
   );
+
+//tipos de tratamientos
+export const getTipoDeTratam = async (param1, param2) =>
+  await dentalSmileApi.get(
+    `/administracion/tiposTratamiento/${param1}/${param2}`
+  );
+
+export const createTipoTratam = async (tipTratam) =>
+  await dentalSmileApi.post(
+    "/administracion/tiposTratamiento/create",
+    tipTratam
+  );
+
+export const updateTipoTratam = async (id_trat, tipTratam) =>
+  await dentalSmileApi.put(
+    `/administracion/tiposTratamiento/update/${id_trat}`,
+    tipTratam
+  );
+export const deleteTipoTratam = async (id_trat) =>
+  await dentalSmileApi.delete(
+    `/administracion/tiposTratamiento/delete/${id_trat}`
+  );

@@ -132,7 +132,7 @@ export const ListaTiposPagos = () => {
         sx={{ backgroundColor: "rgba(255,255,255,0.7)" }}
       >
         <Typography variant="h5" fontStyle="italic" fontWeight="bold">
-          Lista de tipos de pagos
+          Lista de tipos de pago
         </Typography>
 
         <Box

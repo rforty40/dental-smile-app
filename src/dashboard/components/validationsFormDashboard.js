@@ -7,3 +7,7 @@ export const formValidationsTipCons = {
   tipo_de_consulta: [(value) => value.length > 0, "Campo requerido"],
   precio: [(value) => value.length > 0, "Campo requerido"],
 };
+
+export const formValidationsTipTratam = {
+  tratamiento: [(value) => value.length > 0, "Campo requerido"],
+};

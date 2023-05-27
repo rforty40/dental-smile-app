@@ -19,12 +19,18 @@ import {
   CloseOutlined,
   Payments,
   SaveOutlined,
+  Subject,
 } from "@mui/icons-material";
-import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
+import {
+  ButtonCustom,
+  CustomAlert,
+  IconTextField,
+  RadioGroupCustom,
+} from "../../ui";
 
-import { useForm, useTipConsStore, useTipPagoStore } from "../../hooks";
+import { useForm, useTipPagoStore, useTipTratamStore } from "../../hooks";
 
-import { formValidationsTipCons } from "./validationsFormDashboard";
+import { formValidationsTipTratam } from "./validationsFormDashboard";
 import { useEffect } from "react";
 
 //
@@ -39,15 +45,15 @@ const Transition = forwardRef(function Transition(props, ref) {
   );
 });
 
-export const FormTipCons = ({
+export const FormTipTratam = ({
   openModalForm = false,
   setOpenModalForm,
   title,
 }) => {
   //
   //customs hook store
-  const { tipoConsActivo, startSavingTipCons, errorMsgRegTipoCons } =
-    useTipConsStore();
+  const { tipoTratamActivo, startSavingTipTratam, errorMsgRegTipoTratam } =
+    useTipTratamStore();
 
   //hooks
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -56,36 +62,36 @@ export const FormTipCons = ({
 
   const [txtButton, setTxtButton] = useState("");
 
+  const [hookRadio, setHookRadio] = useState("");
+
   const formDataPac = useMemo(() => {
     if (title.toUpperCase().includes("EDITAR")) {
-      setMsgAlert(`Se actualizaron los datos del tipo de consulta 🙂.`);
+      setMsgAlert(`Se actualizaron los datos del tipo de tratamiento 🙂.`);
       setTxtButton("Actualizar");
+      setHookRadio(tipoTratamActivo.tipo_de_tratamiento);
       return {
         dataForm: {
-          id: tipoConsActivo.id,
-          tipo_de_consulta: tipoConsActivo.tipo_de_consulta,
-          precio: tipoConsActivo.precio.toString(),
+          ...tipoTratamActivo,
         },
-        formValidationsTipCons,
+        formValidationsTipTratam,
       };
     } else {
-      setMsgAlert(`Tipo de consulta registrado con éxito 🙂.`);
+      setMsgAlert(`Tipo de tratamiento registrado con éxito 🙂.`);
       setTxtButton("Registrar");
-
+      setHookRadio("");
       return {
         dataForm: {
-          tipo_de_consulta: "",
-          precio: "",
+          tratamiento: "",
         },
-        formValidationsTipCons,
+        formValidationsTipTratam,
       };
     }
-  }, [title, tipoConsActivo]);
+  }, [title, tipoTratamActivo]);
 
   //custom hook form
   const { formState, formValidation, onInputChange, isFormValid } = useForm(
     formDataPac.dataForm,
-    formDataPac.formValidationsTipCons
+    formDataPac.formValidationsTipTratam
   );
 
   const cerrarModal = () => {
@@ -111,33 +117,37 @@ export const FormTipCons = ({
 
   //control envio del formulario
   const onSubmit = async (event) => {
+    console.log(formState);
+    console.log(hookRadio);
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
+    if (hookRadio === "") return;
+    formState.tipo_de_tratamiento = hookRadio;
     console.log(formState);
-    startSavingTipCons(formState);
+    startSavingTipTratam(formState);
   };
 
   //efecto secundario para comprobar errores en el registro y actualizacion
   useEffect(() => {
-    if (errorMsgRegTipoCons.msg === "Sin errores" && formSubmitted) {
+    if (errorMsgRegTipoTratam.msg === "Sin errores" && formSubmitted) {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
 
       if (!title.toUpperCase().includes("EDITAR")) {
         formDataPac.dataForm = {
-          tipo_de_consulta: "",
-          precio: "",
+          tratamiento: "",
         };
+        setHookRadio("");
       }
     }
 
-    if (errorMsgRegTipoCons.msg === "Hay errores" && formSubmitted) {
+    if (errorMsgRegTipoTratam.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();
       setFormSubmitted(false);
     }
-  }, [errorMsgRegTipoCons]);
+  }, [errorMsgRegTipoTratam]);
 
   //
   return (
@@ -187,19 +197,55 @@ export const FormTipCons = ({
           >
             <Box
               display="flex"
-              margin="10px 0px"
+              border="2px solid black"
+              padding="10px"
+              borderRadius="5px"
+              flexDirection="row"
+              justifyContent="space-between"
+              boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
+            >
+              <RadioGroupCustom
+                title="Tipo de tratamiento"
+                colorRadio="white"
+                colorTxt="black"
+                colorLbl="black"
+                fontw="bold"
+                fontwlbl="bold"
+                fontSzlbl="16px"
+                radioOptions={["Preventivo", "Clínico", "Curativo"]}
+                hookRadio={hookRadio}
+                setHookRadio={setHookRadio}
+              />
+
+              {hookRadio === "" ? (
+                <p
+                  style={{
+                    fontSize: "13px",
+                    color: "#02ECEE",
+                  }}
+                >
+                  Opción requerida
+                </p>
+              ) : (
+                ""
+              )}
+            </Box>
+
+            <Box
+              display="flex"
+              margin="20px 0px"
               flexDirection="column"
               rowGap="20px"
             >
               <IconTextField
                 fullWidth
-                label="Tipo de consulta:"
+                label="Tratamiento:"
                 type="text"
                 multiline
-                name="tipo_de_consulta"
-                value={formState.tipo_de_consulta}
+                name="tratamiento"
+                value={formState.tratamiento}
                 onChange={onInputChange}
-                helperText={formValidation.tipo_de_consultaValid}
+                helperText={formValidation.tratamientoValid}
                 colorIcon="black"
                 colorHover="celesteNeon.main"
                 colorTxt="white"
@@ -208,7 +254,7 @@ export const FormTipCons = ({
                 colorErr="celesteNeon.main"
                 iconEnd={
                   <Icon>
-                    <Payments />
+                    <Subject />
                   </Icon>
                 }
                 propsXS={{
@@ -234,50 +280,6 @@ export const FormTipCons = ({
                   boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
                 }}
               />
-              <div style={{ display: "flex", justifyContent: "right" }}>
-                <IconTextField
-                  label="Precio:"
-                  type="number"
-                  name="precio"
-                  value={formState.precio}
-                  onChange={onInputChange}
-                  helperText={formValidation.precioValid}
-                  colorIcon="black"
-                  colorHover="celesteNeon.main"
-                  colorTxt="white"
-                  colorLabel="black"
-                  fontWlbl="bold"
-                  colorErr="celesteNeon.main"
-                  iconEnd={
-                    <Icon>
-                      <AttachMoney />
-                    </Icon>
-                  }
-                  propsXS={{
-                    width: "25%",
-                    "& .MuiOutlinedInput-root": {
-                      "& fieldset": {
-                        border: "2px solid",
-                        borderColor: "black",
-                      },
-                    },
-                    "& .MuiOutlinedInput-root.Mui-error": {
-                      "& fieldset": {
-                        border: "2px solid",
-                        borderColor: "black",
-                      },
-                    },
-                    "& .MuiOutlinedInput-root.Mui-focused": {
-                      "& fieldset": {
-                        border: "2px solid",
-                        borderColor: "white",
-                      },
-                    },
-
-                    boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
-                  }}
-                />
-              </div>
 
               <Box
                 display="flex"
@@ -331,7 +333,7 @@ export const FormTipCons = ({
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
           title={"Registro no completado"}
-          message={errorMsgRegTipoCons.error}
+          message={errorMsgRegTipoTratam.error}
           colorbg="error.main"
           colortxt="white"
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}

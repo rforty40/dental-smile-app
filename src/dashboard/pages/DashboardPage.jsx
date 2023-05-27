@@ -310,19 +310,19 @@ export const DashboardPage = () => {
         // sx={{ backgroundColor: "white" }}
       >
         <MenuListDashboard
-          txtLabel={"Lista de procedimientos odontologicos"}
+          txtLabel={"Lista de procedimientos odontológicos"}
           route={"listaprocedimientosodon"}
         />
         <MenuListDashboard
-          txtLabel={"Lista de tipos de consulta odontologicas"}
+          txtLabel={"Lista de tipos de consulta odontológica"}
           route={"listatiposconsodon"}
         />
         <MenuListDashboard
-          txtLabel={"Lista de tipos de tratamientos"}
+          txtLabel={"Lista de tipos de tratamiento"}
           route={"listatipostratam"}
         />
         <MenuListDashboard
-          txtLabel={"Lista de tipos de pagos"}
+          txtLabel={"Lista de tipos de pago"}
           route={"listatipospagos"}
         />
         <MenuListDashboard

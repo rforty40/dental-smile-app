@@ -1,4 +1,10 @@
-import { FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
+import {
+  Box,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Typography,
+} from "@mui/material";
 
 //
 //
@@ -7,30 +13,36 @@ import { FormControlLabel, Radio, RadioGroup, Typography } from "@mui/material";
 export const RadioGroupCustom = ({
   title,
   colorRadio,
+  colorTxt = "black",
+  colorLbl = "#602a90",
+  fontw = "normal",
+  fontwlbl = "normal",
+  fontSzlbl = "13px",
   radioOptions,
   hookRadio,
   setHookRadio,
 }) => {
+  function handleClick(event) {
+    if (event.target.value === hookRadio) {
+      setHookRadio("");
+    } else {
+      setHookRadio(event.target.value);
+    }
+  }
+
   return (
-    <>
+    <Box display="flex" flexDirection="column">
       <p
         style={{
-          fontSize: "13px",
+          fontSize: fontSzlbl,
           padding: "5px 0px 0px 0px",
-          color: "#602a90",
+          color: colorLbl,
+          fontWeight: fontwlbl,
         }}
       >
         {title}
       </p>
-      <RadioGroup
-        row
-        name="row-radio-buttons-group"
-        value={hookRadio}
-        onChange={(event) => {
-          // console.log(event.target.value);
-          setHookRadio(event.target.value);
-        }}
-      >
+      <RadioGroup row name="row-radio-buttons-group" value={hookRadio}>
         {radioOptions.map((radio) => {
           return (
             <FormControlLabel
@@ -43,12 +55,15 @@ export const RadioGroupCustom = ({
                       color: colorRadio,
                     },
                   }}
+                  onClick={handleClick}
                 />
               }
               label={
                 <Typography
                   sx={{
                     fontSize: "14px",
+                    color: colorTxt,
+                    fontWeight: fontw,
                   }}
                 >
                   {radio}
@@ -58,6 +73,6 @@ export const RadioGroupCustom = ({
           );
         })}
       </RadioGroup>
-    </>
+    </Box>
   );
 };
