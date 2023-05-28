@@ -5,6 +5,7 @@ import {
   getTipoDeTratam,
   updateTipoTratam,
 } from "../api/dashboard.api";
+
 import {
   clearErrorTipTratamMsg,
   onChangeRegErrTipTratam,
@@ -14,11 +15,12 @@ import {
   onSetActiveTipoTratam,
   onUpdateTipoTratam,
 } from "../store";
+
 import {
   comprobarErrorTipTratam,
   formatearDataTipTratamToBD,
   formatearDataTipTratamToTable,
-} from "../dashboard/helpers/formatterDataTipTratam";
+} from "../dashboard/helpers";
 
 //
 //

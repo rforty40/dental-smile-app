@@ -1,36 +1,17 @@
-import "sweetalert2/dist/sweetalert2.css";
-
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 
-import { FaChild, FaIdCard, FaUserEdit } from "react-icons/fa";
+import { MdOutlineDescription } from "react-icons/md";
+
+import { RiParentLine } from "react-icons/ri";
 import {
-  MdContactPhone,
-  MdEmail,
-  MdFamilyRestroom,
-  MdOutlineDescription,
-} from "react-icons/md";
-import { IoIosContacts } from "react-icons/io";
-import {
-  RiFileHistoryFill,
-  RiFileHistoryLine,
-  RiParentLine,
-} from "react-icons/ri";
-import {
-  Box,
-  FormControl,
-  FormHelperText,
   Grid,
   Icon,
   IconButton,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
   Portal,
-  Select,
   Slide,
   Typography,
 } from "@mui/material";
@@ -38,21 +19,18 @@ import {
   CancelOutlined,
   CheckCircleOutline,
   CloseOutlined,
-  PhoneIphone,
   SaveOutlined,
 } from "@mui/icons-material";
 import {
   ButtonCustom,
   CustomAlert,
   IconTextField,
-  RadioGroupCustom,
   SelectedCustom,
 } from "../../ui";
 
-import { useAntecedenteStore, useForm, usePacienteStore } from "../../hooks";
+import { useAntecedenteStore, useForm } from "../../hooks";
 
 import { formValidations } from "./validationsFormAnteced";
-import { formatearPacActiveToForm } from "../helpers";
 
 //
 //
@@ -156,7 +134,7 @@ export const FormModalAntec = ({
   };
 
   //control envio del formulario
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -176,13 +154,13 @@ export const FormModalAntec = ({
       handleOpenSnackbar();
       setFormSubmitted(false);
 
-      if (!title.toUpperCase().includes("EDITAR")) {
-        formDataPac.dataForm = {
-          par_antecedente: "",
-          tip_antecedente: "",
-          des_antecedente: "",
-        };
-      }
+      // if (!title.toUpperCase().includes("EDITAR")) {
+      //   formDataPac.dataForm = {
+      //     par_antecedente: "",
+      //     tip_antecedente: "",
+      //     des_antecedente: "",
+      //   };
+      // }
     }
 
     if (errorRegAntecedente.msg === "Hay errores" && formSubmitted) {

@@ -1,4 +1,4 @@
-import { forwardRef, useMemo, useState } from "react";
+import { forwardRef, useState, useEffect } from "react";
 
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
@@ -13,11 +13,9 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  AttachMoney,
   CancelOutlined,
   CheckCircleOutline,
   CloseOutlined,
-  Payments,
   SaveOutlined,
   Subject,
 } from "@mui/icons-material";
@@ -28,10 +26,7 @@ import {
   RadioGroupCustom,
 } from "../../ui";
 
-import { useForm, useTipPagoStore, useTipTratamStore } from "../../hooks";
-
-import { formValidationsTipTratam } from "./validationsFormDashboard";
-import { useEffect } from "react";
+import { useTipTratamStore } from "../../hooks";
 
 //
 //
@@ -62,37 +57,33 @@ export const FormTipTratam = ({
 
   const [txtButton, setTxtButton] = useState("");
 
-  const [hookRadio, setHookRadio] = useState("");
+  const [stateRadioTt, setStateRadioTt] = useState("");
 
-  const formDataPac = useMemo(() => {
+  const [stateTratamiento, setStateTratamiento] = useState("");
+
+  useEffect(() => {
+    // console.log(title);
+    // console.log(tipoTratamActivo);
     if (title.toUpperCase().includes("EDITAR")) {
       setMsgAlert(`Se actualizaron los datos del tipo de tratamiento 🙂.`);
       setTxtButton("Actualizar");
-      setHookRadio(tipoTratamActivo.tipo_de_tratamiento);
-      return {
-        dataForm: {
-          ...tipoTratamActivo,
-        },
-        formValidationsTipTratam,
-      };
+      if (tipoTratamActivo) {
+        setStateRadioTt(tipoTratamActivo.tipo_de_tratamiento);
+        setStateTratamiento(tipoTratamActivo.tratamiento);
+      }
     } else {
       setMsgAlert(`Tipo de tratamiento registrado con éxito 🙂.`);
       setTxtButton("Registrar");
-      setHookRadio("");
-      return {
-        dataForm: {
-          tratamiento: "",
-        },
-        formValidationsTipTratam,
-      };
+      setStateRadioTt("");
+      setStateTratamiento("");
     }
   }, [title, tipoTratamActivo]);
 
   //custom hook form
-  const { formState, formValidation, onInputChange, isFormValid } = useForm(
-    formDataPac.dataForm,
-    formDataPac.formValidationsTipTratam
-  );
+  // const { formState, formValidation, onInputChange, isFormValid } = useForm(
+  //   formDataPac.dataForm,
+  //   formDataPac.formValidationsTipTratam
+  // );
 
   const cerrarModal = () => {
     setOpenModalForm(false);
@@ -116,16 +107,19 @@ export const FormTipTratam = ({
   };
 
   //control envio del formulario
-  const onSubmit = async (event) => {
-    console.log(formState);
-    console.log(hookRadio);
+  const onSubmit = (event) => {
     event.preventDefault();
+    // console.log(stateTratamiento);
+    // console.log(stateRadioTt);
     setFormSubmitted(true);
-    if (!isFormValid) return;
-    if (hookRadio === "") return;
-    formState.tipo_de_tratamiento = hookRadio;
-    console.log(formState);
-    startSavingTipTratam(formState);
+    if (stateTratamiento === "") return;
+    if (stateRadioTt === "") return;
+
+    startSavingTipTratam({
+      ...tipoTratamActivo,
+      tipo_de_tratamiento: stateRadioTt,
+      tratamiento: stateTratamiento.trim(),
+    });
   };
 
   //efecto secundario para comprobar errores en el registro y actualizacion
@@ -135,12 +129,10 @@ export const FormTipTratam = ({
       handleOpenSnackbar();
       setFormSubmitted(false);
 
-      if (!title.toUpperCase().includes("EDITAR")) {
-        formDataPac.dataForm = {
-          tratamiento: "",
-        };
-        setHookRadio("");
-      }
+      // if (!title.toUpperCase().includes("EDITAR")) {
+      // setStateTratamiento("");
+      // setStateRadioTt("");
+      // }
     }
 
     if (errorMsgRegTipoTratam.msg === "Hay errores" && formSubmitted) {
@@ -197,7 +189,7 @@ export const FormTipTratam = ({
           >
             <Box
               display="flex"
-              border="2px solid black"
+              border="2px solid white"
               padding="10px"
               borderRadius="5px"
               flexDirection="row"
@@ -206,18 +198,19 @@ export const FormTipTratam = ({
             >
               <RadioGroupCustom
                 title="Tipo de tratamiento"
-                colorRadio="white"
-                colorTxt="black"
-                colorLbl="black"
-                fontw="bold"
+                colorRadio="celesteNeon.main"
+                colorTxt="white"
+                colorLbl="white"
+                // fontw="bold"
                 fontwlbl="bold"
                 fontSzlbl="16px"
+                fontSztxt="15px"
                 radioOptions={["Preventivo", "Clínico", "Curativo"]}
-                hookRadio={hookRadio}
-                setHookRadio={setHookRadio}
+                hookRadio={stateRadioTt}
+                setHookRadio={setStateRadioTt}
               />
 
-              {hookRadio === "" ? (
+              {stateRadioTt === "" ? (
                 <p
                   style={{
                     fontSize: "13px",
@@ -243,13 +236,17 @@ export const FormTipTratam = ({
                 type="text"
                 multiline
                 name="tratamiento"
-                value={formState.tratamiento}
-                onChange={onInputChange}
-                helperText={formValidation.tratamientoValid}
-                colorIcon="black"
+                value={stateTratamiento}
+                onChange={(event) => {
+                  setStateTratamiento(event.target.value);
+                }}
+                helperText={
+                  stateTratamiento.trim().length > 0 ? "" : "Campo requerido"
+                }
+                colorIcon="white"
                 colorHover="celesteNeon.main"
                 colorTxt="white"
-                colorLabel="black"
+                colorLabel="white"
                 fontWlbl="bold"
                 colorErr="celesteNeon.main"
                 iconEnd={
@@ -261,7 +258,7 @@ export const FormTipTratam = ({
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       border: "2px solid",
-                      borderColor: "black",
+                      borderColor: "white",
                     },
                   },
                   "& .MuiOutlinedInput-root.Mui-focused": {
@@ -273,47 +270,48 @@ export const FormTipTratam = ({
                   "& .MuiOutlinedInput-root.Mui-error": {
                     "& fieldset": {
                       border: "2px solid",
-                      borderColor: "black",
+                      borderColor: "white",
                     },
                   },
-
+                  "&:hover fieldset": {
+                    borderColor: "white !important ",
+                  },
                   boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
                 }}
               />
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              paddingTop="10px"
+              columnGap="15px"
+              justifyContent="center"
+            >
+              <ButtonCustom
+                altura="40px"
+                colorf="white"
+                colorh="black"
+                colort="black"
+                colorth="celesteNeon.main"
+                fontW="bold"
+                txt_b="Cancelar"
+                iconB={<CancelOutlined />}
+                propsXS={{ border: "2px solid black" }}
+                onClick={cerrarModal}
+              />
 
-              <Box
-                display="flex"
-                flexDirection="row"
-                paddingTop="10px"
-                columnGap="15px"
-                justifyContent="center"
-              >
-                <ButtonCustom
-                  altura="40px"
-                  colorf="white"
-                  colorh="black"
-                  colort="black"
-                  colorth="celesteNeon.main"
-                  fontW="bold"
-                  txt_b="Cancelar"
-                  iconB={<CancelOutlined />}
-                  propsXS={{ border: "2px solid black" }}
-                  onClick={cerrarModal}
-                />
-
-                <ButtonCustom
-                  tipoBtn="submit"
-                  altura="40px"
-                  colorf="white"
-                  colorh="black"
-                  colort="black"
-                  colorth="celesteNeon.main"
-                  fontW="bold"
-                  txt_b={txtButton}
-                  iconB={<SaveOutlined />}
-                  propsXS={{ border: "2px solid black" }}
-                />
-              </Box>
+              <ButtonCustom
+                tipoBtn="submit"
+                altura="40px"
+                colorf="white"
+                colorh="black"
+                colort="black"
+                colorth="celesteNeon.main"
+                fontW="bold"
+                txt_b={txtButton}
+                iconB={<SaveOutlined />}
+                propsXS={{ border: "2px solid black" }}
+              />
             </Box>
           </form>
         </DialogContent>

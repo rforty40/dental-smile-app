@@ -8,9 +8,9 @@ export const formValidations = {
 
   edad: [(value) => value.toString().length > 0, "Campo requerido"],
 
-  erNombre: [(value) => value.length > 0, "Campo requerido"],
+  erNombre: [(value) => value.trim().length > 0, "Campo requerido"],
 
-  erApellido: [(value) => value.length > 0, "Campo requerido"],
+  erApellido: [(value) => value.trim().length > 0, "Campo requerido"],
 
   telefono: [
     (value) => value.length === 10 || value.length === 0,

@@ -197,7 +197,7 @@ export const DashboardPage = () => {
         minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)), url(../../../public/assets/img/fondo_administracion3.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)), url(../../../public/assets/img/fondo_administracion3.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}

@@ -206,7 +206,7 @@ export const AgendaModal = () => {
   //
 
   //funcion enviar los datos
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
 
@@ -419,9 +419,9 @@ export const AgendaModal = () => {
                   onChange={({ target }) => {
                     setStateMotivo(target.value);
                   }}
-                  error={stateMotivo.length === 0 && formSubmitted}
+                  error={stateMotivo.trim().length === 0 && formSubmitted}
                   helperText={
-                    stateMotivo.length === 0
+                    stateMotivo.trim().length === 0
                       ? "Debe agregar un motivo de la cita"
                       : ""
                   }

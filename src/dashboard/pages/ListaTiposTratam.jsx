@@ -41,6 +41,7 @@ export const ListaTiposTratam = () => {
 
   //control de modal registrar y editar
   const openModalTipTratamReg = () => {
+    changeDataTipTratam({});
     setTitleFormTiTratam("Registro de tipo de tratamiento");
     setStateModalTipTratam(true);
   };
@@ -122,7 +123,7 @@ export const ListaTiposTratam = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/dentistTools1.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/consulta_odon3.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}

@@ -16,6 +16,7 @@ export const RadioGroupCustom = ({
   colorTxt = "black",
   colorLbl = "#602a90",
   fontw = "normal",
+  fontSztxt = "14px",
   fontwlbl = "normal",
   fontSzlbl = "13px",
   radioOptions,
@@ -61,7 +62,7 @@ export const RadioGroupCustom = ({
               label={
                 <Typography
                   sx={{
-                    fontSize: "14px",
+                    fontSize: fontSztxt,
                     color: colorTxt,
                     fontWeight: fontw,
                   }}

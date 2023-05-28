@@ -144,7 +144,7 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
   };
 
   //control envio del formulario
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -159,23 +159,23 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
       handleOpenSnackbar();
       setFormSubmitted(false);
 
-      if (!titleForm.toUpperCase().includes("EDITAR")) {
-        formDataPac.dataForm = {
-          cedula: "",
-          edad: "",
-          sexo: "",
-          erNombre: "",
-          doNombre: "",
-          erApellido: "",
-          doApellido: "",
-          telefono: "",
-          email: "",
-          nomRes: "",
-          parRes: "",
-          telRes: "",
-        };
-        setHookRadio("");
-      }
+      // if (!titleForm.toUpperCase().includes("EDITAR")) {
+      //   formDataPac.dataForm = {
+      //     cedula: "",
+      //     edad: "",
+      //     sexo: "",
+      //     erNombre: "",
+      //     doNombre: "",
+      //     erApellido: "",
+      //     doApellido: "",
+      //     telefono: "",
+      //     email: "",
+      //     nomRes: "",
+      //     parRes: "",
+      //     telRes: "",
+      //   };
+      //   setHookRadio("");
+      // }
     }
 
     if (errorRegMessage.msg === "Hay errores" && formSubmitted) {
@@ -242,6 +242,7 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
               `,
                 rowGap: "15px",
                 columnGap: "10px",
+                alignItems: "start",
               }}
             >
               <Grid item gridArea="cedula">

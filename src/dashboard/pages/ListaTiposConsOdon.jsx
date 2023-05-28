@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useTipPagoStore } from "../../hooks/useTipPagoStore";
+
 import { useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import {
@@ -114,7 +114,7 @@ export const ListaTiposConsOdon = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/consulta_odon.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/fondoConsulta.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
       }}

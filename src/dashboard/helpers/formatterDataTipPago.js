@@ -1,8 +1,8 @@
 export const formatearDataTipPagoToTable = (dataFromBD) => {
   return dataFromBD.map((data) => {
     return {
-      id_proced: data.id_proced,
-      id_tipoConsul: data.id_tipoConsul,
+      // id_proced: data.id_proced,
+      // id_tipoConsul: data.id_tipoConsul,
       id: data.id_tipPago,
       //
       tipo_de_pago: data.desc_tipPago,
@@ -12,13 +12,14 @@ export const formatearDataTipPagoToTable = (dataFromBD) => {
 };
 
 export const formatearDataTipPagoToBD = (dataTipPago) => {
+  console.log(dataTipPago);
   return {
-    id_tipoConsul:
-      dataTipPago.id_tipoConsul !== undefined
-        ? dataTipPago.id_tipoConsul
-        : null,
-    id_proced:
-      dataTipPago.id_proced !== undefined ? dataTipPago.id_proced : null,
+    // id_tipoConsul:
+    //   dataTipPago.id_tipoConsul !== undefined
+    //     ? dataTipPago.id_tipoConsul
+    //     : null,
+    // id_proced:
+    //   dataTipPago.id_proced !== undefined ? dataTipPago.id_proced : null,
     desc_tipPago: dataTipPago.tipo_de_pago,
     prec_tipPago: parseFloat(dataTipPago.precio),
   };

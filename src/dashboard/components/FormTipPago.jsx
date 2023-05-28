@@ -60,16 +60,23 @@ export const FormTipPago = ({
     if (title.toUpperCase().includes("EDITAR")) {
       setMsgAlert(`Se actualizaron los datos del tipo de pago 🙂.`);
       setTxtButton("Actualizar");
-      return {
-        dataForm: {
-          id_proced: tipoPagoActivo.id_proced,
-          id_tipoConsul: tipoPagoActivo.id_tipoConsul,
-          id: tipoPagoActivo.id,
-          tipo_de_pago: tipoPagoActivo.tipo_de_pago,
-          precio: tipoPagoActivo.precio.toString(),
-        },
-        formValidationsTipPago,
-      };
+      if (tipoPagoActivo) {
+        return {
+          dataForm: {
+            id_proced: tipoPagoActivo.id_proced,
+            id_tipoConsul: tipoPagoActivo.id_tipoConsul,
+            id: tipoPagoActivo.id,
+            tipo_de_pago: tipoPagoActivo.tipo_de_pago,
+            precio: tipoPagoActivo.precio.toString(),
+          },
+          formValidationsTipPago,
+        };
+      } else {
+        return {
+          dataForm: {},
+          formValidationsTipPago: {},
+        };
+      }
     } else {
       setMsgAlert(`Tipo de pago registrado con éxito 🙂.`);
       setTxtButton("Registrar");
@@ -112,7 +119,7 @@ export const FormTipPago = ({
   };
 
   //control envio del formulario
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -127,12 +134,12 @@ export const FormTipPago = ({
       handleOpenSnackbar();
       setFormSubmitted(false);
 
-      if (!title.toUpperCase().includes("EDITAR")) {
-        formDataPac.dataForm = {
-          tipo_de_pago: "",
-          precio: "",
-        };
-      }
+      // if (!title.toUpperCase().includes("EDITAR")) {
+      //   formDataPac.dataForm = {
+      //     tipo_de_pago: "",
+      //     precio: "",
+      //   };
+      // }
     }
 
     if (errorMsgRegTipoPago.msg === "Hay errores" && formSubmitted) {
@@ -202,10 +209,10 @@ export const FormTipPago = ({
                 value={formState.tipo_de_pago}
                 onChange={onInputChange}
                 helperText={formValidation.tipo_de_pagoValid}
-                colorIcon="black"
+                colorIcon="white"
                 colorHover="celesteNeon.main"
                 colorTxt="white"
-                colorLabel="black"
+                colorLabel="white"
                 fontWlbl="bold"
                 colorErr="celesteNeon.main"
                 iconEnd={
@@ -217,7 +224,7 @@ export const FormTipPago = ({
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       border: "2px solid",
-                      borderColor: "black",
+                      borderColor: "white",
                     },
                   },
                   "& .MuiOutlinedInput-root.Mui-focused": {
@@ -229,10 +236,12 @@ export const FormTipPago = ({
                   "& .MuiOutlinedInput-root.Mui-error": {
                     "& fieldset": {
                       border: "2px solid",
-                      borderColor: "black",
+                      borderColor: "white",
                     },
                   },
-
+                  "&:hover fieldset": {
+                    borderColor: "white !important ",
+                  },
                   boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
                 }}
               />
@@ -244,10 +253,10 @@ export const FormTipPago = ({
                   value={formState.precio}
                   onChange={onInputChange}
                   helperText={formValidation.precioValid}
-                  colorIcon="black"
+                  colorIcon="white"
                   colorHover="celesteNeon.main"
                   colorTxt="white"
-                  colorLabel="black"
+                  colorLabel="white"
                   fontWlbl="bold"
                   colorErr="celesteNeon.main"
                   iconEnd={
@@ -260,13 +269,13 @@ export const FormTipPago = ({
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         border: "2px solid",
-                        borderColor: "black",
+                        borderColor: "white",
                       },
                     },
                     "& .MuiOutlinedInput-root.Mui-error": {
                       "& fieldset": {
                         border: "2px solid",
-                        borderColor: "black",
+                        borderColor: "white",
                       },
                     },
                     "& .MuiOutlinedInput-root.Mui-focused": {
@@ -275,7 +284,9 @@ export const FormTipPago = ({
                         borderColor: "white",
                       },
                     },
-
+                    "&:hover fieldset": {
+                      borderColor: "white !important ",
+                    },
                     boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
                   }}
                 />

@@ -116,20 +116,21 @@ export const ListaTiposPagos = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/fondo_administracion1.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/contabilidad1.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
+        objectFit: "contain",
       }}
     >
       <Box
         className="box-shadow animate__animated animate__fadeInUp animate__faster"
         // margin="30px"
-        padding="20px"
+        padding="20px 20px 20px 60px "
         display="flex"
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
-        sx={{ backgroundColor: "rgba(255,255,255,0.7)" }}
+        // sx={{ backgroundColor: "rgba(255,255,255,0.3)" }}
       >
         <Typography variant="h5" fontStyle="italic" fontWeight="bold">
           Lista de tipos de pago
@@ -195,8 +196,8 @@ export const ListaTiposPagos = () => {
             columnaABuscarPri="tipo_de_pago"
             searchWhat={"Buscar tipo de pago ..."}
             txt_header={"Tipos de pago"}
-            bgColorPagination="white"
-            dataOmitida={3}
+            // bgColorPagination="white"
+            // dataOmitida={3}
             openModalEdit={openModalTipPagoEdit}
             funcionBtnTblDelete={handleOpenDialogDel}
             funcionDeleteVarious={deleteRegisterTipPago}

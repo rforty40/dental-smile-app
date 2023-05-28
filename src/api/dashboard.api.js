@@ -68,3 +68,20 @@ export const deleteTipoTratam = async (id_trat) =>
   await dentalSmileApi.delete(
     `/administracion/tiposTratamiento/delete/${id_trat}`
   );
+
+//tipos de procedimientos
+export const getAllProcedimientos = async () =>
+  await dentalSmileApi.get(`/administracion/procedimientos/get/todos/_`);
+
+export const createProcedimiento = async (proced) =>
+  await dentalSmileApi.post("/administracion/procedimientos/create", proced);
+
+export const updateProcedimiento = async (id_proced, proced) =>
+  await dentalSmileApi.put(
+    `/administracion/procedimientos/update/${id_proced}`,
+    proced
+  );
+export const deleteProcedimiento = async (id_proced) =>
+  await dentalSmileApi.delete(
+    `/administracion/procedimientos/delete/${id_proced}`
+  );

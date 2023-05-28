@@ -19,6 +19,7 @@ import {
   CloseOutlined,
   Payments,
   SaveOutlined,
+  Subject,
 } from "@mui/icons-material";
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
 
@@ -60,14 +61,22 @@ export const FormTipCons = ({
     if (title.toUpperCase().includes("EDITAR")) {
       setMsgAlert(`Se actualizaron los datos del tipo de consulta 🙂.`);
       setTxtButton("Actualizar");
-      return {
-        dataForm: {
-          id: tipoConsActivo.id,
-          tipo_de_consulta: tipoConsActivo.tipo_de_consulta,
-          precio: tipoConsActivo.precio.toString(),
-        },
-        formValidationsTipCons,
-      };
+      if (tipoConsActivo) {
+        return {
+          dataForm: {
+            // id: tipoConsActivo.id,
+            // tipo_de_consulta: tipoConsActivo.tipo_de_consulta,
+            ...tipoConsActivo,
+            precio: tipoConsActivo.precio.toString(),
+          },
+          formValidationsTipCons,
+        };
+      } else {
+        return {
+          dataForm: {},
+          formValidationsTipCons: {},
+        };
+      }
     } else {
       setMsgAlert(`Tipo de consulta registrado con éxito 🙂.`);
       setTxtButton("Registrar");
@@ -110,7 +119,7 @@ export const FormTipCons = ({
   };
 
   //control envio del formulario
-  const onSubmit = async (event) => {
+  const onSubmit = (event) => {
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
@@ -125,12 +134,12 @@ export const FormTipCons = ({
       handleOpenSnackbar();
       setFormSubmitted(false);
 
-      if (!title.toUpperCase().includes("EDITAR")) {
-        formDataPac.dataForm = {
-          tipo_de_consulta: "",
-          precio: "",
-        };
-      }
+      // if (!title.toUpperCase().includes("EDITAR")) {
+      //   formDataPac.dataForm = {
+      //     tipo_de_consulta: "",
+      //     precio: "",
+      //   };
+      // }
     }
 
     if (errorMsgRegTipoCons.msg === "Hay errores" && formSubmitted) {
@@ -200,22 +209,22 @@ export const FormTipCons = ({
                 value={formState.tipo_de_consulta}
                 onChange={onInputChange}
                 helperText={formValidation.tipo_de_consultaValid}
-                colorIcon="black"
+                colorIcon="white"
                 colorHover="celesteNeon.main"
                 colorTxt="white"
-                colorLabel="black"
+                colorLabel="white"
                 fontWlbl="bold"
                 colorErr="celesteNeon.main"
                 iconEnd={
                   <Icon>
-                    <Payments />
+                    <Subject />
                   </Icon>
                 }
                 propsXS={{
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": {
                       border: "2px solid",
-                      borderColor: "black",
+                      borderColor: "white",
                     },
                   },
                   "& .MuiOutlinedInput-root.Mui-focused": {
@@ -227,8 +236,11 @@ export const FormTipCons = ({
                   "& .MuiOutlinedInput-root.Mui-error": {
                     "& fieldset": {
                       border: "2px solid",
-                      borderColor: "black",
+                      borderColor: "white",
                     },
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "white !important ",
                   },
 
                   boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
@@ -242,10 +254,10 @@ export const FormTipCons = ({
                   value={formState.precio}
                   onChange={onInputChange}
                   helperText={formValidation.precioValid}
-                  colorIcon="black"
+                  colorIcon="white"
                   colorHover="celesteNeon.main"
                   colorTxt="white"
-                  colorLabel="black"
+                  colorLabel="white"
                   fontWlbl="bold"
                   colorErr="celesteNeon.main"
                   iconEnd={
@@ -258,13 +270,13 @@ export const FormTipCons = ({
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
                         border: "2px solid",
-                        borderColor: "black",
+                        borderColor: "white",
                       },
                     },
                     "& .MuiOutlinedInput-root.Mui-error": {
                       "& fieldset": {
                         border: "2px solid",
-                        borderColor: "black",
+                        borderColor: "white",
                       },
                     },
                     "& .MuiOutlinedInput-root.Mui-focused": {
@@ -272,6 +284,9 @@ export const FormTipCons = ({
                         border: "2px solid",
                         borderColor: "white",
                       },
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white !important ",
                     },
 
                     boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
