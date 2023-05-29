@@ -116,10 +116,10 @@ export const ListaTiposPagos = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/contabilidad1.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(/assets/img/fondos/listaTiposPagos.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
-        objectFit: "contain",
+        backgroundSize: "cover",
       }}
     >
       <Box
@@ -130,7 +130,7 @@ export const ListaTiposPagos = () => {
         flexDirection="row"
         justifyContent="space-between"
         alignItems="center"
-        // sx={{ backgroundColor: "rgba(255,255,255,0.3)" }}
+        sx={{ backgroundColor: "rgba(255,255,255,0.5)" }}
       >
         <Typography variant="h5" fontStyle="italic" fontWeight="bold">
           Lista de tipos de pago

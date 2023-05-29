@@ -197,9 +197,10 @@ export const DashboardPage = () => {
         minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)), url(../../../public/assets/img/fondo_administracion3.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)), url(/assets/img/fondos/dashboardPage.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
+        backgroundSize: "cover",
       }}
     >
       <div style={{ backgroundColor: "#f5f7fa" }}>

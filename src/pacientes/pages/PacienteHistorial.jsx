@@ -48,9 +48,10 @@ export const PacienteHistorial = () => {
         minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.2),rgba(250,250,250, 0.2)) , url(../../../public/assets/img/imgFondoPac.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.2),rgba(250,250,250, 0.2)) , url(/assets/img/fondos/pacienteHistorial.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
+        backgroundSize: "cover",
       }}
     >
       <Box

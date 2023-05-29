@@ -230,7 +230,6 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
               sx={{
                 display: "grid",
                 paddingTop: "5px",
-                alignItems: "center",
                 gridTemplateColumns: "repeat(10, 1fr)",
                 gridTemplateRows: "repeat(5, max-content)",
                 gridTemplateAreas: `"cedula cedula cedula edad edad sexo sexo sexo sexo sexo"

@@ -147,11 +147,10 @@ export const AgendaPage = () => {
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-        backgroundImage:
-          " url(../../../public/assets/img/calendar_fondo_mayo.jpg)",
+        backgroundImage: " url(/assets/img/fondos/agendaPage.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
-        objectPosition: "center",
+        backgroundSize: "cover",
       }}
     >
       <Topbar />

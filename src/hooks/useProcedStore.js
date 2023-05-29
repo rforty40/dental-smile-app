@@ -2,22 +2,34 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   createProcedimiento,
   deleteProcedimiento,
+  getAllDataProced,
   getAllProcedimientos,
+  getProcedBusqueda,
+  getProcedNomen,
+  getSubtitulos,
+  getTitulos,
   updateProcedimiento,
 } from "../api/dashboard.api";
 import {
   clearErrorProcedMsg,
+  onChangeAllDataProced,
   onChangeRegErrProced,
   onDeleteProced,
   onLoadProcedList,
+  onLoadProcedNomenList,
+  onLoadSubtitulosList,
+  onLoadTitulosList,
   onSaveProced,
   onSetActiveProced,
   onUpdateProced,
 } from "../store";
 import {
   comprobarErrorProced,
+  formatearDataProcedNomen,
   formatearDataProcedToBD,
   formatearDataProcedToTable,
+  formatearDataSubtitulos,
+  formatearDataTitulos,
 } from "../dashboard/helpers";
 
 //
@@ -31,9 +43,15 @@ export const useProcedStore = () => {
 
   const dispatch = useDispatch();
 
-  const { procedList, procedActivo, errorMsgRegProced } = useSelector(
-    (state) => state.procedimientos
-  );
+  const {
+    procedList,
+    procedActivo,
+    errorMsgRegProced,
+    titulosList,
+    subtitulosList,
+    procedWithCodeList,
+    dataProcedTS,
+  } = useSelector((state) => state.procedimientos);
 
   //funciones
   const startLoadProcedList = async () => {
@@ -102,15 +120,85 @@ export const useProcedStore = () => {
     }
   };
 
+  const startLoadTitulosList = async () => {
+    try {
+      const { data } = await getTitulos();
+      // console.log(data);
+      dispatch(onLoadTitulosList(formatearDataTitulos(data)));
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
+  const startLoadSubtitulosList = async (id_titulo) => {
+    try {
+      const { data } = await getSubtitulos(id_titulo);
+      console.log(data);
+      dispatch(onLoadSubtitulosList(formatearDataSubtitulos(data)));
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+  const changeSubtitulosList = () => {
+    try {
+      dispatch(onLoadSubtitulosList([]));
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
+  const startProcedNomenList = async (ti_subti, id_titSubti) => {
+    try {
+      const { data } = await getProcedNomen(ti_subti, id_titSubti);
+      console.log(data);
+      dispatch(onLoadProcedNomenList(formatearDataProcedNomen(data)));
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
+  const startProcedNomenListBusq = async () => {
+    try {
+      const { data } = await getProcedBusqueda();
+      console.log(data);
+      console.log(formatearDataProcedNomen(data));
+      dispatch(onLoadProcedNomenList(formatearDataProcedNomen(data)));
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+  const changeDataProcedTS = async (cod) => {
+    try {
+      const { data } = await getAllDataProced(cod);
+      console.log(data);
+      dispatch(onChangeAllDataProced(data));
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   return {
     //* Propiedades
     procedList,
     procedActivo,
     errorMsgRegProced,
+    titulosList,
+    subtitulosList,
+    procedWithCodeList,
+    dataProcedTS,
+
     //* Métodos
     startLoadProcedList,
     changeDataProced,
     startSavingProced,
     startDeletingProced,
+
+    //
+    startLoadTitulosList,
+    startLoadSubtitulosList,
+    startProcedNomenList,
+    startProcedNomenListBusq,
+    changeSubtitulosList,
+    changeDataProcedTS,
   };
 };

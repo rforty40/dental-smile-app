@@ -15,8 +15,8 @@ export const CustomAutocomplete = ({
       {...propsAutocomplete}
       renderInput={(params) => (
         <TextField
-          {...propsTextField}
           {...params}
+          {...propsTextField}
           InputProps={{
             ...params.InputProps,
             startAdornment: (

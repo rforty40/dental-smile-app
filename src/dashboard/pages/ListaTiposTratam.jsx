@@ -121,11 +121,11 @@ export const ListaTiposTratam = () => {
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/consulta_odon3.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(/assets/img/fondos/listaTiposTratam.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
+        backgroundSize: "cover",
       }}
     >
       <Box

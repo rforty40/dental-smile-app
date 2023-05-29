@@ -31,6 +31,7 @@ export const ListaProcedOdon = () => {
     changeDataProced,
     startLoadProcedList,
     startDeletingProced,
+    startLoadTitulosList,
   } = useProcedStore();
 
   const { dataActiva } = useDataStore();
@@ -83,6 +84,7 @@ export const ListaProcedOdon = () => {
   //efectos secundarios
   useEffect(() => {
     startLoadProcedList();
+    startLoadTitulosList();
   }, []);
 
   //efecto secundario pasar la info del registro de la tabla
@@ -117,10 +119,11 @@ export const ListaProcedOdon = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/dentistTools2.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(/assets/img/fondos/listaProcedOdon.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         objectPosition: "center",
+        backgroundSize: "cover",
       }}
     >
       <Box

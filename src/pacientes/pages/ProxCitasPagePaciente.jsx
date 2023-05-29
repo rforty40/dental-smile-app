@@ -161,7 +161,7 @@ export const ProxCitasPagePaciente = () => {
               />
             </Box>
 
-            <Box margin="2px">
+            {/* <Box margin="2px">
               <ButtonCustom
                 colorBtn="secondary.main"
                 altura={"42px"}
@@ -178,7 +178,7 @@ export const ProxCitasPagePaciente = () => {
                 onClick={funcSearch}
                 iconB={<SearchOutlined />}
               />
-            </Box>
+            </Box> */}
           </Box>
 
           <ButtonCustom

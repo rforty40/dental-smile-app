@@ -124,7 +124,7 @@ export const Sidebar = () => {
                   alt="logo_molar"
                   width="90px"
                   height="90px"
-                  src={`../../../public/assets/icons/newLogoMolar.svg`}
+                  src={`/assets/icons/logo/newLogoMolar.svg`}
                   style={{ borderRadius: "20%" }}
                 />
               </Box>

@@ -12,7 +12,7 @@ input::-webkit-inner-spin-button {
 
 @font-face {
   font-family: "Brush Script MT";
-  src: url("../public/assets/fonts/brush_script_std_italic.ttf");
+  src: url("/assets/fonts/brush_script_std_italic.ttf");
 }
 
 html,

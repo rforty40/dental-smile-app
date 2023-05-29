@@ -44,7 +44,7 @@ export const CardDashboard = ({
             type="img/svg"
             width="70px"
             height="70px"
-            src={`../../../public/assets/icons/dashboard/${iconName}.svg`}
+            src={`/assets/icons/dashboard/${iconName}.svg`}
           />
           <Typography variant="h3">{resultado}</Typography>
           <Typography variant="h6">{label}</Typography>

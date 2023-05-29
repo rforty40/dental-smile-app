@@ -13,6 +13,7 @@ export const IconTextField = ({
   font_sty = "normal",
   fontWlbl = "normal",
   colorErr = "error.main",
+  align_Txt = "",
   ...props
 }) => {
   return (
@@ -48,12 +49,13 @@ export const IconTextField = ({
 
         "& .MuiInputBase-root ": {
           "& input": {
-            // textAlign: "center",
+            textAlign: align_Txt,
             fontStyle: font_sty,
             fontWeight: font_we,
             color: colorTxt,
           },
           "& textarea": {
+            textAlign: align_Txt,
             fontStyle: font_sty,
             fontWeight: font_we,
             color: colorTxt,

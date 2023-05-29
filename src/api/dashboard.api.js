@@ -85,3 +85,28 @@ export const deleteProcedimiento = async (id_proced) =>
   await dentalSmileApi.delete(
     `/administracion/procedimientos/delete/${id_proced}`
   );
+
+//titulos procedimientos
+export const getTitulos = async () =>
+  await dentalSmileApi.get(`/administracion/procedimientos/busqueda/titulos/_`);
+
+//subtitulos procedimientos
+export const getSubtitulos = async (id_titulo) =>
+  await dentalSmileApi.get(
+    `/administracion/procedimientos/busqueda/subtitulos/${id_titulo}`
+  );
+
+//procedimientos nomenclatura
+export const getProcedNomen = async (ti_subti, id_titSubti) =>
+  await dentalSmileApi.get(
+    `/administracion/procedimientos/busqueda/${ti_subti}/${id_titSubti}`
+  );
+
+//buscarProced
+export const getProcedBusqueda = async () =>
+  await dentalSmileApi.get(`/administracion/procedimientos/busqueda/_`);
+
+export const getAllDataProced = async (cod) =>
+  await dentalSmileApi.get(
+    `/administracion/procedimientos/busqueda/tsnom_proced/${cod}`
+  );

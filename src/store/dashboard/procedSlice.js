@@ -7,6 +7,13 @@ export const procedSlice = createSlice({
     procedList: [],
     procedActivo: null,
     errorMsgRegProced: { msg: "", error: "" },
+
+    //listas
+    titulosList: [],
+    subtitulosList: [],
+    procedWithCodeList: [],
+
+    dataProcedTS: null,
   },
   reducers: {
     onSetActiveProced: (state, { payload }) => {
@@ -51,6 +58,22 @@ export const procedSlice = createSlice({
     clearErrorProcedMsg: (state) => {
       state.errorMsgRegProced = { msg: "", error: "" };
     },
+
+    onLoadTitulosList: (state, { payload }) => {
+      state.titulosList = payload;
+    },
+
+    onLoadSubtitulosList: (state, { payload }) => {
+      state.subtitulosList = payload;
+    },
+
+    onLoadProcedNomenList: (state, { payload }) => {
+      state.procedWithCodeList = payload;
+    },
+
+    onChangeAllDataProced: (state, { payload }) => {
+      state.dataProcedTS = payload;
+    },
   },
 });
 
@@ -62,4 +85,8 @@ export const {
   onDeleteProced,
   onChangeRegErrProced,
   clearErrorProcedMsg,
+  onLoadTitulosList,
+  onLoadSubtitulosList,
+  onLoadProcedNomenList,
+  onChangeAllDataProced,
 } = procedSlice.actions;

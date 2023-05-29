@@ -77,7 +77,7 @@ export const ProxCiteItem = ({ cita }) => {
             type="img/svg"
             width="60px"
             height="60px"
-            src={`../../../public/assets/icons/dentist_date.svg`}
+            src={`/assets/icons/proxCiteItem/dentist_date.svg`}
             alt="dentist_date.svg"
           />
         </Grid>

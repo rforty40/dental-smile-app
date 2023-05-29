@@ -25,7 +25,7 @@ export const Topbar = () => {
           alt="logo_molar"
           width="45px"
           height="45px"
-          src={`../../../public/assets/icons/newLogoMolar.svg`}
+          src={`assets/icons/logo/newLogoMolar.svg`}
           style={{ borderRadius: "20%" }}
         />
         <Typography

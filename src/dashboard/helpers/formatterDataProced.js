@@ -1,6 +1,5 @@
 export const formatearDataProcedToTable = (dataFromBD) =>
   dataFromBD.map((data) => {
-    console.log(data.cod_proced);
     return {
       id: data.id_proced,
       //
@@ -52,4 +51,35 @@ export const comprobarErrorProced = (typeError) => {
   }
 
   return msgError;
+};
+
+export const formatearDataTitulos = (dataFromBD) => {
+  return dataFromBD.map((data) => {
+    return {
+      id: data.id_tituloProced,
+      label: data.nom_tituloProced,
+    };
+  });
+};
+
+export const formatearDataSubtitulos = (dataFromBD) => {
+  return dataFromBD.map((data) => {
+    return {
+      id: data.id_Proce,
+      label: data.subti_Proce,
+    };
+  });
+};
+
+export const formatearDataProcedNomen = (dataFromBD) => {
+  return dataFromBD.map((data) => {
+    return {
+      id: data.cod_nomProced,
+      label: data.nombre_nomProced
+        .split("\n")
+        .join("")
+
+        .replace(/\s+/g, " "),
+    };
+  });
 };

@@ -114,9 +114,10 @@ export const ListaTiposConsOdon = () => {
         width: "100%",
 
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(../../../public/assets/img/fondoConsulta.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(/assets/img/fondos/listaTiposConsOdon.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
+        backgroundSize: "cover",
       }}
     >
       <Box
@@ -155,6 +156,7 @@ export const ListaTiposConsOdon = () => {
           columnaABuscarPri="tipo_de_consulta"
           searchWhat={"Buscar tipo de consulta ..."}
           txt_header={"Tipos de consulta odontológica"}
+          bgColorPagination="white"
           openModalEdit={openModalTipConsEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterTipCons}

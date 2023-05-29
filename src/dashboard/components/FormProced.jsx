@@ -31,6 +31,7 @@ import { useForm, useProcedStore } from "../../hooks";
 
 import { formValidationsProced } from "./validationsFormDashboard";
 import { useEffect } from "react";
+import { FormChooseProced } from "./FormChooseProced";
 
 //
 //
@@ -61,13 +62,27 @@ export const FormProced = ({
 
   const [txtButton, setTxtButton] = useState("");
 
+  const [stateModalChoose, setStateModalChoose] = useState(false);
+
+  const [statePositionForm, setStatePositionForm] = useState({ left: null });
+
+  const [stateNomenProced, setStateNomenProced] = useState({
+    codigo: "",
+    procedimiento: "",
+  });
+
   const formDataPac = useMemo(() => {
+    // ACTUALIZAR
     if (title.toUpperCase().includes("EDITAR")) {
       setMsgAlert(
         `Se actualizaron los datos del procedimiento odontológico 🙂.`
       );
       setTxtButton("Actualizar");
       if (procedActivo) {
+        setStateNomenProced({
+          codigo: procedActivo.codigo,
+          procedimiento: procedActivo.procedimiento,
+        });
         return {
           dataForm: {
             ...procedActivo,
@@ -84,11 +99,14 @@ export const FormProced = ({
     } else {
       setMsgAlert(`Procedimiento odontológico registrado con éxito 🙂.`);
       setTxtButton("Registrar");
-
+      setStateNomenProced({
+        codigo: "",
+        procedimiento: "",
+      });
       return {
         dataForm: {
-          codigo: "",
-          procedimiento: "",
+          // codigo: "",
+          // procedimiento: "",
           precio: "",
           descripcion: "",
         },
@@ -105,6 +123,15 @@ export const FormProced = ({
 
   const cerrarModal = () => {
     setOpenModalForm(false);
+    setStateNomenProced({
+      codigo: "",
+      procedimiento: "",
+    });
+  };
+
+  const handleOpenFormChoose = () => {
+    setStateModalChoose(true);
+    setStatePositionForm({ left: 10 });
   };
 
   //control alert
@@ -129,8 +156,14 @@ export const FormProced = ({
     event.preventDefault();
     setFormSubmitted(true);
     if (!isFormValid) return;
-    console.log(formState);
-    startSavingProced(formState);
+
+    // console.log(formState);
+    const formStateNew = {
+      ...formState,
+      ...stateNomenProced,
+    };
+    // console.log(formStateNew);
+    startSavingProced(formStateNew);
   };
 
   //efecto secundario para comprobar errores en el registro y actualizacion
@@ -159,8 +192,10 @@ export const FormProced = ({
         keepMounted
         sx={{
           "& .MuiPaper-root": {
-            width: "800px",
+            width: "750px",
             backgroundColor: "colorIconMolar.main",
+            position: "absolute",
+            left: statePositionForm.left,
           },
         }}
       >
@@ -199,15 +234,14 @@ export const FormProced = ({
               sx={{
                 display: "grid",
                 paddingTop: "5px",
-                alignItems: "center",
                 gridTemplateColumns: "repeat(5, 1fr)",
                 gridTemplateRows: "repeat(4, max-content)",
-                gridTemplateAreas: `". . . . codigo"
+                gridTemplateAreas: `". . . codigo codigo"
                 "proced proced proced proced proced"
                 "precio descr descr descr descr "
                 ". . . . ." 
                 "btns btns btns btns btns" `,
-                rowGap: "15px",
+                rowGap: "20px",
                 columnGap: "20px",
                 alignItems: "start",
               }}
@@ -218,9 +252,23 @@ export const FormProced = ({
                   label="Código:"
                   type="text"
                   name="codigo"
-                  value={formState.codigo === "" ? "Código" : formState.codigo}
-                  onChange={onInputChange}
-                  helperText={formValidation.codigoValid}
+                  // value={formState.codigo === "" ? "Código" : formState.codigo}
+                  // value={
+                  //   stateNomenProced.codigo !== ""
+                  //     ? formState.codigo === ""
+                  //       ? "Código"
+                  //       : formState.codigo
+                  //     : stateNomenProced.codigo
+                  // }
+
+                  value={stateNomenProced.codigo}
+                  onChange={(event) => {
+                    setStateNomenProced({
+                      ...stateNomenProced,
+                      codigo: event.target.value,
+                    });
+                  }}
+                  // helperText={formValidation.codigoValid}
                   InputProps={{ readOnly: true }}
                   colorIcon="celesteNeon.main"
                   colorHover="celesteNeon.main"
@@ -229,11 +277,7 @@ export const FormProced = ({
                   fontWlbl="bold"
                   colorErr="celesteNeon.main"
                   iconEnd={
-                    <IconButton
-                      onClick={() => {
-                        // abrir el otro modal
-                      }}
-                    >
+                    <IconButton onClick={handleOpenFormChoose}>
                       <TbMedicalCross
                         style={{
                           color: "#02ECEE",
@@ -275,15 +319,28 @@ export const FormProced = ({
                   type="text"
                   multiline
                   name="procedimiento"
-                  value={formState.procedimiento}
-                  onChange={onInputChange}
-                  helperText={formValidation.procedimientoValid}
+                  // value={formState.procedimiento}
+                  // onChange={onInputChange}
+                  // helperText={formValidation.procedimientoValid}
+                  value={stateNomenProced.procedimiento}
+                  onChange={(event) => {
+                    setStateNomenProced({
+                      ...stateNomenProced,
+                      procedimiento: event.target.value,
+                    });
+                  }}
+                  helperText={
+                    stateNomenProced.procedimiento.length > 0
+                      ? ""
+                      : "Campo requerido"
+                  }
                   colorIcon="white"
                   colorHover="celesteNeon.main"
                   colorTxt="white"
                   colorLabel="white"
                   fontWlbl="bold"
                   colorErr="celesteNeon.main"
+                  align_Txt="justify"
                   iconEnd={
                     <Icon>
                       <FaNotesMedical />
@@ -379,6 +436,7 @@ export const FormProced = ({
                   colorLabel="white"
                   fontWlbl="bold"
                   colorErr="celesteNeon.main"
+                  align_Txt="justify"
                   iconEnd={
                     <Icon>
                       <Subject />
@@ -470,6 +528,12 @@ export const FormProced = ({
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}
         />
       </Portal>
+      <FormChooseProced
+        openModalForm={stateModalChoose}
+        setOpenModalForm={setStateModalChoose}
+        positionModalFather={setStatePositionForm}
+        changeNomedProced={setStateNomenProced}
+      />
     </div>
   );
 };

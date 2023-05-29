@@ -13,6 +13,6 @@ export const formValidationsProced = {
   //   (value) => value.trim().length === 5 || value.length === 0,
   //   "El código debe ser de 5 caracteres",
   // ],
-  procedimiento: [(value) => value.trim().length > 0, "Campo requerido"],
+  // procedimiento: [(value) => value.trim().length > 0, "Campo requerido"],
   precio: [(value) => value.trim().length > 0, "Campo requerido"],
 };

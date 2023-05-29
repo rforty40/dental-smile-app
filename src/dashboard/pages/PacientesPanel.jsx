@@ -93,9 +93,10 @@ export const PacientesPanel = () => {
         minHeight: "100vh",
         width: "100%",
         backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(../../../public/assets/img/fondoConsultorioShine.jpg)",
+          "linear-gradient(rgba(250,250,250, 0.1),rgba(250,250,250, 0.1)) , url(/assets/img/fondos/pacientesPage.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
+        backgroundSize: "cover",
       }}
     >
       {/* <Topbar /> */}
@@ -109,6 +110,9 @@ export const PacientesPanel = () => {
         display="flex"
         justifyContent="end"
         className="box-shadow animate__animated animate__fadeIn"
+        sx={{
+          backgroundColor: "rgba(255,255,255,0.7)",
+        }}
       >
         <CustomTable
           TABLE_HEAD={TABLE_HEAD}
@@ -122,6 +126,7 @@ export const PacientesPanel = () => {
           txt_header={"Lista de pacientes"}
           // bgHeaderColor={""}
           dataOmitida={9}
+          bgColorPagination="rgba(255,255,255,0.7)"
           openModalEdit={openModalPacienteEdit}
           funcionBtnTblDelete={handleOpenDialogDel}
           funcionDeleteVarious={deleteRegisterPaciente}
