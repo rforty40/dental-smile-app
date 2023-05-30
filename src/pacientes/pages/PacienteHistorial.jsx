@@ -42,18 +42,7 @@ export const PacienteHistorial = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        height: "100%",
-        minHeight: "100vh",
-        width: "100%",
-        backgroundImage:
-          "linear-gradient(rgba(250,250,250, 0.2),rgba(250,250,250, 0.2)) , url(/assets/img/fondos/pacienteHistorial.jpg)",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "fixed",
-        backgroundSize: "cover",
-      }}
-    >
+    <div>
       <Box
         display="flex"
         justifyContent="space-between"
@@ -102,11 +91,11 @@ export const PacienteHistorial = () => {
         </Tabs>
       </Box>
 
-      <Box height="100%">
+      <>
         {hookTabs === 0 && <InfoPagePaciente />}
         {hookTabs === 1 && <ProxCitasPagePaciente />}
         {hookTabs === 2 && <HistorialPagePaciente />}
-      </Box>
+      </>
     </div>
   );
 };

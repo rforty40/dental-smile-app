@@ -9,3 +9,4 @@ export * from "./useTipPagoStore";
 export * from "./useTipConsStore";
 export * from "./useTipTratamStore";
 export * from "./useProcedStore";
+export * from "./useConsultasStore";

@@ -36,7 +36,7 @@ export const AgendaPage = () => {
     startUpdatingCita,
     changeDataCite,
     startDeletingCite,
-    stataOpenDeleteConf,
+    stateOpenDeleteConf,
     changeStateDeleteCofirm,
     changeBlockPaciente,
   } = useAgendaStore();
@@ -147,7 +147,7 @@ export const AgendaPage = () => {
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-        backgroundImage: " url(/assets/img/fondos/agendaPage.jpg)",
+        backgroundImage: " url(/assets/img/fondos/agendaPage2.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         backgroundSize: "cover",
@@ -219,7 +219,7 @@ export const AgendaPage = () => {
       </Box>
 
       <DeleteConfirm
-        stateOpen={stataOpenDeleteConf}
+        stateOpen={stateOpenDeleteConf}
         setStateOpen={changeStateDeleteCofirm}
         message={
           <>

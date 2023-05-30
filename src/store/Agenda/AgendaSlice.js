@@ -9,7 +9,7 @@ export const agendaSlice = createSlice({
     stateOpenFormAgenda: false,
     titleFormAgenda: "",
     errorRegCiteMessage: { msg: "", error: "" },
-    stataOpenDeleteConf: false,
+    stateOpenDeleteConf: false,
     blockPaciente: false,
   },
 
@@ -23,7 +23,7 @@ export const agendaSlice = createSlice({
     },
 
     onChangeOpenDeleteConf: (state, { payload }) => {
-      state.stataOpenDeleteConf = payload;
+      state.stateOpenDeleteConf = payload;
     },
 
     onSetActiveCita: (state, { payload }) => {

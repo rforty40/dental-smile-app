@@ -9,7 +9,7 @@ export const pacientesSlice = createSlice({
     pacienteActivo: {},
     pacientesList: [],
     pacientesListBusq: [],
-    errorRegMessage: { msg: "", error: "" },
+    errorMsgRegPac: { msg: "", error: "" },
 
     //antecedentes
     antecedentes: [[], []],
@@ -68,11 +68,11 @@ export const pacientesSlice = createSlice({
     },
 
     changeRegisterError: (state, { payload }) => {
-      state.errorRegMessage = payload;
+      state.errorMsgRegPac = payload;
     },
 
     clearErrorMessagePac: (state) => {
-      state.errorRegMessage = { msg: "", error: "" };
+      state.errorMsgRegPac = { msg: "", error: "" };
     },
 
     onLoadAntecedentes: (state, { payload }) => {

@@ -51,7 +51,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
   //
-  const { titleForm, startSavingPaciente, errorRegMessage, pacienteActivo } =
+  const { titleForm, startSavingPaciente, errorMsgRegPac, pacienteActivo } =
     usePacienteStore();
 
   const [formSubmitted, setFormSubmitted] = useState(false);
@@ -154,7 +154,7 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
   };
 
   useEffect(() => {
-    if (errorRegMessage.msg === "Sin errores" && formSubmitted) {
+    if (errorMsgRegPac.msg === "Sin errores" && formSubmitted) {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
@@ -178,11 +178,11 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
       // }
     }
 
-    if (errorRegMessage.msg === "Hay errores" && formSubmitted) {
+    if (errorMsgRegPac.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();
       setFormSubmitted(false);
     }
-  }, [errorRegMessage]);
+  }, [errorMsgRegPac]);
 
   //
   return (
@@ -618,7 +618,7 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
           stateSnackbar={stateSnackbarError}
           handleCloseSnackbar={handleCloseSnackbarError}
           title={"Registro no completado"}
-          message={errorRegMessage.error}
+          message={errorMsgRegPac.error}
           colorbg="error.main"
           colortxt="white"
           iconAlert={<CancelOutlined sx={{ color: "white" }} />}

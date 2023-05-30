@@ -1,6 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import {
   agendaSlice,
+  consultasSlice,
   dashboardSlice,
   dataSlice,
   pacientesSlice,
@@ -16,6 +17,7 @@ export const store = configureStore({
     ui: uiSlice.reducer,
     agenda: agendaSlice.reducer,
     pacientes: pacientesSlice.reducer,
+    consultas: consultasSlice.reducer,
     dashboard: dashboardSlice.reducer,
     tipoPago: tiposPagoSlice.reducer,
     tipoCons: tipoConsSlice.reducer,

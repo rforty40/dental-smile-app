@@ -46,7 +46,7 @@ export const usePacienteStore = () => {
     isFormPacOpen,
     titleForm,
     pacienteActivo,
-    errorRegMessage,
+    errorMsgRegPac,
     futurasCitasList,
     errorLoadFutCitas,
   } = useSelector((state) => state.pacientes);
@@ -151,12 +151,12 @@ export const usePacienteStore = () => {
 
       const arrMesAnio = [];
 
-      // console.log(data);
+      console.log(data);
       //1er bucle
       //para crear los elementos objetos del array, cuya unica llave es el nombre del mes + el año,
       // se usa un array para controlar que no se repitan los meses
       data.forEach((fecha) => {
-        const nameMesAnio = extractMesAnio(fecha);
+        const nameMesAnio = extractMesAnio(fecha.fecha_cita);
 
         if (!arrMesAnio.includes(nameMesAnio)) {
           arrMesAnio.push(nameMesAnio);
@@ -170,7 +170,7 @@ export const usePacienteStore = () => {
       //2do bucle
       //
       data.forEach((fecha) => {
-        const nameMesAnio = extractMesAnio(fecha);
+        const nameMesAnio = extractMesAnio(fecha.fecha_cita);
 
         if (mesTemporal !== nameMesAnio) {
           iterator++;
@@ -202,7 +202,7 @@ export const usePacienteStore = () => {
     isFormPacOpen,
     titleForm,
     pacienteActivo,
-    errorRegMessage,
+    errorMsgRegPac,
     futurasCitasList,
     errorLoadFutCitas,
 

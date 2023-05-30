@@ -16,7 +16,7 @@ export const SideBarItem = ({ title, to, icon }) => {
       }}
       icon={icon}
     >
-      <Typography>{title}</Typography>
+      <Typography sx={{ fontWeight: "bold" }}>{title}</Typography>
       <Link to={to} />
     </MenuItem>
   );

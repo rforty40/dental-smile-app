@@ -7,6 +7,7 @@ export * from "./dashboard/tipoConsSlice";
 export * from "./dashboard/tiposTratamSlice";
 export * from "./dashboard/procedSlice";
 export * from "./pacientes/pacientesSlice";
+export * from "./pacientes/consultasSlice";
 export * from "./global/dataSlice";
 
 export * from "./store";

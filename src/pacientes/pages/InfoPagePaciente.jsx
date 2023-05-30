@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Paper,
-  SvgIcon,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import {
   ButtonCustom,
   CustomAlert,
@@ -126,7 +117,18 @@ export const InfoPagePaciente = () => {
   };
 
   return (
-    <Box padding="20px">
+    <Box
+      padding="20px"
+      sx={{
+        height: "100%",
+        minHeight: "100vh",
+        width: "100%",
+        backgroundImage: " url(/assets/img/agendarCita.jpg)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+      }}
+    >
       <Box
         width="100%"
         display="flex"
@@ -196,7 +198,7 @@ export const InfoPagePaciente = () => {
                 padding: "20px",
                 margin: "0px 20px",
                 boxShadow: "3px 3px 5px rgba(0, 0, 0, 0.5)",
-                backgroundColor: "rgba(250,250,250, 0.6)",
+                backgroundColor: "rgba(250,250,250, 0.8)",
               }}
             >
               <Grid

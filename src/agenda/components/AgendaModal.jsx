@@ -31,7 +31,10 @@ import { useMemo, useState } from "react";
 
 import { useEffect } from "react";
 
-import { extraerFecha, retornarFecha } from "../helpers/formatedDataCite";
+import {
+  extraerFecha,
+  retornarHourWithNewDate,
+} from "../helpers/formatedDataCite";
 
 //
 //
@@ -153,8 +156,8 @@ export const AgendaModal = () => {
   //handler del cambio en la fecha
   const onChangeDatePicker = (newValue) => {
     setStateDatePicker(newValue);
-    setStateTimeIni((state) => retornarFecha(state, newValue));
-    setStateTimeFin((state) => retornarFecha(state, newValue));
+    setStateTimeIni((state) => retornarHourWithNewDate(state, newValue));
+    setStateTimeFin((state) => retornarHourWithNewDate(state, newValue));
   };
 
   //errores de fechas y horas
@@ -293,7 +296,7 @@ export const AgendaModal = () => {
               sx={{
                 display: "grid",
                 paddingTop: "15px",
-                alignItems: "center",
+                alignItems: "start",
                 gridTemplateColumns: "repeat(3, 1fr)",
                 gridTemplateRows: "repeat(4, max-content)",
                 gridTemplateAreas: !blockPaciente

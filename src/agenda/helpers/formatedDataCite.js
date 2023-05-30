@@ -1,18 +1,3 @@
-// console.log(pacientesList);
-
-// if (pacientesList[0]) {
-//   const pruebaFecha = pacientesList[0].create_paciente;
-//   console.log("pruebaFecha", pruebaFecha);
-
-//   let date = Date.parse(pruebaFecha);
-//   console.log(date);
-
-//   console.log(typeof date);
-//   let jsDate = new Date(date);
-
-//   console.log(jsDate);
-// }
-
 export const formatedDataCite = (citas) => {
   return citas.map((cita) => {
     return {
@@ -25,19 +10,7 @@ export const formatedDataCite = (citas) => {
   });
 };
 
-export const retornarFecha = (state, newValue) => {
-  return new Date(
-    Date.parse(
-      newValue
-        .toLocaleString("sv-SE", { hour12: false })
-        .split(" ")[0]
-        .replaceAll("-", "/") +
-        " " +
-        state.toLocaleString("sv-SE", { hour12: false }).split(" ")[1]
-    )
-  );
-};
-
+// new Date('2023-06-03T16:15:00.000Z') -->   '2023/06/03'
 export const formatearDataCiteToBD = (dataCita) => {
   return {
     fecha_citaAgen: dataCita.stateDatePicker
@@ -79,6 +52,22 @@ export const comprobarErrorCite = (typeError) => {
   return msgError;
 };
 
+// (new Date('2023-06-04T16:00:00.000Z'),new Date('2023-06-05T16:00:00.000Z'))
+//   new Date('2023-06-05T18:00:00.000Z')
+export const retornarHourWithNewDate = (state, newValue) => {
+  return new Date(
+    Date.parse(
+      newValue
+        .toLocaleString("sv-SE", { hour12: false })
+        .split(" ")[0]
+        .replaceAll("-", "/") +
+        " " +
+        state.toLocaleString("sv-SE", { hour12: false }).split(" ")[1]
+    )
+  );
+};
+
+// new Date('2023-06-05T04:59:59.000Z') -->   '2023/05/29'
 export const extraerFecha = (fecha) => {
   const fechaConvertida =
     fecha.getFullYear() +
@@ -86,7 +75,6 @@ export const extraerFecha = (fecha) => {
     String(fecha.getMonth() + 1).padStart(2, "0") +
     "/" +
     String(fecha.getDate()).padStart(2, "0");
-
   return fechaConvertida;
 };
 
@@ -103,35 +91,20 @@ export const arrMes = [
   "octubre",
   "noviembre",
   "diciembre",
-  " ", //12
 ];
 
+// 2024/06/13 --> junio_2024
 export const extractMesAnio = (fecha) => {
   return (
-    [arrMes[new Date(fecha.fecha_cita).getMonth()]] +
-    "_" +
-    new Date(fecha.fecha_cita).getFullYear()
+    [arrMes[new Date(fecha).getMonth()]] + "_" + new Date(fecha).getFullYear()
   );
 };
-
+// 4 --> "04"
 export const addZeroStr = (mes) => {
-  const mesString = mes.toString();
-  return mesString.length < 2 ? "0" + mesString : mesString;
+  return mes.toString().padStart(2, "0");
 };
 
-/* Función que suma o resta días a una fecha, si el parámetro
-   días es negativo restará los días*/
-export const sumarDias = (fecha, dias) => {
-  fecha.setDate(fecha.getDate() + dias);
-  return fecha;
-};
-// argumento 2023-05-24 salida 2023-05-25
-export const addDayDateEnd = (fechaFin) => {
-  const NewFechaFin = sumarDias(new Date(fechaFin.replaceAll("-", "/")), 1);
-
-  return extraerFecha(NewFechaFin).replaceAll("/", "-");
-};
-
+// new Date('2023-05-30T08:02:09.000Z') --> Martes, 30 de mayo de 2023
 export const DiaActualFormated = (today) => {
   let options = {
     weekday: "long",

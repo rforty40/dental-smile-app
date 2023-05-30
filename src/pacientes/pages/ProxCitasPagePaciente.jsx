@@ -42,7 +42,7 @@ export const ProxCitasPagePaciente = () => {
     changeBlockPaciente,
     changeDataCite,
     startDeletingCite,
-    stataOpenDeleteConf,
+    stateOpenDeleteConf,
     changeStateDeleteCofirm,
   } = useAgendaStore();
 
@@ -88,13 +88,11 @@ export const ProxCitasPagePaciente = () => {
     stateCita,
     stateDatesRange,
     stateOpenFormAgenda,
-    stataOpenDeleteConf,
+    stateOpenDeleteConf,
   ]);
 
   const handleOpenModalAgenda = () => {
-    changeTitleFormAgenda(
-      "Agendar cita odontológica para " + pacienteActivo.nombre
-    );
+    changeTitleFormAgenda("Agendar cita para " + pacienteActivo.nombre);
     changeStateFormAgenda(true);
     changeBlockPaciente(true);
     changeDataCite({
@@ -119,7 +117,19 @@ export const ProxCitasPagePaciente = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        height: "100%",
+        minHeight: "100vh",
+        width: "100%",
+
+        backgroundImage:
+          "linear-gradient(rgba(250,250,250, 0.2),rgba(250,250,250, 0.2)) , url(/assets/img/fondos/pacienteHistorial.jpg)",
+        backgroundRepeat: "no-repeat",
+        backgroundAttachment: "fixed",
+        backgroundSize: "cover",
+      }}
+    >
       <div className="headerFutCitas animate__animated animate__fadeInDown animate__faster">
         <Box
           width="100%"
@@ -183,7 +193,7 @@ export const ProxCitasPagePaciente = () => {
 
           <ButtonCustom
             altura={"60px"}
-            colorf={"rgba(255,255,255,0.6)"}
+            colorf={"rgba(255,255,255,0.9)"}
             colorh={"primary.main"}
             colort={"primary.main"}
             colorth={"white"}
@@ -221,7 +231,7 @@ export const ProxCitasPagePaciente = () => {
                       handlerPanel(titleMes, isExpanded);
                     }}
                     sx={{
-                      backgroundColor: "rgba(255,255,255,0.7)",
+                      backgroundColor: "rgba(255,255,255,0.8)",
                       marginBottom: "20px",
                       boxShadow: "5px 7px 7px rgba(0, 0, 0, 0.5)",
                     }}
@@ -317,7 +327,7 @@ export const ProxCitasPagePaciente = () => {
       <AgendaModal />
 
       <DeleteConfirm
-        stateOpen={stataOpenDeleteConf}
+        stateOpen={stateOpenDeleteConf}
         setStateOpen={changeStateDeleteCofirm}
         message={
           <>

@@ -39,7 +39,7 @@ export const useAgendaStore = () => {
     citasList,
     activeCita,
     errorRegCiteMessage,
-    stataOpenDeleteConf,
+    stateOpenDeleteConf,
     blockPaciente,
   } = useSelector((state) => state.agenda);
 
@@ -157,7 +157,7 @@ export const useAgendaStore = () => {
     errorRegCiteMessage,
     stateOpenFormAgenda,
     titleFormAgenda,
-    stataOpenDeleteConf,
+    stateOpenDeleteConf,
     blockPaciente,
 
     //* Métodos
