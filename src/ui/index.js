@@ -17,3 +17,5 @@ export * from "./components/FormInModal/CustomSelect";
 export * from "./components/CustomAlert";
 
 export * from "./components/CustomSearchBox";
+
+export * from "./components/CustomStandardTF";

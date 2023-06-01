@@ -225,6 +225,7 @@ export const ProxCitasPagePaciente = () => {
                 const titleMes = Object.keys(citaFu)[0];
                 return (
                   <Accordion
+                    defaultExpanded={true}
                     key={titleMes}
                     expanded={arrayPanel[`${titleMes}`]}
                     onChange={(event, isExpanded) => {

@@ -121,3 +121,7 @@ export const DiaActualFormated = (today) => {
     Resultado: Monday, January 27, 2020, UTC
 */
 };
+// 2022-06-22 --> 22/06/2022
+export const invertDateFormat = (fechaStr) => {
+  return fechaStr.split("-").reverse().join("/");
+};

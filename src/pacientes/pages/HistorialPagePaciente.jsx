@@ -31,18 +31,14 @@ import {
 } from "../../hooks";
 import { ProxCiteItem } from "../components/ProxCiteItem";
 import { AgendaModal } from "../../agenda/components";
+import { ConsultaItem } from "../components";
 //
 //
 //
 export const HistorialPagePaciente = () => {
   //
 
-  const {
-    futurasCitasList,
-    startLoadFuturasCitas,
-
-    pacienteActivo,
-  } = usePacienteStore();
+  const { pacienteActivo } = usePacienteStore();
 
   const { consultasList, errorLoadConsultas, startLoadConsultas } =
     useConsultasStore();
@@ -109,16 +105,11 @@ export const HistorialPagePaciente = () => {
 
   useEffect(() => {
     if (stateDatesRange.values !== null) {
-      // startLoadPanel(
-      //   "range",
-      //   stateDatesRange.fechaIni + " 00:00:00",
-      //   stateDatesRange.fechaFin + " 23:59:59"
-      // );
-      // startLoadGanancias(
-      //   "range",
-      //   stateDatesRange.fechaIni + " 00:00:00",
-      //   stateDatesRange.fechaFin + " 23:59:59"
-      // );
+      startLoadConsultas(
+        "range",
+        stateDatesRange.fechaIni,
+        stateDatesRange.fechaFin
+      );
     }
   }, [stateDatesRange]);
 
@@ -180,7 +171,7 @@ export const HistorialPagePaciente = () => {
   };
 
   //estado de los expansion Panel
-  const handlerPanel = (mes, isExpanded) => {
+  const handlerPanel = (mes, isExpanded = true) => {
     setArrayPanel({ ...arrayPanel, [`${mes}`]: isExpanded });
   };
 
@@ -225,13 +216,15 @@ export const HistorialPagePaciente = () => {
     return arrMes[value["$d"].getMonth()] + " " + value["$d"].getFullYear();
   };
 
+  let iteratorColor = 0;
   return (
     <div
       style={{
         height: "100%",
         minHeight: "100vh",
         width: "100%",
-        backgroundImage: " url(/assets/img/fondohistory.jpg)",
+        backgroundImage:
+          "linear-gradient(rgba(250,250,250, 0.3),rgba(250,250,250, 0.3)) , url(/assets/img/fondos/fondohistory.jpg)",
         backgroundRepeat: "no-repeat",
         backgroundAttachment: "fixed",
         backgroundSize: "cover",
@@ -317,25 +310,33 @@ export const HistorialPagePaciente = () => {
                 const titleMes = Object.keys(consultasArr)[0];
                 return (
                   <Accordion
+                    elevation={0}
                     key={titleMes}
+                    defaultExpanded={true}
                     expanded={arrayPanel[`${titleMes}`]}
                     onChange={(event, isExpanded) => {
                       handlerPanel(titleMes, isExpanded);
                     }}
                     sx={{
-                      backgroundColor: "rgba(255,255,255,0.7)",
+                      backgroundColor: "transparent",
+                      margin: "0px",
                       marginBottom: "20px",
-                      boxShadow: "5px 7px 7px rgba(0, 0, 0, 0.5)",
+
+                      "&:before": {
+                        display: "none",
+                      },
+
+                      // boxShadow: "5px 7px 7px rgba(0, 0, 0, 0.5)",
                     }}
                   >
                     <AccordionSummary
                       expandIcon={<ExpandMore />}
-                      aria-controls="panel1bh-content"
-                      id="panel1bh-header"
                       sx={{
+                        // borderTop: "2px solid",
+                        // borderTopColor: "blueSecondary.main",
                         borderBottom: "3px solid",
                         borderBottomColor: "blueSecondary.main",
-
+                        // backgroundColor: "rgba(255,255,255,0.2)",
                         svg: {
                           color: "blueSecondary.main",
                         },
@@ -356,6 +357,9 @@ export const HistorialPagePaciente = () => {
                           textTransform="capitalize"
                           fontSize="20px"
                           color="blueSecondary.main"
+                          sx={{
+                            backgroundColor: "rgba(255,255,255,0.2)",
+                          }}
                         >
                           {titleMes.replace("_", " ")}
                         </Typography>
@@ -366,6 +370,9 @@ export const HistorialPagePaciente = () => {
                           textTransform="capitalize"
                           fontSize="20px"
                           color="blueSecondary.main"
+                          sx={{
+                            backgroundColor: "rgba(255,255,255,0.2)",
+                          }}
                         >{`(${longArrCons})`}</Typography>
                       </Box>
                     </AccordionSummary>
@@ -374,27 +381,23 @@ export const HistorialPagePaciente = () => {
                       sx={{
                         display: "flex",
                         justifyContent: "center",
-                        padding: "30px 20px 60px 20px ",
+                        padding: "30px 20px 40px 20px ",
                       }}
                     >
                       <Box
                         width="95%"
                         display="flex"
                         flexDirection="column"
-                        rowGap="20px"
+                        rowGap="40px"
                       >
                         {consultasArr[Object.keys(consultasArr)[0]].map(
-                          (consulta, index) => {
+                          (consulta) => {
+                            iteratorColor++;
                             return (
-                              <Typography
-                                key={consulta.id_consulta}
-                                sx={{
-                                  color:
-                                    (index + 1) % 2 > 0 ? "orange" : "blue",
-                                }}
-                              >
-                                {JSON.stringify(consulta)}
-                              </Typography>
+                              <ConsultaItem
+                                iteratorColor={iteratorColor}
+                                consultaItem={consulta}
+                              />
                             );
                           }
                         )}

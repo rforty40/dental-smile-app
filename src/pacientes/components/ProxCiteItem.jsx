@@ -103,6 +103,7 @@ export const ProxCiteItem = ({ cita }) => {
               colorLabel="primary.main"
               font_we="bold"
               font_sty="italic"
+              fontWlbl="bold"
               InputProps={{ readOnly: true }}
               propsXS={{
                 "& .MuiOutlinedInput-root": {
@@ -114,7 +115,7 @@ export const ProxCiteItem = ({ cita }) => {
                 "&:hover fieldset": {
                   borderColor: "#602A90 !important ",
                 },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+                boxShadow: "none !important",
               }}
               iconEnd={
                 <Icon>
@@ -134,6 +135,7 @@ export const ProxCiteItem = ({ cita }) => {
               colorTxt="black"
               colorLabel="primary.main"
               font_we="bold"
+              fontWlbl="bold"
               font_sty="italic"
               InputProps={{ readOnly: true }}
               propsXS={{
@@ -146,7 +148,7 @@ export const ProxCiteItem = ({ cita }) => {
                 "&:hover fieldset": {
                   borderColor: "#602A90 !important ",
                 },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+                boxShadow: "none  !important",
               }}
               iconEnd={
                 <Icon>
@@ -166,6 +168,7 @@ export const ProxCiteItem = ({ cita }) => {
               colorTxt="black"
               colorLabel="primary.main"
               font_we="bold"
+              fontWlbl="bold"
               font_sty="italic"
               InputProps={{ readOnly: true }}
               propsXS={{
@@ -178,7 +181,7 @@ export const ProxCiteItem = ({ cita }) => {
                 "&:hover fieldset": {
                   borderColor: "#602A90 !important ",
                 },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+                boxShadow: "none  !important",
               }}
               iconEnd={
                 <Icon>
@@ -204,6 +207,7 @@ export const ProxCiteItem = ({ cita }) => {
               colorLabel="primary.main"
               font_we="bold"
               font_sty="italic"
+              fontWlbl="bold"
               propsXS={{
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
@@ -214,7 +218,7 @@ export const ProxCiteItem = ({ cita }) => {
                 "&:hover fieldset": {
                   borderColor: "#602A90 !important ",
                 },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
+                boxShadow: "none  !important",
               }}
               InputProps={{ readOnly: true }}
               iconEnd={
