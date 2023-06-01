@@ -10,8 +10,13 @@ import {
 } from "@mui/icons-material";
 import { extraerFecha } from "../../agenda/helpers/formatedDataCite";
 import { useAgendaStore, usePacienteStore } from "../../hooks";
+import { useNavigate } from "react-router-dom";
 
 export const ProxCiteItem = ({ cita }) => {
+  //
+
+  const navigate = useNavigate();
+
   const {
     changeStateFormAgenda,
     changeTitleFormAgenda,
@@ -35,6 +40,11 @@ export const ProxCiteItem = ({ cita }) => {
     changeDataCite(cita);
     changeStateDeleteCofirm(true);
   };
+
+  const handleOpenFormCons = () => {
+    navigate(`/pacientes/${pacienteActivo.id}/historial`);
+  };
+
   return (
     <>
       {/* <Box width="90%"> */}
@@ -271,6 +281,7 @@ export const ProxCiteItem = ({ cita }) => {
             colort="white"
             colorth="celesteNeon.main"
             txt_b="Atender"
+            onClick={handleOpenFormCons}
             iconB={<PostAddOutlined />}
           />
         </Grid>

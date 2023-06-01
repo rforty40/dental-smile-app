@@ -8,6 +8,14 @@ export const formatearDataTipConsToTable = (dataFromBD) => {
     };
   });
 };
+export const formatearDataTipConsBusq = (dataFromBD) => {
+  return dataFromBD.map((data) => {
+    return {
+      id: data.id_tipoConsul,
+      label: data.tipo_tipoConsul,
+    };
+  });
+};
 
 export const formatearDataTipConsToBD = (dataTipCons) => {
   return {

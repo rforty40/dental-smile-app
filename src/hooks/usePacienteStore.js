@@ -165,17 +165,20 @@ export const usePacienteStore = () => {
       });
 
       let iterator = 0;
-      let mesTemporal = Object.keys(arrayCitesMonth[0])[0];
+      // let mesTemporal = Object.keys(arrayCitesMonth[0])[0];
 
       //2do bucle
-      //
+      //Buscar extraer mes de la consulta para que coincida con los objetos del primer bucle
+      //buscar la ubicacion del array donde esta el objeto con la llave mes_año
       data.forEach((fecha) => {
         const nameMesAnio = extractMesAnio(fecha.fecha_cita);
 
-        if (mesTemporal !== nameMesAnio) {
-          iterator++;
-          mesTemporal = nameMesAnio;
-        }
+        arrayCitesMonth.forEach((element, index) => {
+          if (Object.keys(element)[0] === nameMesAnio) {
+            iterator = index;
+            return;
+          }
+        });
 
         arrayCitesMonth[iterator][`${nameMesAnio}`].push(
           formatedDataCite([fecha])[0]

@@ -23,7 +23,6 @@ export const PacienteHistorial = () => {
 
   const { startLoadAntecedentes } = useAntecedenteStore();
 
-  console.log(localStorage.getItem("lastTabPaciente"));
   const [hookTabs, setHookTabs] = useState(
     parseInt(localStorage.getItem("lastTabPaciente")) || 0
   );

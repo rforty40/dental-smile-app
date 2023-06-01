@@ -5,6 +5,7 @@ export const tipoConsSlice = createSlice({
   //
   initialState: {
     tipoConsList: [],
+    tipoConsListBusq: [],
     tipoConsActivo: null,
     errorMsgRegTipoCons: { msg: "", error: "" },
   },
@@ -15,6 +16,9 @@ export const tipoConsSlice = createSlice({
 
     onLoadTipoConsList: (state, { payload }) => {
       state.tipoConsList = payload;
+    },
+    onLoadTipoConsListBusq: (state, { payload }) => {
+      state.tipoConsListBusq = payload;
     },
 
     onSaveTipoCons: (state, { payload }) => {
@@ -62,4 +66,5 @@ export const {
   onDeleteTipoCons,
   onChangeRegErrTipCons,
   clearErrorTipConsMsg,
+  onLoadTipoConsListBusq,
 } = tipoConsSlice.actions;

@@ -10,13 +10,12 @@ export const formatedDataCite = (citas) => {
   });
 };
 
-// new Date('2023-06-03T16:15:00.000Z') -->   '2023/06/03'
+// new Date('2023-06-03T16:15:00.000Z') -->   '2023-06-03'
 export const formatearDataCiteToBD = (dataCita) => {
   return {
     fecha_citaAgen: dataCita.stateDatePicker
       .toLocaleString("sv-SE", { hour12: false })
-      .split(" ")[0]
-      .replaceAll("-", "/"),
+      .split(" ")[0],
 
     horaIni_citaAgen: dataCita.stateTimeIni
       .toLocaleString("sv-SE", { hour12: false })

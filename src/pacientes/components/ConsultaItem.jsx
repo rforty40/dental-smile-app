@@ -10,12 +10,14 @@ import {
   SegmentOutlined,
 } from "@mui/icons-material";
 
-import { useAgendaStore, usePacienteStore } from "../../hooks";
+import {
+  useAgendaStore,
+  useConsultasStore,
+  usePacienteStore,
+} from "../../hooks";
 import { invertDateFormat } from "../../agenda/helpers/formatedDataCite";
 
 export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
-  console.log(consultaItem);
-
   const colorChoose = iteratorColor % 2 > 0 ? true : false;
 
   // const {
@@ -26,21 +28,25 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
   //   changeStateDeleteCofirm,
   // } = useAgendaStore();
 
-  // const { pacienteActivo } = usePacienteStore();
+  const {
+    changeDataConsulta,
+    changeStateFormCons,
+    changeTitleFormCons,
+    changeStateDelCons,
+  } = useConsultasStore();
 
-  // const handleOpenFormEditCite = () => {
-  //   changeDataCite(cita);
-  //   changeTitleFormAgenda(
-  //     "Editar cita odontológica de " + pacienteActivo.nombre
-  //   );
-  //   changeStateFormAgenda(true);
-  //   changeBlockPaciente(true);
-  // };
+  const { pacienteActivo } = usePacienteStore();
 
-  // const handleOpenFormDeleteCite = () => {
-  //   changeDataCite(cita);
-  //   changeStateDeleteCofirm(true);
-  // };
+  const handleOpenFormEditCite = () => {
+    changeDataConsulta(consultaItem);
+    changeTitleFormCons("Editar consulta odontológica");
+    changeStateFormCons(true);
+  };
+
+  const handleOpenFormDeleteCite = () => {
+    changeDataConsulta(consultaItem);
+    changeStateDelCons(true);
+  };
 
   const diagnosticosStr = consultaItem.diagnositcos.reduce((acc, diag) => {
     acc = `${acc}\n${
@@ -51,7 +57,6 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
     }`;
     return acc;
   }, "");
-  console.log(diagnosticosStr);
 
   return (
     <>
@@ -81,7 +86,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           gridTemplateColumns: "8% 62% 20% 10%",
           gridTemplateRows: "repeat(2, max-content)",
           gridTemplateAreas: `". . infoCons infoCons" 
-              "icono motivo motivo botones"`,
+              "icono info info botones"`,
 
           rowGap: "15px",
         }}
@@ -110,7 +115,8 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           display="flex"
           flexDirection="row"
           alignItems="start"
-          justifyContent="center"
+          justifyContent="end"
+          paddingRight="15px"
           columnGap="15px"
         >
           <Typography
@@ -149,116 +155,9 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
           </Typography>
         </Grid>
 
-        {/* <Grid
-          item
-          gridArea="dates"
-          display="flex"
-          flexDirection="row"
-          justifyContent="space-between"
-          columnGap="20px"
-        >
-          <div>
-            <IconTextField
-              label="Fecha:"
-              type="text"
-              //   value={"2023/06/14"}
-              // value={activeCita.fecha_cita}
-              // value={cita.fecha_cita}
-              colorIcon="primary.main"
-              colorHover="primary.main"
-              colorTxt="black"
-              colorLabel="primary.main"
-              font_we="bold"
-              font_sty="italic"
-              InputProps={{ readOnly: true }}
-              propsXS={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    border: "2px solid",
-                    borderColor: "primary.main",
-                  },
-                },
-                "&:hover fieldset": {
-                  borderColor: "#602A90 !important ",
-                },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
-              }}
-              iconEnd={
-                <Icon>
-                  <Event />
-                </Icon>
-              }
-            />
-          </div>
-          <div>
-            <IconTextField
-              label="Hora Inicio:"
-              type="text"
-              // value={cita.hora_inicio}
-              // value={activeCita.hora_inicio}
-              colorIcon="primary.main"
-              colorHover="primary.main"
-              colorTxt="black"
-              colorLabel="primary.main"
-              font_we="bold"
-              font_sty="italic"
-              InputProps={{ readOnly: true }}
-              propsXS={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    border: "2px solid",
-                    borderColor: "primary.main",
-                  },
-                },
-                "&:hover fieldset": {
-                  borderColor: "#602A90 !important ",
-                },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
-              }}
-              iconEnd={
-                <Icon>
-                  <AccessTime />
-                </Icon>
-              }
-            />{" "}
-          </div>
-          <div>
-            <IconTextField
-              label="Hora Fin:"
-              type="text"
-              // value={cita.hora_fin}
-              // value={activeCita.hora_inicio}
-              colorIcon="primary.main"
-              colorHover="primary.main"
-              colorTxt="black"
-              colorLabel="primary.main"
-              font_we="bold"
-              font_sty="italic"
-              InputProps={{ readOnly: true }}
-              propsXS={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    border: "2px solid",
-                    borderColor: "primary.main",
-                  },
-                },
-                "&:hover fieldset": {
-                  borderColor: "#602A90 !important ",
-                },
-                boxShadow: "3px 5px 5px rgba(0, 0, 0, 0.5)  !important",
-              }}
-              iconEnd={
-                <Icon>
-                  <AccessTime />
-                </Icon>
-              }
-            />{" "}
-          </div>
-        </Grid> */}
-
         <Grid
           item
-          gridArea="motivo"
+          gridArea="info"
           display="flex"
           rowGap="15px"
           flexDirection="column"
@@ -358,7 +257,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
             flexDir="column-reverse"
             txt_b="Editar"
             fontW="bold"
-            // onClick={handleOpenFormEditCite}
+            onClick={handleOpenFormEditCite}
             iconB={<EditNoteOutlined />}
             propsXS={{ boxShadow: "none !important" }}
           />
@@ -373,7 +272,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
             flexDir="column-reverse"
             txt_b="Eliminar"
             fontW="bold"
-            // onClick={handleOpenFormDeleteCite}
+            onClick={handleOpenFormDeleteCite}
             iconB={<DeleteOutlined />}
             propsXS={{ boxShadow: "none !important" }}
           />

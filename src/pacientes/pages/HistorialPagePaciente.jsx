@@ -31,7 +31,7 @@ import {
 } from "../../hooks";
 import { ProxCiteItem } from "../components/ProxCiteItem";
 import { AgendaModal } from "../../agenda/components";
-import { ConsultaItem } from "../components";
+import { ConsultaItem, FormModalCons } from "../components";
 //
 //
 //
@@ -40,23 +40,21 @@ export const HistorialPagePaciente = () => {
 
   const { pacienteActivo } = usePacienteStore();
 
-  const { consultasList, errorLoadConsultas, startLoadConsultas } =
-    useConsultasStore();
+  const {
+    consultasList,
+    errorLoadConsultas,
+    stateOpenDelCons,
+    startLoadConsultas,
+    startDeletingConsulta,
+    changeStateFormCons,
+    changeTitleFormCons,
+    changeStateDelCons,
+    changeDataConsulta,
+  } = useConsultasStore();
 
   useEffect(() => {
     startLoadConsultas("no_filtros", "_", "_");
-  }, []);
-
-  const {
-    stateOpenFormAgenda,
-    changeStateFormAgenda,
-    changeTitleFormAgenda,
-    changeBlockPaciente,
-    changeDataCite,
-    startDeletingCite,
-    stataOpenDeleteConf,
-    changeStateDeleteCofirm,
-  } = useAgendaStore();
+  }, [pacienteActivo]);
 
   //hooks
   //rangoDeFechas
@@ -101,6 +99,10 @@ export const HistorialPagePaciente = () => {
       fechaIni: rangeString[0],
       fechaFin: rangeString[1],
     });
+
+    if (values === null) {
+      startLoadConsultas("no_filtros", "_", "_");
+    }
   };
 
   useEffect(() => {
@@ -128,12 +130,16 @@ export const HistorialPagePaciente = () => {
       valueYear: date,
       anioStr: dateString,
     });
+
+    if (date === null) {
+      startLoadConsultas("no_filtros", "_", "_");
+    }
   };
 
   useEffect(() => {
     if (statePickerYear.valueYear !== null) {
-      // startLoadPanel("anio", statePickerYear.anioStr, "_");
-      // startLoadGanancias("anio", statePickerYear.anioStr, "_");
+      console.log(statePickerYear.anioStr);
+      startLoadConsultas("anio", statePickerYear.anioStr, "_");
     }
   }, [statePickerYear]);
 
@@ -153,6 +159,10 @@ export const HistorialPagePaciente = () => {
       valueMonth: date,
       mesStr: dateString,
     });
+
+    if (date === null) {
+      startLoadConsultas("no_filtros", "_", "_");
+    }
   };
 
   useEffect(() => {
@@ -161,40 +171,20 @@ export const HistorialPagePaciente = () => {
         statePickerMonth.mesStr.split(" ")[1] +
         addZeroStr(arrMes.indexOf(statePickerMonth.mesStr.split(" ")[0]) + 1);
 
-      // startLoadPanel("mes", mesAnio, "_");
-      // startLoadGanancias("mes", mesAnio, "_");
+      startLoadConsultas("mes", mesAnio, "_");
     }
   }, [statePickerMonth]);
-
-  const funcSearch = () => {
-    // startLoadFuturasCitas(stateDatesRange.fechaIni, stateDatesRange.fechaFin);
-  };
 
   //estado de los expansion Panel
   const handlerPanel = (mes, isExpanded = true) => {
     setArrayPanel({ ...arrayPanel, [`${mes}`]: isExpanded });
   };
 
-  useEffect(() => {
-    funcSearch();
-  }, [
-    pacienteActivo,
-    stateDatesRange,
-    stateOpenFormAgenda,
-    stataOpenDeleteConf,
-  ]);
-
-  //Todo modal consulta
-  const handleOpenModalAgenda = () => {
-    changeTitleFormAgenda(
-      "Agendar cita odontológica para " + pacienteActivo.nombre
-    );
-    changeStateFormAgenda(true);
-    changeBlockPaciente(true);
-    changeDataCite({
-      start: new Date(),
-      end: new Date(0, 0, 0, new Date().getHours() + 2),
-    });
+  //abrir modal registrar consuta
+  const handleOpenModalCons = () => {
+    changeTitleFormCons("Registrar consulta odontológica");
+    changeStateFormCons(true);
+    changeDataConsulta(null);
   };
 
   //control alert
@@ -207,8 +197,8 @@ export const HistorialPagePaciente = () => {
   };
 
   //Confirm Dialog
-  const deleteRegisterCita = () => {
-    startDeletingCite();
+  const deleteRegisterConsulta = () => {
+    startDeletingConsulta();
     handleOpenSnackbar();
   };
 
@@ -287,7 +277,7 @@ export const HistorialPagePaciente = () => {
               // width: "100px",
             }}
             iconB={<FaNotesMedical />}
-            onClick={handleOpenModalAgenda}
+            onClick={handleOpenModalCons}
           />
         </Box>
       </div>
@@ -412,14 +402,14 @@ export const HistorialPagePaciente = () => {
           ""
         )}
       </div>
-      <AgendaModal />
+      <FormModalCons />
 
       <DeleteConfirm
-        stateOpen={stataOpenDeleteConf}
-        setStateOpen={changeStateDeleteCofirm}
+        stateOpen={stateOpenDelCons}
+        setStateOpen={changeStateDelCons}
         message={
           <>
-            ¿Está segura que desea eliminar la cita agendada de
+            ¿Está segura que desea eliminar la consulta de
             <span style={{ color: "#9c27b0" }}>
               {pacienteActivo.nombre !== undefined &&
                 ` ${pacienteActivo.nombre}`}
@@ -427,13 +417,13 @@ export const HistorialPagePaciente = () => {
             ?
           </>
         }
-        funcionDelete={deleteRegisterCita}
+        funcionDelete={deleteRegisterConsulta}
       />
       <CustomAlert
         stateSnackbar={stateSnackbar}
         handleCloseSnackbar={handleCloseSnackbar}
         title={"Completado"}
-        message={"Cita eliminada"}
+        message={"Consulta eliminada"}
         colorbg="blueSecondary.main"
         colortxt="white"
         iconAlert={<DeleteForever sx={{ color: "white" }} />}

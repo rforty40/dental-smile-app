@@ -10,12 +10,14 @@ import {
   onChangeRegErrTipCons,
   onDeleteTipoCons,
   onLoadTipoConsList,
+  onLoadTipoConsListBusq,
   onSaveTipoCons,
   onSetActiveTipoCons,
   onUpdateTipoCons,
 } from "../store";
 import {
   comprobarErrorTipCons,
+  formatearDataTipConsBusq,
   formatearDataTipConsToBD,
   formatearDataTipConsToTable,
 } from "../dashboard/helpers";
@@ -31,9 +33,12 @@ export const useTipConsStore = () => {
 
   const dispatch = useDispatch();
 
-  const { tipoConsList, tipoConsActivo, errorMsgRegTipoCons } = useSelector(
-    (state) => state.tipoCons
-  );
+  const {
+    tipoConsList,
+    tipoConsActivo,
+    errorMsgRegTipoCons,
+    tipoConsListBusq,
+  } = useSelector((state) => state.tipoCons);
 
   //funciones
   const startLoadTipConsList = async () => {
@@ -41,6 +46,7 @@ export const useTipConsStore = () => {
       const { data } = await getTipoDeCons();
       // console.log(data);
       dispatch(onLoadTipoConsList(formatearDataTipConsToTable(data)));
+      dispatch(onLoadTipoConsListBusq(formatearDataTipConsBusq(data)));
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -105,6 +111,7 @@ export const useTipConsStore = () => {
     tipoConsList,
     tipoConsActivo,
     errorMsgRegTipoCons,
+    tipoConsListBusq,
     //* Métodos
     startLoadTipConsList,
     changeDataTipCons,
