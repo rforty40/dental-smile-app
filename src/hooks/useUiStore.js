@@ -2,8 +2,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   onChangePage,
   onChangeSidebar,
-  onChangeConfirmDelete,
-  onLoadDataActiva,
+  onChangeHookTabs,
+  onChangeHookTabsCons,
 } from "../store";
 
 //
@@ -14,23 +14,14 @@ export const useUiStore = () => {
 
   const dispatch = useDispatch();
 
-  const { isSidebarOpen, pageActive, isConfirmDeleteOpen, dataActiva } =
-    useSelector((state) => state.ui);
+  const { isSidebarOpen, pageActive, hookTabs, hookTabsCons } = useSelector(
+    (state) => state.ui
+  );
 
   const changeSidebar = (flag) => {
     dispatch(onChangeSidebar(flag));
   };
 
-  // const changePage = () => {
-  //   const { pathname } = window.location;
-  //   console.log(pathname);
-  //   let pathnameCut = pathname.substring(1, pathname.length);
-  //   pathnameCut = pathnameCut.charAt(0).toUpperCase() + pathnameCut.slice(1);
-  //   if (pathnameCut === "Administracion") {
-  //     pathnameCut = "Administración";
-  //   }
-  //   dispatch(onChangePage(pathnameCut));
-  // };
   const changePage = () => {
     const { pathname } = window.location;
     const pathnameCut = pathname.substring(0, 17);
@@ -45,24 +36,27 @@ export const useUiStore = () => {
     dispatch(onChangePage(pageActive));
   };
 
-  const changeModalConfDel = (flag) => {
-    dispatch(onChangeConfirmDelete(flag));
+  const handleChangeTabs = (newValue) => {
+    dispatch(onChangeHookTabs(newValue));
+    localStorage.setItem("lastTabPaciente", newValue);
   };
-  const changeDataActiva = (dataRow) => {
-    dispatch(onLoadDataActiva(dataRow));
+
+  const handleChangeTabsCons = (newValue) => {
+    dispatch(onChangeHookTabsCons(newValue));
+    localStorage.setItem("lastTabPacienteCons", newValue);
   };
   //
   return {
     //* Propiedades
     isSidebarOpen,
     pageActive,
-    isConfirmDeleteOpen,
-    dataActiva,
+    hookTabs,
+    hookTabsCons,
 
     //* Métodos
     changeSidebar,
     changePage,
-    changeModalConfDel,
-    changeDataActiva,
+    handleChangeTabs,
+    handleChangeTabsCons,
   };
 };

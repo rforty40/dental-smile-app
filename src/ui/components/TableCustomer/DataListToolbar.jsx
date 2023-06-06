@@ -18,7 +18,7 @@ import { DeleteConfirm } from "../FormInModal/DeleteConfirm";
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled(Toolbar)(({ theme }) => ({
-  height: 80,
+  height: 70,
   display: "flex",
   justifyContent: "space-between",
   padding: theme.spacing(0, 1, 0, 3),
@@ -95,7 +95,7 @@ export const DataListToolbar = ({
           >
             <Typography
               className="text-shadow"
-              variant="h5"
+              variant="h6"
               sx={{
                 color: bgHeaderColor === "primary.main" ? "white" : "black",
               }}

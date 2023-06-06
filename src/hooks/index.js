@@ -10,3 +10,4 @@ export * from "./useTipConsStore";
 export * from "./useTipTratamStore";
 export * from "./useProcedStore";
 export * from "./useConsultasStore";
+export * from "./useExamenesStore";

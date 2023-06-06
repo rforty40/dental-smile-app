@@ -44,6 +44,7 @@ export const HistorialPagePaciente = () => {
     consultasList,
     errorLoadConsultas,
     stateOpenDelCons,
+
     startLoadConsultas,
     startDeletingConsulta,
     changeStateFormCons,

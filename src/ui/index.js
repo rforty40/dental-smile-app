@@ -19,3 +19,4 @@ export * from "./components/CustomAlert";
 export * from "./components/CustomSearchBox";
 
 export * from "./components/CustomStandardTF";
+export * from "./components/CustomTab.jsx";

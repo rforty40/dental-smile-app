@@ -66,6 +66,7 @@ export const useAgendaStore = () => {
   const startLoadCites = async () => {
     try {
       const { data } = await getAllCites();
+
       dispatch(onLoadCitas(formatedDataCite(data)));
     } catch (error) {
       console.log("Error cargando lista de citas");
@@ -115,7 +116,7 @@ export const useAgendaStore = () => {
       );
 
       //guardando y actualizando el store
-      // console.log(data);
+      console.log(data);
       dispatch(onUpdateCita(formatedDataCite([data])[0]));
       dispatch(onSetActiveCita(formatedDataCite([data])[0]));
 
@@ -132,6 +133,20 @@ export const useAgendaStore = () => {
           error: comprobarErrorCite(error.response.data.message),
         })
       );
+    } finally {
+      startLoadCites();
+    }
+  };
+
+  const startUpdatingCitaState = async (fechaCite, horaIni, dataCite) => {
+    console.log(dataCite);
+
+    try {
+      await updateCita(fechaCite.replaceAll("/", "-"), horaIni, dataCite);
+      //
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
     } finally {
       startLoadCites();
     }
@@ -170,5 +185,6 @@ export const useAgendaStore = () => {
     startSavingCita,
     startUpdatingCita,
     startDeletingCite,
+    startUpdatingCitaState,
   };
 };

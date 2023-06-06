@@ -315,6 +315,7 @@ export const CustomTable = ({
 
   //useEffect para actualizar los registros totales
   useEffect(() => {
+    console.log("console");
     setDataTotal(filteredUsers.length);
   }, [filteredUsers]);
 
@@ -579,7 +580,10 @@ export const CustomTable = ({
         </TableContainer>
 
         <TablePagination
-          sx={{ backgroundColor: bgColorPagination, fontWeight: "bold" }}
+          sx={{
+            backgroundColor: bgColorPagination,
+            fontWeight: "bold",
+          }}
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
           count={dataTotal}

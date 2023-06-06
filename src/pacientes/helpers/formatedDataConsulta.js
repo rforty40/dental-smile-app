@@ -30,6 +30,13 @@ const columnEquivalentCons = {
   mot_consulta: "Motivo de consulta",
 };
 
+const columnEquivalentSignVit = {
+  temp_signoVital: "Temperatura",
+  presArt_signoVital: "Presión arterial",
+  freCar_signoVital: "Frecuencia cardíaca",
+  freRes_signoVital: "Frecuencia respiratoria",
+};
+
 export const comprobarErrorCons = (typeError) => {
   let msgError = "";
   if (typeError.includes("Data too long for column")) {
@@ -37,6 +44,27 @@ export const comprobarErrorCons = (typeError) => {
     for (const key in columnEquivalentCons) {
       if (typeError.includes(key)) {
         campo = columnEquivalentCons[key];
+        break;
+      }
+    }
+    msgError = "Se excedió el límite en el campo " + campo;
+  } else {
+    msgError =
+      "Error: " +
+      typeError +
+      ". Para mas información contactese con el administrador";
+  }
+
+  return msgError;
+};
+
+export const comprobarErrorSignVit = (typeError) => {
+  let msgError = "";
+  if (typeError.includes("Data too long for column")) {
+    let campo = "";
+    for (const key in columnEquivalentSignVit) {
+      if (typeError.includes(key)) {
+        campo = columnEquivalentSignVit[key];
         break;
       }
     }

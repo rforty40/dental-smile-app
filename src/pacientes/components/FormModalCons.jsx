@@ -31,7 +31,11 @@ import {
   IconTextField,
 } from "../../ui";
 
-import { useConsultasStore, useTipConsStore } from "../../hooks";
+import {
+  useAgendaStore,
+  useConsultasStore,
+  useTipConsStore,
+} from "../../hooks";
 
 //
 //
@@ -44,10 +48,11 @@ export const FormModalCons = () => {
     stateOpenFormCons,
     titleFormConsulta,
     errorMsgRegCons,
-    changeDataConsulta,
     changeStateFormCons,
     startSavingConsulta,
   } = useConsultasStore();
+
+  const { startUpdatingCitaState } = useAgendaStore();
 
   const { tipoConsListBusq, startLoadTipConsList } = useTipConsStore();
   //lista de pacientes traida de la store
@@ -113,30 +118,41 @@ export const FormModalCons = () => {
   };
   //control formulario de registro y edición
   useEffect(() => {
+    console.log("cambio");
+    console.log(consultaActiva);
     if (consultaActiva) {
+      console.log("esta en editar");
       // if (titleFormConsulta.includes("Editar")) {
       //
       //setear datos
-      setStateTipConsList(
-        tipoConsListBusq.find(
-          (tipCons) => tipCons.id === consultaActiva.id_tipoConsul
-        )
+      const tipoConsulta = tipoConsListBusq.find(
+        (tipCons) => tipCons.id === consultaActiva.id_tipoConsul
       );
+
+      setStateTipConsList(tipoConsulta === undefined ? null : tipoConsulta);
       setStateDatePicker(consultaActiva.fecha_consulta_date);
       setStateTimeIni(consultaActiva.hora_consulta_date);
       setStateMotivo(consultaActiva.mot_consulta);
       setStateProbl(consultaActiva.probleAct_consulta);
 
+      // }
+    } else {
+      resetInputText();
+      console.log("esta en registro");
+    }
+  }, [consultaActiva]);
+
+  useEffect(() => {
+    if (titleFormConsulta.includes("Editar")) {
       setTxtButton("Actualizar");
       setMsgAlert(`Se actualizaron los datos de la consulta 🙂.`);
       //
       // }
     } else {
-      resetInputText();
       setTxtButton("Registrar");
       setMsgAlert(`Se registro una nueva consulta odontológica 🙂.`);
     }
-  }, [titleFormConsulta, consultaActiva]);
+  }, [titleFormConsulta]);
 
   //errores de fechas y horas
   const errorMsgDate = useMemo(() => {
@@ -200,6 +216,13 @@ export const FormModalCons = () => {
         stateMotivo,
         stateProbl,
       });
+      if (consultaActiva.updateCita === true) {
+        startUpdatingCitaState(
+          consultaActiva.fecha_cita,
+          consultaActiva.hora_inicio_cite,
+          { esta_citaAgen: "Atendida" }
+        );
+      }
     }
   };
   //manejador de errores todos los campos
@@ -208,7 +231,11 @@ export const FormModalCons = () => {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-      resetInputText();
+
+      //cuando el registro es exitoso
+      if (!titleFormConsulta.includes("Editar")) {
+        resetInputText();
+      }
     }
     if (errorMsgRegCons.msg === "Hay errores" && formSubmitted) {
       handleOpenSnackbarError();

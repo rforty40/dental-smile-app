@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Tab, Tabs, Typography } from "@mui/material";
 import { useAntecedenteStore, usePacienteStore, useUiStore } from "../../hooks";
 import {
@@ -17,20 +17,19 @@ import { ProxCitasPagePaciente } from "./ProxCitasPagePaciente";
 export const PacienteHistorial = () => {
   //
 
-  const { changePage } = useUiStore();
+  const { changePage, hookTabs, handleChangeTabs } = useUiStore();
 
   const { pacienteActivo, startLoadPaciente } = usePacienteStore();
 
   const { startLoadAntecedentes } = useAntecedenteStore();
 
-  const [hookTabs, setHookTabs] = useState(
-    parseInt(localStorage.getItem("lastTabPaciente")) || 0
-  );
+  // const [hookTabs, setHookTabs] = useState(
+  //   parseInt(localStorage.getItem("lastTabPaciente")) || 0
+  // );
 
-  const handleChangeTabs = (event, newValue) => {
-    setHookTabs(newValue);
-    localStorage.setItem("lastTabPaciente", newValue);
-  };
+  useEffect(() => {
+    handleChangeTabs(parseInt(localStorage.getItem("lastTabPaciente")) || 0);
+  }, []);
 
   const { id_pac } = useParams();
 
@@ -71,7 +70,12 @@ export const PacienteHistorial = () => {
           </span>
         </Typography>
 
-        <Tabs value={hookTabs} onChange={handleChangeTabs}>
+        <Tabs
+          value={hookTabs}
+          onChange={(event, newValue) => {
+            handleChangeTabs(newValue);
+          }}
+        >
           <Tab
             sx={{ color: "black" }}
             icon={<ContactPage />}
@@ -98,12 +102,3 @@ export const PacienteHistorial = () => {
     </div>
   );
 };
-
-/* <Box height="100%" padding="20px">
-        <div style={{ display: hookTabs === 0 ? "flex" : "none" }}>
-          <InfoPagePaciente />
-        </div>
-        <div style={{ display: hookTabs === 1 ? "flex" : "none" }}>
-          <HistorialPagePaciente />
-        </div>
-      </Box> */

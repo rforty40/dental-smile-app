@@ -6,8 +6,8 @@ export const uiSlice = createSlice({
   initialState: {
     pageActive: "",
     isSidebarOpen: false,
-    isConfirmDeleteOpen: false,
-    // dataActiva: {},
+    hookTabs: 0,
+    hookTabsCons: 0,
   },
 
   reducers: {
@@ -18,21 +18,19 @@ export const uiSlice = createSlice({
       state.pageActive = payload;
     },
 
-    onChangeConfirmDelete: (state, { payload }) => {
-      state.isConfirmDeleteOpen = payload;
+    onChangeHookTabs: (state, { payload }) => {
+      state.hookTabs = payload;
     },
 
-    // onLoadDataActiva: (state, { payload }) => {
-    //   state.dataActiva = {
-    //     ...payload,
-    //   };
-    // },
+    onChangeHookTabsCons: (state, { payload }) => {
+      state.hookTabsCons = payload;
+    },
   },
 });
 
 export const {
   onChangeSidebar,
   onChangePage,
-  onChangeConfirmDelete,
-  // onLoadDataActiva,
+  onChangeHookTabs,
+  onChangeHookTabsCons,
 } = uiSlice.actions;

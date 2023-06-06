@@ -11,7 +11,7 @@ import {
   Slide,
   Typography,
 } from "@mui/material";
-import { useUiStore } from "../../../hooks";
+
 import { ButtonCustom } from "./ButtonCustom";
 import { GiConfirmed } from "react-icons/gi";
 

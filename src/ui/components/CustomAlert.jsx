@@ -9,11 +9,13 @@ export const CustomAlert = ({
   colortxt,
   iconAlert,
   hideDuration = 3000,
+  posVer = "bottom",
+  posHor = "right",
 }) => {
   return (
     <Snackbar
       open={stateSnackbar}
-      anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+      anchorOrigin={{ vertical: posVer, horizontal: posHor }}
       onClose={handleCloseSnackbar}
       autoHideDuration={hideDuration}
       TransitionComponent={Grow}

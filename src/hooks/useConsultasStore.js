@@ -1,9 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
   createConsulta,
+  createSignosVitales,
   deleteConsulta,
+  getConsultaById,
   getConsultas,
+  getSignosVitales,
   updateConsulta,
+  updateSignosVitales,
 } from "../api/consultas.api";
 import {
   changeErrorLoadConsultas,
@@ -13,14 +17,19 @@ import {
   onChangeOpenFormCons,
   onChangeTitleFormCons,
   onLoadConsultasList,
+  onLoadPacActivo,
   onSetActivaConsulta,
+  onSetActiveSignVit,
 } from "../store";
 import { extractMesAnio } from "../agenda/helpers/formatedDataCite";
 import {
   comprobarErrorCons,
+  comprobarErrorSignVit,
   formatearDataConsToBD,
+  formatearDataPacToTable,
   formatedDataConsulta,
 } from "../pacientes/helpers";
+import { getPacienteById } from "../api/pacientes.api";
 
 //
 //
@@ -38,6 +47,7 @@ export const useConsultasStore = () => {
     titleFormConsulta,
     errorMsgRegCons,
     stateOpenDelCons,
+    signosVitales,
   } = useSelector((state) => state.consultas);
 
   //
@@ -125,17 +135,23 @@ export const useConsultasStore = () => {
     try {
       if (consData.id) {
         //actualizar
-        await updateConsulta(
+        const { data } = await updateConsulta(
           pacienteActivo.id,
           consData.id,
           formatearDataConsToBD(consData)
         );
+        console.log(data);
+
+        dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
       } else {
         //registrar
-        await createConsulta(
+        const { data } = await createConsulta(
           pacienteActivo.id,
           formatearDataConsToBD(consData)
         );
+
+        console.log(data);
+        dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
       }
 
       //actualizar errores
@@ -164,6 +180,70 @@ export const useConsultasStore = () => {
       startLoadConsultas("no_filtros", "_", "_");
     }
   };
+
+  const startLoadConsulta = async (id_pac, id_cons) => {
+    try {
+      const { data: dataPac } = await getPacienteById(id_pac);
+      const { data: dataCons } = await getConsultaById(id_pac, id_cons);
+      console.log(dataCons);
+      dispatch(onLoadPacActivo(formatearDataPacToTable([dataPac])[0]));
+      dispatch(onSetActivaConsulta(formatedDataConsulta([dataCons])[0]));
+    } catch (error) {
+      console.log("Error cargando datos de la consulta por ID");
+      console.log(error);
+    }
+  };
+
+  const startLoadSignVit = async () => {
+    try {
+      const { data } = await getSignosVitales(
+        pacienteActivo.id,
+        consultaActiva.id_consulta
+      );
+      console.log(data);
+      dispatch(onSetActiveSignVit(data));
+    } catch (error) {
+      console.log(error);
+      console.log("Error cargando signos vitales");
+      dispatch(onSetActiveSignVit(null));
+    }
+  };
+
+  const startSavingSignVit = async (signVitales) => {
+    dispatch(clearErrorMessageCons());
+    try {
+      if (signVitales.id_signoVital) {
+        //actualizar
+        const { data } = await updateSignosVitales(
+          consultaActiva.id_consulta,
+          signVitales.id_signoVital,
+          signVitales
+        );
+        dispatch(onSetActiveSignVit(data));
+      } else {
+        //registrar
+        const { data } = await createSignosVitales(
+          consultaActiva.id_consulta,
+          signVitales
+        );
+        dispatch(onSetActiveSignVit(data));
+      }
+
+      //actualizar errores
+      dispatch(changeRegisterErrorCons({ msg: "Sin errores", error: "" }));
+    } catch (error) {
+      console.log(error);
+      console.log(error.response.data.message);
+      dispatch(
+        changeRegisterErrorCons({
+          msg: "Hay errores",
+          error: comprobarErrorSignVit(error.response.data.message),
+        })
+      );
+    } finally {
+      startLoadConsultas("no_filtros", "_", "_");
+    }
+  };
   return {
     //* Propiedades
     consultaActiva,
@@ -173,6 +253,7 @@ export const useConsultasStore = () => {
     titleFormConsulta,
     errorMsgRegCons,
     stateOpenDelCons,
+    signosVitales,
     //* Métodos
     changeDataConsulta,
     startLoadConsultas,
@@ -181,5 +262,9 @@ export const useConsultasStore = () => {
     changeTitleFormCons,
     startSavingConsulta,
     startDeletingConsulta,
+    startLoadConsulta,
+
+    startLoadSignVit,
+    startSavingSignVit,
   };
 };

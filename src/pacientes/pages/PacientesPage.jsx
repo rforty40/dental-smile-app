@@ -33,7 +33,6 @@ export const PacientesPage = () => {
   const {
     pacientesList,
     pacienteActivo,
-    changeModalFormReg,
     startLoadPacientes,
     startDeletingPaciente,
     changeTitleFormReg,
@@ -47,8 +46,6 @@ export const PacientesPage = () => {
   useEffect(() => {
     startLoadPacientes();
   }, []);
-
-  // const dataPacFormated = formatearDataPacToTable(pacientesList);
 
   //funcion abrir modal registrar
   const openModalPaciente = () => {
@@ -95,15 +92,11 @@ export const PacientesPage = () => {
     return (
       <ButtonCustom
         altura={"40px"}
-        colorf={bgHeaderColor === "primary.main" ? "white" : "primary.main"}
-        colorh={
-          bgHeaderColor === "primary.main"
-            ? "btnHoverInForm.main"
-            : "secondary.main"
-        }
-        colort={bgHeaderColor === "primary.main" ? "black" : "white"}
+        colorf="white"
+        colorh="black"
+        colort="black"
+        colorth="celesteNeon.main"
         txt_b={"Registrar Paciente"}
-        colorth="white"
         fontW="bold"
         iconB={<PersonAddAlt />}
         onClick={openModalPaciente}

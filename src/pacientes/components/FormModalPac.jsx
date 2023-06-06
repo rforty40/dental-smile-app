@@ -1,5 +1,3 @@
-import "sweetalert2/dist/sweetalert2.css";
-
 import { forwardRef, useEffect, useMemo, useState } from "react";
 
 import Dialog from "@mui/material/Dialog";
@@ -158,24 +156,6 @@ export const FormModalPac = ({ openModalForm = false, setOpenModalForm }) => {
       cerrarModal();
       handleOpenSnackbar();
       setFormSubmitted(false);
-
-      // if (!titleForm.toUpperCase().includes("EDITAR")) {
-      //   formDataPac.dataForm = {
-      //     cedula: "",
-      //     edad: "",
-      //     sexo: "",
-      //     erNombre: "",
-      //     doNombre: "",
-      //     erApellido: "",
-      //     doApellido: "",
-      //     telefono: "",
-      //     email: "",
-      //     nomRes: "",
-      //     parRes: "",
-      //     telRes: "",
-      //   };
-      //   setHookRadio("");
-      // }
     }
 
     if (errorMsgRegPac.msg === "Hay errores" && formSubmitted) {

@@ -4,4 +4,7 @@ export * from "./FormModalAntec";
 export * from "./ProxCiteItem";
 export * from "./ConsultaItem";
 export * from "./FormModalCons";
-// export * from "./FormModalFutCita";
+export * from "./ConsInfoItem";
+export * from "./ConsDetalleItem";
+export * from "./FormModalSignVit";
+export * from "./FormModalExam";

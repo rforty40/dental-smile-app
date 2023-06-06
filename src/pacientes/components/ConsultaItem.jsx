@@ -1,32 +1,13 @@
-import { Box, Grid, Icon, TextField, Typography } from "@mui/material";
-import { ButtonCustom, CustomStandardTF, IconTextField } from "../../ui";
-import {
-  AccessTime,
-  DeleteOutlined,
-  EditNoteOutlined,
-  EditOutlined,
-  Event,
-  PostAddOutlined,
-  SegmentOutlined,
-} from "@mui/icons-material";
-
-import {
-  useAgendaStore,
-  useConsultasStore,
-  usePacienteStore,
-} from "../../hooks";
+import { Grid, Link, Typography } from "@mui/material";
+import { ButtonCustom, CustomStandardTF } from "../../ui";
+import { DeleteOutlined, EditNoteOutlined } from "@mui/icons-material";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useConsultasStore } from "../../hooks";
 import { invertDateFormat } from "../../agenda/helpers/formatedDataCite";
-
+import { FaRegFolderOpen } from "react-icons/fa";
 export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
   const colorChoose = iteratorColor % 2 > 0 ? true : false;
-
-  // const {
-  //   changeStateFormAgenda,
-  //   changeTitleFormAgenda,
-  //   changeBlockPaciente,
-  //   changeDataCite,
-  //   changeStateDeleteCofirm,
-  // } = useAgendaStore();
+  const navigate = useNavigate();
 
   const {
     changeDataConsulta,
@@ -35,19 +16,20 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
     changeStateDelCons,
   } = useConsultasStore();
 
-  const { pacienteActivo } = usePacienteStore();
-
-  const handleOpenFormEditCite = () => {
+  const handleOpenFormEditCons = () => {
     changeDataConsulta(consultaItem);
     changeTitleFormCons("Editar consulta odontológica");
     changeStateFormCons(true);
   };
 
-  const handleOpenFormDeleteCite = () => {
+  const handleOpenFormDeleteCons = () => {
     changeDataConsulta(consultaItem);
     changeStateDelCons(true);
   };
 
+  const handleOpenCons = () => {
+    navigate(`${consultaItem.id_consulta}`);
+  };
   const diagnosticosStr = consultaItem.diagnositcos.reduce((acc, diag) => {
     acc = `${acc}\n${
       diag.Diagnosticos.split("-")[0] +
@@ -257,7 +239,7 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
             flexDir="column-reverse"
             txt_b="Editar"
             fontW="bold"
-            onClick={handleOpenFormEditCite}
+            onClick={handleOpenFormEditCons}
             iconB={<EditNoteOutlined />}
             propsXS={{ boxShadow: "none !important" }}
           />
@@ -272,8 +254,23 @@ export const ConsultaItem = ({ consultaItem, iteratorColor }) => {
             flexDir="column-reverse"
             txt_b="Eliminar"
             fontW="bold"
-            onClick={handleOpenFormDeleteCite}
+            onClick={handleOpenFormDeleteCons}
             iconB={<DeleteOutlined />}
+            propsXS={{ boxShadow: "none !important" }}
+          />
+
+          <ButtonCustom
+            txt_b_size="13px"
+            altura="35px"
+            colorf="transparent"
+            colorh="transparent"
+            colort={colorChoose ? "white" : "blueSecondary.main"}
+            colorth={colorChoose ? "celesteNeon.main" : "primary.main"}
+            flexDir="column-reverse"
+            txt_b="Abrir"
+            fontW="bold"
+            onClick={handleOpenCons}
+            iconB={<FaRegFolderOpen />}
             propsXS={{ boxShadow: "none !important" }}
           />
         </Grid>

@@ -15,7 +15,7 @@ import {
 } from "../../hooks";
 import { FormModalAntec, FormModalPac, PacInfoItem } from "../components";
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { MdPostAdd } from "react-icons/md";
 import { DeleteForever } from "@mui/icons-material";
 
@@ -43,6 +43,7 @@ export const InfoPagePaciente = () => {
   const { dataActiva } = useDataStore();
 
   const navigate = useNavigate();
+
   useEffect(() => {
     changeTitleFormReg("Editar datos del paciente");
   }, []);

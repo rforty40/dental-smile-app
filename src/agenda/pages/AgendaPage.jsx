@@ -180,7 +180,7 @@ export const AgendaPage = () => {
           endAccessor="end"
           style={{
             width: "100%",
-            height: "calc( 100vh - 100px )",
+            height: "calc(100vh - 100px)",
             backgroundColor: "transparent",
             padding: "20px",
             borderRadius: "10px",

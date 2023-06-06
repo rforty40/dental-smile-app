@@ -9,13 +9,21 @@ import {
   SegmentOutlined,
 } from "@mui/icons-material";
 import { extraerFecha } from "../../agenda/helpers/formatedDataCite";
-import { useAgendaStore, usePacienteStore } from "../../hooks";
+import {
+  useAgendaStore,
+  useConsultasStore,
+  usePacienteStore,
+  useUiStore,
+} from "../../hooks";
 import { useNavigate } from "react-router-dom";
 
 export const ProxCiteItem = ({ cita }) => {
   //
 
-  const navigate = useNavigate();
+  const { handleChangeTabs } = useUiStore();
+
+  const { changeStateFormCons, changeTitleFormCons, changeDataConsulta } =
+    useConsultasStore();
 
   const {
     changeStateFormAgenda,
@@ -42,7 +50,22 @@ export const ProxCiteItem = ({ cita }) => {
   };
 
   const handleOpenFormCons = () => {
-    navigate(`/pacientes/${pacienteActivo.id}/historial`);
+    handleChangeTabs(2);
+    changeTitleFormCons("Registrar consulta odontológica");
+    changeStateFormCons(true);
+    console.log(cita);
+    changeDataConsulta({
+      updateCita: true,
+      fecha_cita: cita.fecha_cita,
+      hora_inicio_cite: cita.hora_inicio,
+
+      //
+      id_tipoConsul: null,
+      fecha_consulta_date: cita.start,
+      hora_consulta_date: cita.start,
+      mot_consulta: cita.moti_citaAgen,
+      probleAct_consulta: "",
+    });
   };
 
   return (

@@ -13,12 +13,17 @@ import {
   SaveOutlined,
   SegmentOutlined,
 } from "@mui/icons-material";
-import { useAgendaStore } from "../../hooks";
-import { AgendaModal } from "./AgendaModal";
+import { useAgendaStore, useConsultasStore, useUiStore } from "../../hooks";
+
 import { useNavigate } from "react-router-dom";
 
 export const ViewCita = ({ closeCitaView }) => {
   //
+  const { handleChangeTabs } = useUiStore();
+
+  const { changeStateFormCons, changeTitleFormCons, changeDataConsulta } =
+    useConsultasStore();
+
   const {
     changeStateFormAgenda,
     changeTitleFormAgenda,
@@ -41,12 +46,36 @@ export const ViewCita = ({ closeCitaView }) => {
     closeCitaView();
   };
 
+  const handleOpenFormCons = () => {
+    console.log(activeCita.id_paciente);
+    navigate(`/pacientes/${activeCita.id_paciente}/historial`);
+    handleChangeTabs(2);
+    changeTitleFormCons("Registrar consulta odontológica");
+    changeStateFormCons(true);
+    console.log(activeCita);
+    changeDataConsulta({
+      updateCita: true,
+      fecha_cita: activeCita.fecha_cita,
+      hora_inicio_cite: activeCita.hora_inicio,
+
+      //
+      id_tipoConsul: null,
+      fecha_consulta_date: activeCita.start,
+      hora_consulta_date: activeCita.start,
+      mot_consulta: activeCita.moti_citaAgen,
+      probleAct_consulta: "",
+    });
+    closeCitaView();
+  };
+
+  //
   return (
     <Box
       boxShadow="3px 5px 5px rgba(0, 0, 0, 0.5)"
       display="flex"
       sx={{
         width: 600,
+
         // backgroundImage: `linear-gradient(38deg, rgba(245,247,250,1) 0%, rgba(17,100,130,1) 100%)`,
         backgroundColor: "rgba(0,0,0,0.9)",
         // backgroundColor: "black",
@@ -130,9 +159,10 @@ export const ViewCita = ({ closeCitaView }) => {
             }}
             iconEnd={
               <IconButton
-                onClick={() =>
-                  navigate(`/pacientes/${activeCita.id_paciente}/historial`)
-                }
+                onClick={() => {
+                  handleChangeTabs(1);
+                  navigate(`/pacientes/${activeCita.id_paciente}/historial`);
+                }}
               >
                 <PersonSearch
                   sx={{
@@ -291,6 +321,7 @@ export const ViewCita = ({ closeCitaView }) => {
             colorth="white"
             colort="black"
             txt_b="Eliminar"
+            fontW="bold"
             onClick={openFormDeleteCite}
             iconB={<DeleteOutlined />}
           />
@@ -303,6 +334,7 @@ export const ViewCita = ({ closeCitaView }) => {
             colorth="white"
             colort="black"
             txt_b="Editar"
+            fontW="bold"
             onClick={openFormEditCite}
             iconB={<EditOutlined />}
           />
@@ -315,7 +347,8 @@ export const ViewCita = ({ closeCitaView }) => {
             colort="black"
             colorth="white"
             txt_b="Atender"
-            // {txtButton}
+            fontW="bold"
+            onClick={handleOpenFormCons}
             iconB={<PostAddOutlined />}
           />
         </Grid>

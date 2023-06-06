@@ -69,7 +69,7 @@ export const CalendarEvent = ({ event }) => {
         <StyledTooltip
           title={<ViewCita closeCitaView={handleTooltipClose} />}
           arrow
-          // placement="bottom-start"
+          placement="top"
           onClose={handleTooltipClose}
           open={open}
           disableFocusListener
