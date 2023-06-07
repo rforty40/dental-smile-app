@@ -28,7 +28,6 @@ export const ConsultaPage = () => {
   const { hookTabsCons, handleChangeTabsCons, changePage } = useUiStore();
 
   const {
-    consultasList,
     stateOpenDelCons,
     startLoadConsulta,
     consultaActiva,
@@ -103,7 +102,7 @@ export const ConsultaPage = () => {
             flexDirection="row"
             justifyContent="space-between"
             alignItems="end"
-            padding="20px"
+            padding="15px"
             sx={{
               borderBottom: "2px solid white",
             }}
@@ -146,7 +145,7 @@ export const ConsultaPage = () => {
             display="flex"
             flexDirection="row"
             justifyContent="space-between"
-            padding="30px"
+            padding="15px"
           >
             <ConsInfoItem
               icon_name="paciente"
@@ -183,7 +182,7 @@ export const ConsultaPage = () => {
               width: "100%",
 
               display: "flex",
-              padding: "15px",
+              padding: "12px",
               backgroundColor: "myBgColor.main",
 
               "& .MuiTabs-fixed > .MuiTabs-indicator": {

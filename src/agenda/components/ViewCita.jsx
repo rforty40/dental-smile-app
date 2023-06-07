@@ -143,7 +143,7 @@ export const ViewCita = ({ closeCitaView }) => {
             InputProps={{
               readOnly: true,
             }}
-            colorHover=""
+            colorHover="#02ECEE"
             colorLabel="#02ECEE"
             propsXS={{
               "& .MuiOutlinedInput-root": {
@@ -185,7 +185,7 @@ export const ViewCita = ({ closeCitaView }) => {
             font_sty="italic"
             InputProps={{ readOnly: true }}
             colorIcon="blueSecondary.main"
-            colorHover=""
+            colorHover="#02ECEE"
             colorLabel="#02ECEE"
             propsXS={{
               "& .MuiOutlinedInput-root": {
@@ -217,7 +217,7 @@ export const ViewCita = ({ closeCitaView }) => {
             font_sty="italic"
             InputProps={{ readOnly: true }}
             colorIcon="blueSecondary.main"
-            colorHover=""
+            colorHover="#02ECEE"
             colorLabel="#02ECEE"
             propsXS={{
               "& .MuiOutlinedInput-root": {
@@ -249,7 +249,7 @@ export const ViewCita = ({ closeCitaView }) => {
             font_sty="italic"
             InputProps={{ readOnly: true }}
             colorIcon="blueSecondary.main"
-            colorHover=""
+            colorHover="#02ECEE"
             colorLabel="#02ECEE"
             propsXS={{
               "& .MuiOutlinedInput-root": {
@@ -278,7 +278,7 @@ export const ViewCita = ({ closeCitaView }) => {
             type="text"
             value={activeCita.moti_citaAgen}
             colorIcon="blueSecondary.main"
-            colorHover=""
+            colorHover="#02ECEE"
             colorLabel="#02ECEE"
             colorTxt="white"
             font_we="bold"

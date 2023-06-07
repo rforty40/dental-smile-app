@@ -5,7 +5,7 @@ export const formatearDataExamenToTable = (examenes) => {
       codigoCIE: exam.codigoCIE === null ? "" : exam.codigoCIE,
       nombre_enfermedad: exam.nombre_enfermedad,
       region_afectada: exam.regionAfec_examEst,
-      enfermedad: exam.codigoCIE + " " + exam.nombre_enfermedad,
+      enfermedad: exam.codigoCIE + " - " + exam.nombre_enfermedad,
       descripcion: exam.desc_examEst === null ? "" : exam.desc_examEst,
     };
   });

@@ -17,13 +17,12 @@ import {
   CancelOutlined,
   CheckCircleOutline,
   CloseOutlined,
-  Payments,
   SaveOutlined,
   Subject,
 } from "@mui/icons-material";
 import { ButtonCustom, CustomAlert, IconTextField } from "../../ui";
 
-import { useForm, useTipConsStore, useTipPagoStore } from "../../hooks";
+import { useForm, useTipConsStore } from "../../hooks";
 
 import { formValidationsTipCons } from "./validationsFormDashboard";
 import { useEffect } from "react";

@@ -11,3 +11,5 @@ export * from "./useTipTratamStore";
 export * from "./useProcedStore";
 export * from "./useConsultasStore";
 export * from "./useExamenesStore";
+export * from "./usePlanesStore";
+export * from "./useDiagnosticosStore";

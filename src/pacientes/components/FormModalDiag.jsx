@@ -19,52 +19,34 @@ import {
   SegmentOutlined,
 } from "@mui/icons-material";
 
-import { BsFileMedical } from "react-icons/bs";
-
 import {
   ButtonCustom,
   CustomAlert,
   CustomAutocomplete,
   IconTextField,
+  RadioGroupCustom,
 } from "../../ui";
 
-import { useExamenesStore } from "../../hooks";
+import { useDiagnosticosStore, useExamenesStore } from "../../hooks";
 
 //
 //
 //
-const regionesAfectadas = [
-  "Labios",
-  "Mejillas",
-  "Maxilar Superior",
-  "Maxilar Inferior",
-  "Lengua",
-  "Paladar",
-  "Piso",
-  "Carillos",
-  "Glándulas salivales",
-  "Oro Faringe",
-  "A.T.M",
-  "Ganglios",
-];
 
-export const FormModalExam = ({ openModal, setOpenModal, title }) => {
+export const FormModalDiag = ({ openModal, setOpenModal, title }) => {
   //store
-  const {
-    examenActivo,
-    enfermedadesCieList,
-    startLoadEnfermedadesCie,
-    errorMsgRegCons,
-    startSavingExamen,
-  } = useExamenesStore();
+  const { enfermedadesCieList, startLoadEnfermedadesCie } = useExamenesStore();
+
+  const { diagActivo, errorMsgRegCons, startSavingDiagnostico } =
+    useDiagnosticosStore();
 
   //hook del formulario
   const [formSubmitted, setFormSubmitted] = useState(false);
   //hook txt btn
   const [txtButton, setTxtButton] = useState("");
 
-  //hook region afectada
-  const [stateRegAfec, setStateRegAfec] = useState(null);
+  //hook tipo de diagnostico
+  const [stateRadioDiag, setStateRadioDiag] = useState("");
 
   //hook enfermedad
   const [stateCodigoCie, setStateCodigoCie] = useState(null);
@@ -97,38 +79,38 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
 
   //limpiar los componentes del formulario
   const resetInputText = () => {
-    setStateRegAfec(null);
+    setStateRadioDiag("");
     setStateCodigoCie(null);
     setStateDescripcion("");
   };
 
   //control formulario de registro y edición
   useEffect(() => {
-    console.log(examenActivo);
-    if (examenActivo) {
+    console.log(diagActivo);
+    if (diagActivo) {
       //cargar los componentes
       const enfermedadCie = enfermedadesCieList.find(
-        (enferCie) => enferCie.id === examenActivo.codigoCIE
+        (enferCie) => enferCie.id === diagActivo.codigoCIE
       );
 
       setStateCodigoCie(enfermedadCie === undefined ? null : enfermedadCie);
-      setStateRegAfec(examenActivo.region_afectada);
-      setStateDescripcion(examenActivo.descripcion);
+      setStateRadioDiag(diagActivo.presuntivo_definitivo);
+      setStateDescripcion(diagActivo.descripcion);
     } else {
       console.log("esta en registro");
       resetInputText();
     }
-  }, [examenActivo]);
+  }, [diagActivo]);
 
   useEffect(() => {
     if (title.includes("Editar")) {
       setTxtButton("Actualizar");
-      setMsgAlert(`Se actualizaron los datos del examen estomatognático 🙂.`);
+      setMsgAlert(`Se actualizaron los datos del diagnóstico 🙂.`);
       //
       // }
     } else {
       setTxtButton("Registrar");
-      setMsgAlert(`Se registro un nuevo examen estomatognático 🙂.`);
+      setMsgAlert(`Se registro un nuevo diagnóstico 🙂.`);
     }
   }, [title]);
 
@@ -142,17 +124,14 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
     setFormSubmitted(true);
 
     //validaciones
-    if (stateRegAfec === null) return;
+    if (stateRadioDiag === "") return;
+
     const codigoCIE = stateCodigoCie === null ? "" : stateCodigoCie.id;
 
     //enviando al custom hook
-    console.log({
-      region_afectada: stateRegAfec,
-      codigoCIE,
-      descripcion: stateDescripcion.trim(),
-    });
-    startSavingExamen({
-      region_afectada: stateRegAfec,
+
+    startSavingDiagnostico({
+      presuntivo_definitivo: stateRadioDiag,
       codigoCIE,
       descripcion: stateDescripcion.trim(),
     });
@@ -181,12 +160,12 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
   return (
     <>
       <Dialog
-        maxWidth="md"
+        maxWidth="sm"
         open={openModal}
         onClose={cerrarModal}
         sx={{
           "& .MuiPaper-root": {
-            width: "650px",
+            width: "500px",
           },
         }}
       >
@@ -224,46 +203,47 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
                 display: "grid",
                 paddingTop: "15px",
                 alignItems: "start",
-                gridTemplateColumns: "repeat(3, 1fr)",
-                gridTemplateRows: "repeat(3, max-content)",
-                gridTemplateAreas: `"region codigoCie codigoCie"
-              "descripcion descripcion descripcion"
-              "btnReg btnReg btnReg"
+                gridTemplateColumns: "repeat(2, 1fr)",
+                gridTemplateRows: "repeat(4, max-content)",
+                gridTemplateAreas: `"tipDiag tipDiag " "codigoCie codigoCie"
+              "descripcion descripcion"
+              "btnReg btnReg"
               `,
                 rowGap: "25px",
                 columnGap: "25px",
               }}
             >
-              <Grid item gridArea="region">
-                <CustomAutocomplete
-                  fullWidth
-                  // disablePortal
-                  options={regionesAfectadas}
-                  getOptionLabel={(option) => option}
-                  value={stateRegAfec}
-                  onChange={(event, newValue) => {
-                    setStateRegAfec(newValue);
-                  }}
-                  propsTextField={{
-                    label: "Región afectada:",
-                    placeholder: "Seleccione la región afectada",
-                    error: stateRegAfec === null && formSubmitted,
-                    helperText:
-                      stateRegAfec === null
-                        ? "Debe seleccionar una región afectada"
-                        : "",
-                  }}
-                  autoFocus
-                  iconAutocomplete={
-                    <img
-                      type="img/svg"
-                      width="25px"
-                      height="25px"
-                      src={`/assets/icons/formExamen/region_afectada.svg`}
-                    />
-                  }
-                  heightList="260px"
+              <Grid
+                item
+                gridArea="tipDiag"
+                display="flex"
+                flexDirection="row"
+                justifyContent="space-between"
+                alignItems="end"
+              >
+                <RadioGroupCustom
+                  title="Tipo de diagnóstico"
+                  colorRadio="primary.main"
+                  colorTxt="black"
+                  fontSzlbl="13px"
+                  colorLbl="#602A90"
+                  fontSztxt="14px"
+                  radioOptions={["Definitivo", "Presuntivo"]}
+                  hookRadio={stateRadioDiag}
+                  setHookRadio={setStateRadioDiag}
                 />
+                {stateRadioDiag === "" ? (
+                  <p
+                    style={{
+                      fontSize: "13px",
+                      color: "#116482",
+                    }}
+                  >
+                    Opción requerida
+                  </p>
+                ) : (
+                  ""
+                )}
               </Grid>
 
               <Grid item gridArea="codigoCie">
@@ -289,7 +269,7 @@ export const FormModalExam = ({ openModal, setOpenModal, title }) => {
                       src={`/assets/icons/formExamen/enfermedadCie.svg`}
                     />
                   }
-                  heightList="260px"
+                  heightList="240px"
                 />
               </Grid>
 

@@ -21,6 +21,14 @@ export const consultasSlice = createSlice({
 
     //enfermedades CIE
     enfermedadesCieList: [],
+
+    //planes de diagnosticos, terapeuticos y educacionales
+    planesList: [[], [], []],
+    planActivo: null,
+
+    //diagnosticos
+    diagnosticosList: [],
+    diagActivo: null,
   },
 
   reducers: {
@@ -103,6 +111,70 @@ export const consultasSlice = createSlice({
     onLoadEnfermedadesCieList: (state, { payload }) => {
       state.enfermedadesCieList = payload;
     },
+
+    /* 
+  planes de diagnosticos, terapeuticos y educacionales
+   */
+    onLoadPlanesList: (state, { payload }) => {
+      state.planesList = payload;
+    },
+
+    onSetActivePlan: (state, { payload }) => {
+      state.planActivo = payload;
+    },
+
+    onSavePlan: (state, { payload }) => {
+      state.planesList[payload.tipo].push(payload.plan);
+    },
+
+    onUpdatePlan: (state, { payload }) => {
+      state.planesList[payload.tipo] = state.planesList[payload.tipo].map(
+        (plan) => {
+          if (plan.id === payload.plan.id) {
+            return payload.plan;
+          }
+
+          return plan;
+        }
+      );
+    },
+
+    onDeletePlan: (state, { payload }) => {
+      state.planesList[payload] = state.planesList[payload].filter(
+        (plan) => plan.id !== state.planActivo.id
+      );
+
+      state.planActivo = null;
+    },
+
+    /* 
+  diagnosticos
+   */
+    onLoadDiagnosticosList: (state, { payload }) => {
+      state.diagnosticosList = payload;
+    },
+    onSetActiveDiag: (state, { payload }) => {
+      state.diagActivo = payload;
+    },
+    onSaveDiag: (state, { payload }) => {
+      state.diagnosticosList.push(payload);
+    },
+    onUpdateDiag: (state, { payload }) => {
+      state.diagnosticosList = state.diagnosticosList.map((diag) => {
+        if (diag.id === payload.id) {
+          return payload;
+        }
+
+        return diag;
+      });
+    },
+    onDeleteDiag: (state) => {
+      state.diagnosticosList = state.diagnosticosList.filter(
+        (diag) => diag.id !== state.diagActivo.id
+      );
+
+      state.diagActivo = null;
+    },
   },
 });
 
@@ -128,4 +200,18 @@ export const {
 
   //enfermedades
   onLoadEnfermedadesCieList,
+
+  // planes de diagnosticos, terapeuticos y educacionales
+  onLoadPlanesList,
+  onSetActivePlan,
+  onSavePlan,
+  onUpdatePlan,
+  onDeletePlan,
+
+  //diagnosticos
+  onLoadDiagnosticosList,
+  onSetActiveDiag,
+  onSaveDiag,
+  onUpdateDiag,
+  onDeleteDiag,
 } = consultasSlice.actions;

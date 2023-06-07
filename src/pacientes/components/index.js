@@ -8,3 +8,5 @@ export * from "./ConsInfoItem";
 export * from "./ConsDetalleItem";
 export * from "./FormModalSignVit";
 export * from "./FormModalExam";
+export * from "./FormModalPlan";
+export * from "./FormModalDiag";

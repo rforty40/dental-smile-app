@@ -21,7 +21,7 @@ import {
   formatearDataEnferCieList,
   formatearDataExamenToBD,
   formatearDataExamenToTable,
-} from "../pacientes/helpers/formatedDataExamen";
+} from "../pacientes/helpers";
 
 //
 //
@@ -65,6 +65,7 @@ export const useExamenesStore = () => {
     } catch (error) {
       console.log(error);
       console.log(error.response.data.message);
+      dispatch(onLoadExamenesList([]));
     }
   };
 
@@ -73,7 +74,6 @@ export const useExamenesStore = () => {
     try {
       console.log(examData);
       if (examenActivo) {
-        console.log("Aaaaa");
         //actualizar
         const { data } = await updateExamen(
           examenActivo.id,
@@ -84,7 +84,7 @@ export const useExamenesStore = () => {
         dispatch(onSetActiveExamen(formatearDataExamenToTable([data])[0]));
       } else {
         //registrar
-        console.log("Aaaaa");
+
         const { data } = await createExamen(
           consultaActiva.id_consulta,
           formatearDataExamenToBD(examData)

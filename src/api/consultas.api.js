@@ -63,3 +63,33 @@ export const deleteExamen = async (id_exa) =>
 //Enfermedades CIE
 export const getEnfermedadesCIE = async () =>
   await dentalSmileApi.get(`/enfermedades/_`);
+
+//
+
+//planes
+export const getPlanes = async (id_cons) =>
+  await dentalSmileApi.get(`/consulta/${id_cons}/planes`);
+
+export const createPlan = async (id_cons, plan) =>
+  await dentalSmileApi.post(`/consulta/${id_cons}/planes/create`, plan);
+
+export const updatePlan = async (id_plan, plan) =>
+  await dentalSmileApi.put(`/planes/update/${id_plan}`, plan);
+
+export const deletePlan = async (id_plan) =>
+  await dentalSmileApi.delete(`/planes/delete/${id_plan}`);
+
+//
+
+//diagnosticos
+export const getDiagnosticos = async (id_cons) =>
+  await dentalSmileApi.get(`/consulta/${id_cons}/diagnosticos`);
+
+export const createDiagnostico = async (id_cons, diag) =>
+  await dentalSmileApi.post(`/consulta/${id_cons}/diagnosticos/create`, diag);
+
+export const updateDiagnostico = async (id_diag, diag) =>
+  await dentalSmileApi.put(`/diagnosticos/update/${id_diag}`, diag);
+
+export const deleteDiagnostico = async (id_diag) =>
+  await dentalSmileApi.delete(`/diagnosticos/delete/${id_diag}`);

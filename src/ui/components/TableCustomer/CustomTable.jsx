@@ -315,7 +315,6 @@ export const CustomTable = ({
 
   //useEffect para actualizar los registros totales
   useEffect(() => {
-    console.log("console");
     setDataTotal(filteredUsers.length);
   }, [filteredUsers]);
 

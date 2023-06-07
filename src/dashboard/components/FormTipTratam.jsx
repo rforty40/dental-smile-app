@@ -201,7 +201,6 @@ export const FormTipTratam = ({
                 colorRadio="celesteNeon.main"
                 colorTxt="white"
                 colorLbl="white"
-                // fontw="bold"
                 fontwlbl="bold"
                 fontSzlbl="16px"
                 fontSztxt="15px"
