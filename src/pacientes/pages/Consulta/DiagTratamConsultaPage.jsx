@@ -8,7 +8,7 @@ import {
 import { DeleteForever, NoteAdd } from "@mui/icons-material";
 import { useDataStore, useDiagnosticosStore } from "../../../hooks";
 import { useEffect, useState } from "react";
-import { FormModalDiag } from "../../components";
+import { FormModalDiag, FormModalTratam } from "../../components";
 
 const TABLE_HEAD_DIAG = [
   {
@@ -42,9 +42,11 @@ export const DiagTratamConsultaPage = () => {
 
   //hook abrir el formulario
   const [stateModalFormDiag, setStateModalFormDiag] = useState(false);
+  const [stateModalFormTratam, setStateModalFormTratam] = useState(false);
 
   //hook cambiar titulo del formulario
   const [titleFormDiag, setTitleFormDiag] = useState("");
+  const [titleFormTratam, setTitleFormTratam] = useState("");
 
   //hook controlDialog Eliminar
   const [openDialogDeleteDiag, setOpenDialogDeleteDiag] = useState(false);
@@ -56,9 +58,10 @@ export const DiagTratamConsultaPage = () => {
   const [msgAlertDel, setMsgAlertDel] = useState("");
 
   //efecto secundario cargar lista de diagnosticos
-  useEffect(() => {
-    startLoadDiagnosticos();
-  }, [consultaActiva]);
+  // useEffect(() => {
+  //   startLoadDiagnosticos();
+  //   console.log("SEEE");
+  // }, [consultaActiva]);
 
   //efecto secundario carga la data de la tabla al diagnostico activo
   useEffect(() => {
@@ -71,11 +74,20 @@ export const DiagTratamConsultaPage = () => {
     setTitleFormDiag("Registrar diagnóstico");
     changeDataDiag(null);
   };
+  const openModalFormTratam = () => {
+    setStateModalFormTratam(true);
+    setTitleFormTratam("Registrar tratamiento");
+    // changeDataDiag(null);
+  };
 
   //abrir el modal para editar un diagnostico
   const openModalDiagEdit = () => {
     setStateModalFormDiag(true);
     setTitleFormDiag("Editar diagnóstico");
+  };
+  const openModalTratamEdit = () => {
+    setStateModalFormTratam(true);
+    setTitleFormTratam("Editar tratamiento");
   };
 
   //abrir confirm dialog eliminar diagnostico
@@ -178,7 +190,7 @@ export const DiagTratamConsultaPage = () => {
             fontW="bold"
             iconB={<NoteAdd />}
             propsXS={{ boxShadow: "none !important" }}
-            // onClick={openModalFormDiag}
+            onClick={openModalFormTratam}
           />
         </Box>
       </Box>
@@ -187,6 +199,11 @@ export const DiagTratamConsultaPage = () => {
         openModal={stateModalFormDiag}
         setOpenModal={setStateModalFormDiag}
         title={titleFormDiag}
+      />
+      <FormModalTratam
+        openModal={stateModalFormTratam}
+        setOpenModal={setStateModalFormTratam}
+        title={titleFormTratam}
       />
       <DeleteConfirm
         stateOpen={openDialogDeleteDiag}

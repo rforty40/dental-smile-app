@@ -73,10 +73,10 @@ export const ExamPlanConsultaPage = () => {
   const [msgAlertDel, setMsgAlertDel] = useState("");
 
   //efectos secundarios
-  useEffect(() => {
-    startLoadExamenes();
-    startLoadPlanes();
-  }, [consultaActiva]);
+  // useEffect(() => {
+  //   startLoadExamenes();
+  //   startLoadPlanes();
+  // }, [consultaActiva]);
 
   useEffect(() => {
     changeDataExamen(dataActiva);

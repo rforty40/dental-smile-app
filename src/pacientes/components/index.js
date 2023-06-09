@@ -10,3 +10,5 @@ export * from "./FormModalSignVit";
 export * from "./FormModalExam";
 export * from "./FormModalPlan";
 export * from "./FormModalDiag";
+export * from "./FormModalTratam";
+export * from "./TxtFieFormTratam";

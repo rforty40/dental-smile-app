@@ -10,7 +10,6 @@ import { EditNoteOutlined } from "@mui/icons-material";
 import { ButtonCustom } from "../../../ui";
 
 export const DetalleConsultaPage = () => {
-  //
   const [openModalSignVit, setOpenModalSignVit] = useState(false);
 
   const handleOpenFormSingVit = () => {
@@ -21,17 +20,12 @@ export const DetalleConsultaPage = () => {
     signosVitales,
     changeTitleFormCons,
     changeStateFormCons,
-    startLoadSignVit,
   } = useConsultasStore();
 
   const handleOpenFormEditCons = () => {
     changeTitleFormCons("Editar consulta odontológica");
     changeStateFormCons(true);
   };
-
-  useEffect(() => {
-    startLoadSignVit();
-  }, [consultaActiva]);
 
   return (
     <>

@@ -4,7 +4,10 @@
 import { useNavigate, useParams } from "react-router-dom";
 import {
   useConsultasStore,
+  useDiagnosticosStore,
+  useExamenesStore,
   usePacienteStore,
+  usePlanesStore,
   useUiStore,
 } from "../../../hooks";
 import { Box, Tabs, Typography } from "@mui/material";
@@ -26,16 +29,21 @@ export const ConsultaPage = () => {
   const navigate = useNavigate();
 
   const { hookTabsCons, handleChangeTabsCons, changePage } = useUiStore();
-
+  const { pacienteActivo } = usePacienteStore();
   const {
     stateOpenDelCons,
     startLoadConsulta,
     consultaActiva,
     changeStateDelCons,
     startDeletingConsulta,
+    startLoadSignVit,
   } = useConsultasStore();
 
-  const { pacienteActivo } = usePacienteStore();
+  const { startLoadDiagnosticos } = useDiagnosticosStore();
+
+  const { startLoadExamenes } = useExamenesStore();
+
+  const { startLoadPlanes } = usePlanesStore();
 
   useEffect(() => {
     handleChangeTabsCons(
@@ -49,6 +57,13 @@ export const ConsultaPage = () => {
     changePage();
     startLoadConsulta(id_pac, id_cons);
   }, []);
+
+  useEffect(() => {
+    startLoadSignVit();
+    startLoadDiagnosticos();
+    startLoadExamenes();
+    startLoadPlanes();
+  }, [consultaActiva]);
 
   const handleOpenFormDeleteCons = () => {
     changeStateDelCons(true);
