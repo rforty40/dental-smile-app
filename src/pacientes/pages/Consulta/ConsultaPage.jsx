@@ -8,6 +8,7 @@ import {
   useExamenesStore,
   usePacienteStore,
   usePlanesStore,
+  useTratamientosStore,
   useUiStore,
 } from "../../../hooks";
 import { Box, Tabs, Typography } from "@mui/material";
@@ -39,11 +40,13 @@ export const ConsultaPage = () => {
     startLoadSignVit,
   } = useConsultasStore();
 
-  const { startLoadDiagnosticos } = useDiagnosticosStore();
-
   const { startLoadExamenes } = useExamenesStore();
 
   const { startLoadPlanes } = usePlanesStore();
+
+  const { startLoadDiagnosticos } = useDiagnosticosStore();
+
+  const { startLoadTratamientos } = useTratamientosStore();
 
   useEffect(() => {
     handleChangeTabsCons(
@@ -63,6 +66,7 @@ export const ConsultaPage = () => {
     startLoadDiagnosticos();
     startLoadExamenes();
     startLoadPlanes();
+    startLoadTratamientos();
   }, [consultaActiva]);
 
   const handleOpenFormDeleteCons = () => {

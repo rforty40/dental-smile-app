@@ -12,3 +12,4 @@ export * from "./FormModalPlan";
 export * from "./FormModalDiag";
 export * from "./FormModalTratam";
 export * from "./TxtFieFormTratam";
+export * from "./TratamientoItem";

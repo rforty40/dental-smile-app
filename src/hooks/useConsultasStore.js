@@ -30,12 +30,16 @@ import {
   formatedDataConsulta,
 } from "../pacientes/helpers";
 import { getPacienteById } from "../api/pacientes.api";
+import { useState } from "react";
 
 //
 //
 
 export const useConsultasStore = () => {
   //
+
+  //hook filtros de busqueda
+  const [filtros, setFiltros] = useState({});
 
   const dispatch = useDispatch();
 
@@ -69,6 +73,9 @@ export const useConsultasStore = () => {
     dispatch(onChangeTitleFormCons(flag));
   };
   const startLoadConsultas = async (filtro, param1, param2) => {
+    //
+    setFiltros({ filtro, param1, param2 });
+    //
     try {
       const { data } = await getConsultas(
         pacienteActivo.id,
@@ -132,17 +139,20 @@ export const useConsultasStore = () => {
 
   const startSavingConsulta = async (consData) => {
     dispatch(clearErrorMessageCons());
+
     try {
       if (consData.id) {
         //actualizar
         const { data } = await updateConsulta(
-          pacienteActivo.id,
           consData.id,
           formatearDataConsToBD(consData)
         );
         console.log(data);
 
+        //actualizacion en la consulta desde el detalle en la consulta
         dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
+
+        startLoadConsultas(filtros.filtro, filtros.param1, filtros.param2);
       } else {
         //registrar
         const { data } = await createConsulta(
@@ -151,7 +161,8 @@ export const useConsultasStore = () => {
         );
 
         console.log(data);
-        dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
+        startLoadConsultas("no_filtros", "_", "_");
+        // dispatch(onSetActivaConsulta(formatedDataConsulta([data])[0]));
       }
 
       //actualizar errores
@@ -165,26 +176,29 @@ export const useConsultasStore = () => {
           error: comprobarErrorCons(error.response.data.message),
         })
       );
-    } finally {
-      startLoadConsultas("no_filtros", "_", "_");
     }
+    //  finally {
+    // startLoadConsultas("no_filtros", "_", "_");
+
+    // }
   };
 
   const startDeletingConsulta = async () => {
     try {
-      await deleteConsulta(pacienteActivo.id, consultaActiva.id_consulta);
+      await deleteConsulta(consultaActiva.id_consulta);
     } catch (error) {
       console.log(error.response.data.message);
     } finally {
       dispatch(onSetActivaConsulta(null));
       startLoadConsultas("no_filtros", "_", "_");
+      // startLoadConsultas(filtros.filtro, filtros.param1, filtros.param2);
     }
   };
 
   const startLoadConsulta = async (id_pac, id_cons) => {
     try {
       const { data: dataPac } = await getPacienteById(id_pac);
-      const { data: dataCons } = await getConsultaById(id_pac, id_cons);
+      const { data: dataCons } = await getConsultaById(id_cons);
       console.log(dataCons);
       dispatch(onLoadPacActivo(formatearDataPacToTable([dataPac])[0]));
       dispatch(onSetActivaConsulta(formatedDataConsulta([dataCons])[0]));
@@ -196,10 +210,7 @@ export const useConsultasStore = () => {
 
   const startLoadSignVit = async () => {
     try {
-      const { data } = await getSignosVitales(
-        pacienteActivo.id,
-        consultaActiva.id_consulta
-      );
+      const { data } = await getSignosVitales(consultaActiva.id_consulta);
       console.log(data);
       dispatch(onSetActiveSignVit(data));
     } catch (error) {
@@ -241,7 +252,8 @@ export const useConsultasStore = () => {
         })
       );
     } finally {
-      startLoadConsultas("no_filtros", "_", "_");
+      // startLoadConsultas("no_filtros", "_", "_");
+      startLoadConsultas(filtros.filtro, filtros.param1, filtros.param2);
     }
   };
   return {

@@ -29,6 +29,11 @@ export const consultasSlice = createSlice({
     //diagnosticos
     diagnosticosList: [],
     diagActivo: null,
+
+    //tratamientos
+    tratamientosList: [],
+    tratamActivo: null,
+    errorLoadTratamientos: null,
   },
 
   reducers: {
@@ -175,6 +180,38 @@ export const consultasSlice = createSlice({
 
       state.diagActivo = null;
     },
+
+    /*
+     Tratamientos 
+     */
+    onLoadTratamientosList: (state, { payload }) => {
+      state.tratamientosList = payload;
+    },
+    onSetActiveTratam: (state, { payload }) => {
+      state.tratamActivo = payload;
+    },
+    changeErrorLoadTratamientos: (state, { payload }) => {
+      state.errorLoadTratamientos = payload;
+    },
+    // onSaveTratam: (state, { payload }) => {
+    //   state.tratamientosList.push(payload);
+    // },
+    // onUpdateTratam: (state, { payload }) => {
+    //   state.tratamientosList = state.tratamientosList.map((tratam) => {
+    //     if (tratam.id_tratam === payload.id_tratam) {
+    //       return payload;
+    //     }
+
+    //     return tratam;
+    //   });
+    // },
+    onDeleteTratam: (state) => {
+      state.tratamientosList = state.tratamientosList.filter(
+        (tratam) => tratam.id_tratam !== state.tratamActivo.id_tratam
+      );
+
+      state.tratamActivo = null;
+    },
   },
 });
 
@@ -214,4 +251,10 @@ export const {
   onSaveDiag,
   onUpdateDiag,
   onDeleteDiag,
+
+  //tratamientos
+  onLoadTratamientosList,
+  onSetActiveTratam,
+  changeErrorLoadTratamientos,
+  onDeleteTratam,
 } = consultasSlice.actions;

@@ -7,6 +7,7 @@ export * from "./components/FormInModal/IconTextField";
 export * from "./components/FormInModal/SelectedCustom";
 export * from "./components/FormInModal/RadioGroupCustom";
 export * from "./components/FormInModal/DeleteConfirm";
+export * from "./components/FormInModal/CustomBasicTable";
 
 export * from "./components/FormInModal/CustomAutocomplete";
 export * from "./components/FormInModal/CustomDatePicker";

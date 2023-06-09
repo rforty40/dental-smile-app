@@ -5,31 +5,22 @@ export const getConsultas = async (id_pac, filtro, param1, param2) =>
     `/pacientes/${id_pac}/historial/${filtro}/${param1}/${param2}`
   );
 
+export const getConsultaById = async (id_cons) =>
+  await dentalSmileApi.get(`/consultas/${id_cons}/detalle/detalle`);
+
 export const createConsulta = async (id_pac, consData) =>
   await dentalSmileApi.post(`/pacientes/${id_pac}/consultas/create`, consData);
 
-export const updateConsulta = async (id_pac, idCons, consData) =>
-  await dentalSmileApi.put(
-    `/pacientes/${id_pac}/consultas/${idCons}/update`,
-    consData
-  );
+export const updateConsulta = async (idCons, consData) =>
+  await dentalSmileApi.put(`/consultas/${idCons}/update`, consData);
 
-export const deleteConsulta = async (id_pac, idCons) =>
-  await dentalSmileApi.delete(
-    `/pacientes/${id_pac}/consultas/${idCons}/delete`
-  );
-
-export const getConsultaById = async (id_pac, id_cons) =>
-  await dentalSmileApi.get(
-    `/pacientes/${id_pac}/consultas/${id_cons}/detalle/detalle`
-  );
+export const deleteConsulta = async (idCons) =>
+  await dentalSmileApi.delete(`/consultas/${idCons}/delete`);
 
 //Signos vitales
 
-export const getSignosVitales = async (id_pac, id_cons) =>
-  await dentalSmileApi.get(
-    `/pacientes/${id_pac}/consultas/${id_cons}/detalle/signosVitales`
-  );
+export const getSignosVitales = async (id_cons) =>
+  await dentalSmileApi.get(`/consultas/${id_cons}/detalle/signosVitales`);
 
 export const createSignosVitales = async (id_cons, signVit) =>
   await dentalSmileApi.post(

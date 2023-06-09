@@ -6,9 +6,17 @@ import {
   DeleteConfirm,
 } from "../../../ui";
 import { DeleteForever, NoteAdd } from "@mui/icons-material";
-import { useDataStore, useDiagnosticosStore } from "../../../hooks";
+import {
+  useDataStore,
+  useDiagnosticosStore,
+  useTratamientosStore,
+} from "../../../hooks";
 import { useEffect, useState } from "react";
-import { FormModalDiag, FormModalTratam } from "../../components";
+import {
+  FormModalDiag,
+  FormModalTratam,
+  TratamientoItem,
+} from "../../components";
 
 const TABLE_HEAD_DIAG = [
   {
@@ -40,6 +48,9 @@ export const DiagTratamConsultaPage = () => {
     consultaActiva,
   } = useDiagnosticosStore();
 
+  const { startLoadTratamientos, tratamientosList } = useTratamientosStore();
+
+  console.log(tratamientosList);
   //hook abrir el formulario
   const [stateModalFormDiag, setStateModalFormDiag] = useState(false);
   const [stateModalFormTratam, setStateModalFormTratam] = useState(false);
@@ -192,6 +203,15 @@ export const DiagTratamConsultaPage = () => {
             propsXS={{ boxShadow: "none !important" }}
             onClick={openModalFormTratam}
           />
+        </Box>
+        <Box display="flex" flexDirection="column" rowGap="20px">
+          {tratamientosList.map((tratam) => (
+            <TratamientoItem
+              key={tratam.id_tratam}
+              dataTratam={tratam}
+              fnOpenFormEdit={openModalTratamEdit}
+            />
+          ))}
         </Box>
       </Box>
 
